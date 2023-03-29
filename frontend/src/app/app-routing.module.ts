@@ -11,7 +11,7 @@ const routes: Routes = [
   HomeComponent.Route,
   ProfileEditorComponent.Route,
   GateComponent.Route,
-  {path: 'events', component: EventsComponent},
+  { path: 'events', component: EventsComponent },
   { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
 ];
 
