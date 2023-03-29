@@ -10,6 +10,7 @@ import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { Profile, ProfileService } from '../profile/profile.service';
 import { PermissionService } from '../permission.service';
+import { ClubsComponent } from '../clubs/clubs.component';
 
 @Component({
   selector: 'app-navigation',
