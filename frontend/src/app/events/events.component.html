@@ -1,1 +1,19 @@
 <p>events works!</p>
+
+<table>
+    <thead>
+        <td>Event</td>
+        <td>Description</td>
+        <td>Location</td>
+        <td>Date</td>
+    </thead>
+    <tbody>
+        <tr *ngFor="let event of events">
+            <td>{{ event.name }}</td>
+            <td>{{ event.description }}</td>
+            <td>{{ event.location }}</td>
+            <td>{{ event.date }}</td>
+            <td>Register</td>
+        </tr>
+    </tbody>
+</table>

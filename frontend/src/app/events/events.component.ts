@@ -28,9 +28,8 @@ export class EventsComponent {
     // this.http.delete<Event>('/api/routename/' + Event).subscribe({
     //   next: (x) => this.reload(),
     //   error: (err) => this.onError(err)
-
     // })
-
+    
   }
 
 }
