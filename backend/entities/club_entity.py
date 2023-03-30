@@ -1,12 +1,13 @@
 '''Club accounts for all registered clubs in the application.'''
 
 
-from sqlalchemy import Integer, String
+from sqlalchemy import Integer, String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
 from .entity_base import EntityBase
-from .user_role_entity import user_role_table
-from ..models import User, Club
+from .user_entity import UserEntity
+from ..models import Club
+from .user_club_entity import user_club_table
 
 
 __authors__ = ['Aryonna Rice']
@@ -22,6 +23,7 @@ class ClubEntity(EntityBase):
         String(64), nullable=False, default='')
     description: Mapped[str] = mapped_column(
         String(100), nullable=False, default='')
+    members: Mapped[list['UserEntity']] = relationship(secondary_table=user_club_table)
 
 
     @classmethod
@@ -29,16 +31,19 @@ class ClubEntity(EntityBase):
         return cls(
             id=model.id,
             name=model.name,
-            description=model.description
+            description=model.description,
+            members=model.members
         )
 
     def to_model(self) -> Club:
         return Club(
             id=self.id,
             name=self.name,
-            description=self.description
+            description=self.description,
+            members=self.members
         )
 
     def update(self, model: Club) -> None:
         self.name = model.name
         self.description = model.description
+        self.members = model.members

@@ -7,6 +7,8 @@ from typing import Self
 from .entity_base import EntityBase
 from .user_role_entity import user_role_table
 from ..models import User
+from .role_entity import RoleEntity
+from .permission_entity import PermissionEntity
 
 
 __authors__ = ['Kris Jordan']
@@ -29,7 +31,6 @@ class UserEntity(EntityBase):
         String(64), nullable=False, default='')
     pronouns: Mapped[str] = mapped_column(
         String(32), nullable=False, default='')
-
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
 
