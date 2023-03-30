@@ -4,10 +4,11 @@ import { Observable, throwError } from 'rxjs';
 import { Profile } from './profile/profile.service';
 
 export interface Club {
-  name: string;             // club name
-  short_description: string
+  name: string;                     // club name
+  short_description: string;
   full_description: string;    
-  members: Profile[]        // array of club members
+  show_short_description: boolean;
+  members: Profile[];               // array of club members
 }
 
 export interface JoinClubRequest {

@@ -1,4 +1,4 @@
-<h1>All Clubs</h1>
+<h1>My Clubs</h1>
 
 <table>
     <tbody>
@@ -9,14 +9,15 @@
             </div>
             <td>
                 <button (click)="alterText(club)">
-                    {{ club.show_short_description ? "Read More" : "Read Less"}}
+                    {{ club.show_short_description ? 'Read More' : "Read Less"}}
                 </button>
             </td>
             <td>
-                <button (click)="changeStatus(123456789, club)">
-                    {{ isUserInClub(123456789, club) ? "Leave" : "Join"}}
+                <button (click)="leaveClub(123456789, club)">
+                    Leave
                 </button>
             </td>
         </tr>
     </tbody>
 </table>
+
