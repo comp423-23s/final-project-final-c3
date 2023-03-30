@@ -34,6 +34,7 @@ import { HomeComponent } from './home/home.component';
 import { GateComponent } from './gate/gate.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
 import { EventsComponent } from './events/events.component';
+import { MyEventsComponent } from './my-events/my-events.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { EventsComponent } from './events/events.component';
     HomeComponent,
     GateComponent,
     ProfileEditorComponent,
-    EventsComponent
+    EventsComponent,
+    MyEventsComponent
   ],
   imports: [
     BrowserModule,
