@@ -4,6 +4,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
 from .entity_base import EntityBase
 from .user_role_entity import user_role_table
+from .user_entity import UserEntity
+from .permission_entity import PermissionEntity
 from ..models import Role, RoleDetails
 
 class RoleEntity(EntityBase):

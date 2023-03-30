@@ -18,6 +18,10 @@ from .user_entity import UserEntity
 from .role_entity import RoleEntity
 from .permission_entity import PermissionEntity
 from .user_role_entity import user_role_table
+from .event_entity import EventEntity
+from .club_entity import ClubEntity
+from .user_club_entity import user_club_table
+from .user_event_entity import user_event_table
 
 
 __authors__ = ["Kris Jordan"]
