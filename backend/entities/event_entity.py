@@ -1,6 +1,5 @@
 '''Event accounts for all registered events in the application.'''
 
-
 from sqlalchemy import Integer, String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
@@ -49,6 +48,7 @@ class EventEntity(EntityBase):
 
     def to_model(self) -> Event:
         return Event(
+
             id=self.id,
             location=self.location,
             description=self.description,
@@ -63,4 +63,3 @@ class EventEntity(EntityBase):
         self.description = model.description
         self.attendees = model.attendees
         self.location = model.location
-
