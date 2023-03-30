@@ -23,7 +23,7 @@ export class EventsComponent {
   onDelete(event: Event) {
     // TODO: implement HTTP method to delete Events
     // TODO: change 'routename' to correct path
-    this.http.delete<Event>('/api/routename' + Event).subscribe({
+    this.http.delete<Event>('/api/routename/' + Event).subscribe({
       next: (x) => this.reload(),
       error: (err) => this.onError(err)
       
