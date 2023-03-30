@@ -18,7 +18,7 @@ export class JoinedClubsComponent {
 
   alterText(club: Club) {
     club.show_short_description = !club.show_short_description
-    club.current_description = club.show_short_description ? club.short_description : club.full_description
+    // club.current_description = club.show_short_description ? club.short_description : club.full_description
   }
 
   leaveClub(pid: number, club: Club): void {

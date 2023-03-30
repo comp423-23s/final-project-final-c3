@@ -6,8 +6,7 @@ import { Profile } from './profile/profile.service';
 export interface Club {
   name: string;                     // club name
   short_description: string;
-  full_description: string;    
-  current_description: string;
+  full_description: string;   
   show_short_description: boolean;
   members: number[];               // array of club members
 }
@@ -29,9 +28,9 @@ export class ClubsService {
 
   constructor(private http: HttpClient) {
     const club1: Club = {name: "club1", short_description: "This is short description for club 1", 
-    full_description: "This is loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo description for club1", current_description: "This is short description for club 1", show_short_description: true, members: new Array()}
+    full_description: "This is loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo description for club1", show_short_description: true, members: new Array()}
     const club2: Club = {name: "club2", short_description: "This is short description for club 2", 
-    full_description: "This is loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo description for club2", current_description: "This is short description for club 2", show_short_description: true, members: new Array()}
+    full_description: "This is loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo description for club2", show_short_description: true, members: new Array()}
     this.clubs = [club1, club2]
     const member1 = 123456789
     const member2 = 987654321
