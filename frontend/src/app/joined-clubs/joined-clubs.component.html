@@ -2,11 +2,12 @@
 
 <table>
     <tbody>
-        <tr *ngFor="let club of clubs$ | async">
+        <!-- <tr *ngFor="let club of clubs$ | async"> -->
+        <tr *ngFor="let club of clubs">
             <td>{{ club.name }}</td>
-            <div [ngClass]="{'show-less': club.show_short_description}">
-                {{ club.short_description }}
-            </div>
+            <td>
+                {{ club.current_description }}
+            </td>
             <td>
                 <button (click)="alterText(club)">
                     {{ club.show_short_description ? 'Read More' : "Read Less"}}
