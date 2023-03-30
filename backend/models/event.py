@@ -3,10 +3,28 @@
 from pydantic import BaseModel
 import datetime
 
+__authors__ = ["Aryonna Rice"]
+__copyright__ = "Copyright 2023"
+__license__ = "MIT"
+
 class Event(BaseModel):
-    eventId: int
+    id: int | None = None
     name: str
-    clubId: str
+    club_id: int
     date: datetime
     location: str
     description: str
+    attendees: list[User] = []
+
+class NewEvent(BaseModel):
+    name: str
+    club_id: int
+    date: datetime
+    location: str
+    description: str
+    attendees: list[User] = []
+
+Event.update_forward_refs()
+NewEvent.update_forward_refs()
+from .user import User
+
