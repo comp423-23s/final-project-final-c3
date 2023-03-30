@@ -16,9 +16,9 @@ export class ClubsComponent {
     this.clubs = clubsService.getAllClubs()
   }
 
+  // controls which description is rendered on screen (short or long)
   alterText(club: Club) {
     club.show_short_description = !club.show_short_description
-    club.current_description = club.show_short_description ? club.short_description : club.full_description
   }
 
   // isUserInClub(pid: number, club: Club): boolean {
@@ -76,7 +76,7 @@ export class ClubsComponent {
   // onError(err: Error) : void{
   //   if (err.message) {
   //     console.log(err)
-  //     window.alert(err.message);
+  //     window.alert("The error is: " + err.message);
   //   } else {
   //     window.alert("Unknown error: " + JSON.stringify(err));
   //   }
