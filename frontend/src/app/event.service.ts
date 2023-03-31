@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 export interface EventObject {
   id: number,
@@ -17,7 +19,7 @@ export class EventService {
   events: EventObject[] = []
   myEvents: EventObject[] = []
 
-  constructor() {
+  constructor(private http: HttpClient) {
     // Add fake events for Student Story view
     const event1: EventObject = {id: 0, "name": 'Event 1', "location": 'SN14', 'description': 'An event hosted by club X', "date": new Date("2023-04-05"), "club_id": 4}
     const event2: EventObject = {id: 1, "name": 'Event 2', "location": 'FB08', 'description': 'An event hosted by club Y', "date": new Date("2023-04-10"), "club_id": 5}
@@ -29,8 +31,9 @@ export class EventService {
     this.myEvents.push(event3)
   }
 
-  getAllEvents(): EventObject[] {
-    return this.events;
+  getAllEvents(): Observable<EventObject[]> {
+    //we need to be using the same event type object, there are two created right now
+    let allEvents$ = this.http.get<EventObject[]>('/api/event')
   }
 
   getMyEvents(): EventObject[] {

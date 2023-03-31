@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EventObject, EventService } from '../event.service'
+import { Event, EventService } from '../event.service'
 import { ActivatedRoute, Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { Profile } from '../profile/profile.service';
+
+// TODO: import correct event type
 
 @Component({
   selector: 'app-events',
@@ -24,7 +26,7 @@ export class EventsComponent {
   };
 
   //public events$ = Observable<Event[]>
-  public events: EventObject[]
+  public events: Event[]
 
   constructor(eventService: EventService, private http: HttpClient) {
     this.events = eventService.getAllEvents()
