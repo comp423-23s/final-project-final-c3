@@ -25,14 +25,13 @@ export class EventsComponent {
     resolve: { profile: profileResolver }
   };
 
-  //public events$ = Observable<Event[]>
-  public events: Event[]
+  public events$: Observable<Event[]>
 
-  constructor(eventService: EventService, private http: HttpClient) {
-    this.events = eventService.getAllEvents()
+  constructor(eventService: EventService) {
+    this.events$ = eventService.getAllEvents()
   }
 
-  // This delete method will be callable by Club Leaders 
+  // This delete method will be callable by Club Leaders, not needed for Sprint 0 
   // TODO: implement authentication
   onDelete(event: Event) {
     // TODO: implement HTTP method to delete Events

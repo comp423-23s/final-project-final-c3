@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { EventObject, EventService } from '../event.service';
+import { Event, EventService } from '../event.service';
 import { ActivatedRoute, Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { Profile } from '../profile/profile.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-my-events',
@@ -21,7 +22,7 @@ export class MyEventsComponent {
     resolve: { profile: profileResolver }
   };
   
-  public my_events: EventObject[]
+  public my_events$: Observable<Event[]>
   public profile: Profile
 
   constructor(eventService: EventService, route: ActivatedRoute, private http: HttpClient) {
@@ -29,7 +30,7 @@ export class MyEventsComponent {
     console.log(route.snapshot)
     this.profile = data.profile
     // change this function to get events by pid
-    this.my_events = eventService.getMyEvents()
+    this.my_events$ = eventService.getMyEvents()
   }
 
 }
