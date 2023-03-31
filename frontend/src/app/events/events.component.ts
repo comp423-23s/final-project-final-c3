@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EventObject, EventService } from '../event.service'
+import { Route } from '@angular/router';
+import { isAuthenticated } from '../gate/gate.guard';
+import { profileResolver } from '../profile/profile.resolver';
 
 @Component({
   selector: 'app-events',
@@ -10,7 +13,15 @@ import { EventObject, EventService } from '../event.service'
 })
 export class EventsComponent {
   // Use an observable class so that the event data can be synchronous with the database
-  // TODO: create and import an Events class
+  
+  public static Route: Route = {
+    path: 'events',
+    component: EventsComponent, 
+    title: 'All Events', 
+    canActivate: [isAuthenticated], 
+    resolve: { profile: profileResolver }
+  };
+  
   //public events$ = Observable<Event[]>
   public events: EventObject[]
 
