@@ -49,8 +49,3 @@ class ClubService:
         club.members.remove(user)
         self._session.commit()
         self._session.flush()
-    
-    
-    
-    
-              
