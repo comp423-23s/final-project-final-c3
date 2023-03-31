@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Observable, UnsubscriptionError } from 'rxjs';
+import { ActivatedRoute, Route } from '@angular/router';
+import { isAuthenticated } from 'src/app/gate/gate.guard';
+import { Profile } from '../profile/profile.service';
 import { Club, ClubsService } from '../clubs.service';
+import { profileResolver } from '../profile/profile.resolver';
 
 @Component({
   selector: 'app-joined-clubs',
@@ -8,21 +12,37 @@ import { Club, ClubsService } from '../clubs.service';
   styleUrls: ['./joined-clubs.component.css']
 })
 export class JoinedClubsComponent {
+
+  public static Route: Route = {
+    path: 'joined_clubs',
+    component: JoinedClubsComponent, 
+    title: 'Joined Clubs', 
+    canActivate: [isAuthenticated], 
+    resolve: { profile: profileResolver }
+  };
+
+  public profile: Profile
   // public clubs$: Observable<Club[]>
   public clubs: Club[]
 
-  constructor(private clubsService: ClubsService) {
+  constructor(route: ActivatedRoute, private clubsService: ClubsService) {
+    const data = route.snapshot.data as { profile: Profile }
+    console.log(route.snapshot)
+    this.profile = data.profile
     // this.clubs$ = clubsService.getJoinedClubs(123456789)
-    this.clubs = clubsService.getJoinedClubs(123456789)
+    this.clubs = [...this.clubsService.getJoinedClubs(this.profile.pid)]
   }
 
+  // controls which description is rendered on screen (short or long)
   alterText(club: Club) {
     club.show_short_description = !club.show_short_description
     // club.current_description = club.show_short_description ? club.short_description : club.full_description
   }
 
-  leaveClub(pid: number, club: Club): void {
-    this.clubsService.leaveClub(pid, club.name)
+  leaveClub(club: Club): void {
+    this.clubsService.leaveClub(this.profile.pid, club.name)
+    console.log(this.clubsService.getJoinedClubs(this.profile.pid))
+    this.clubs = this.clubsService.getJoinedClubs(this.profile.pid)
     // this.clubsService.leaveClub(pid, club.name).subscribe({
     //   next: () => this.onSuccess(),
     //   error: (err) => this.onError(err)

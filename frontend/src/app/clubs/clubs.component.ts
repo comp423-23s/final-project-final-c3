@@ -1,19 +1,36 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ActivatedRoute, Route } from '@angular/router'
+import { isAuthenticated } from 'src/app/gate/gate.guard';
+import { Profile } from '../profile/profile.service'
 import { Club, ClubsService } from '../clubs.service';
+import { profileResolver } from '../profile/profile.resolver';
 
 @Component({
   selector: 'app-clubs',
-  templateUrl: './clubs.component.html'
+  templateUrl: './clubs.component.html',
+  styleUrls: ['./clubs.component.css']
 })
 export class ClubsComponent {
 
+  public static Route: Route = {
+    path: 'all_clubs',
+    component: ClubsComponent, 
+    title: 'All Clubs', 
+    canActivate: [isAuthenticated], 
+    resolve: { profile: profileResolver }
+  };
+
+  public profile: Profile
   // public clubs$: Observable<Club[]>
   public clubs: Club[]
 
-  constructor(private clubsService: ClubsService) {
+  constructor(route: ActivatedRoute, private clubsService: ClubsService) {
+    const data = route.snapshot.data as { profile: Profile }
+    console.log(data)
+    this.profile = data.profile
     // this.clubs$ = clubsService.getAllClubs()
-    this.clubs = clubsService.getAllClubs()
+    this.clubs = [...this.clubsService.getAllClubs()]
   }
 
   // controls which description is rendered on screen (short or long)
@@ -33,8 +50,8 @@ export class ClubsComponent {
   //   }
   //   return false
   // }
-  isUserInClub(pid: number, club: Club): boolean {
-    var joinedClubsArray = this.clubsService.getJoinedClubs(pid)
+  isUserInClub(club: Club): boolean {
+    var joinedClubsArray = this.clubsService.getJoinedClubs(this.profile.pid)
     for (var joinedClub of joinedClubsArray) {
       if (joinedClub == club) {
         return true
@@ -43,11 +60,13 @@ export class ClubsComponent {
     return false
   }
 
-  changeStatus(pid: number, club: Club): void {
-    if (this.isUserInClub(pid, club)) {
-      this.leaveClub(pid, club)
+  changeStatus(club: Club): void {
+    if (this.isUserInClub(club)) {
+      this.leaveClub(club)
+    } else {
+      this.joinClub(club)
     }
-    this.joinClub(pid, club)
+    this.clubs = this.clubsService.getAllClubs()
   }
 
   // joinClub(pid: number, club: Club): void {
@@ -55,8 +74,9 @@ export class ClubsComponent {
   //     next: () => this.onSuccess(),
   //   })
   // }
-  joinClub(pid: number, club: Club): void {
-    this.clubsService.joinClub(pid, club.name)
+  joinClub(club: Club): void {
+    this.clubsService.joinClub(this.profile.pid, club.name)
+    this.clubs = this.clubsService.getAllClubs()
   }
 
   // leaveClub(pid: number, club: Club): void {
@@ -65,8 +85,9 @@ export class ClubsComponent {
   //     error: (err) => this.onError(err)
   //   })
   // }
-  leaveClub(pid: number, club: Club): void {
-    this.clubsService.leaveClub(pid, club.name)
+  leaveClub(club: Club): void {
+    this.clubsService.leaveClub(this.profile.pid, club.name)
+    this.clubs = this.clubsService.getAllClubs()
   }
 
   // onSuccess(): void {

@@ -31,11 +31,12 @@ export class ClubsService {
     full_description: "This is loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo description for club1", show_short_description: true, members: new Array()}
     const club2: Club = {name: "club2", short_description: "This is short description for club 2", 
     full_description: "This is loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo description for club2", show_short_description: true, members: new Array()}
-    this.clubs = [club1, club2]
-    const member1 = 123456789
-    const member2 = 987654321
+    const club3: Club = {name: "club3", short_description: "This is short description for club 3", 
+    full_description: "This is loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo description for club3", show_short_description: true, members: new Array()}
+    this.clubs = [club1, club2, club3]
+    const member1 = 730434672
     club1.members.push(member1)
-    club2.members.push(member2)
+    club2.members.push(member1)
   }
 
   /**
@@ -59,6 +60,7 @@ export class ClubsService {
   //   return this.http.get<Club[]>(`/api/joined_clubs/${pid}`);
   // }
   getJoinedClubs(pid: number): Club[] {
+    console.log("get joined clubs called")
     var joined_clubs = new Array()
     for (var club of this.clubs) {
       for (var member_pid of club.members) {

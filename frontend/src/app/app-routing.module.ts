@@ -11,9 +11,9 @@ const routes: Routes = [
   HomeComponent.Route,
   ProfileEditorComponent.Route,
   GateComponent.Route,
-  { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
-  { path: 'all_clubs', component: ClubsComponent },
-  { path: 'joined_clubs', component: JoinedClubsComponent}
+  ClubsComponent.Route,
+  JoinedClubsComponent.Route,
+  { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
 ];
 
 @NgModule({
