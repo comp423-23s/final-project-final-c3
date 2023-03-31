@@ -27,20 +27,8 @@ export class EventsComponent {
 
   public events$: Observable<Event[]>
 
-  constructor(eventService: EventService) {
+  constructor(eventService: EventService, private http: HttpClient) {
     this.events$ = eventService.getAllEvents()
-  }
-
-  // This delete method will be callable by Club Leaders, not needed for Sprint 0 
-  // TODO: implement authentication
-  onDelete(event: Event) {
-    // TODO: implement HTTP method to delete Events
-    // TODO: change 'routename' to correct path
-    // this.http.delete<Event>('/api/routename/' + Event).subscribe({
-    //   next: (x) => this.reload(),
-    //   error: (err) => this.onError(err)
-    // })
-    
   }
 
 }
