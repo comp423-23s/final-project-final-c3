@@ -3,20 +3,14 @@ from sqlalchemy import text, select
 from ..database import Session, db_session
 from ..models import Event, User
 from ..entities import EventEntity, UserEntity
+from ..services import UserService
+
 
 class EventService:
     _session: Session
     
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
-        
-    def get_user_from_pid(self, pid: int) -> User:
-        query = select(UserEntity).where(UserEntity.pid == pid)
-        user_entity: UserEntity = self._session.scalar(query)
-        if user_entity is None:
-            return None
-        else:
-            return user_entity.to_model()
     
     def events_by_pid(self, pid: int) -> list[Event]:
         stmt = text('SELECT * FROM events WHERE user_id = :pid')
@@ -53,9 +47,13 @@ class EventService:
         self._session.flush()
         
     def add_by_pid_to_event(self, pid: int, event: Event) -> None:
-        attendees = event.attendees
-        attendees.append(self.get_user_from_pid(pid))
+        user = UserService.get(pid)
+        event.attendees.append(user)
+        self._session.commit()
+        self._session.flush()
         
     def delete_by_pid_from_event(self, pid: int, event: Event) -> None:
-        attendees = event.attendees
-        attendees.remove(self.get_user_from_pid(pid))
+        user = UserService.get(pid)
+        event.attendees.remove(user)
+        self._session.commit()
+        self._session.flush()

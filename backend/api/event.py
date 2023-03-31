@@ -3,6 +3,7 @@ from ..services import EventService
 from ..models import User, Event
 from .authentication import registered_user
 
+
 api = APIRouter(prefix="/api/event")
 
 # get events by user pid
