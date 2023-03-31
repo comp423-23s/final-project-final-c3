@@ -5,9 +5,6 @@ import { Event, EventService } from '../event.service'
 import { ActivatedRoute, Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
-import { Profile } from '../profile/profile.service';
-
-// TODO: import correct event type
 
 @Component({
   selector: 'app-events',
