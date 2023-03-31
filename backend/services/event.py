@@ -39,8 +39,27 @@ class EventService:
                 events.append(model)
             return events
     
-    
-    def delete_event(self, event: Event, event_id: int) -> None:
+    def delete_event(self, event: Event) -> None:
         self._session.delete(event)
         self._session.commit()
         self._session.flush()
+        
+    def add_by_pid_to_event(self, pid: int, event: Event) -> None:
+        attendees = event.attendees
+        for attendee in attendees:
+            if attendee.pid == pid:
+                attendees.append(attendee)
+                self._session.commit()
+                self._session.flush()
+                break
+        # attendees.append(pid)     change attendees model to take in pid
+        
+    def delete_by_pid_from_event(self, pid: int, event: Event) -> None:
+        attendees = event.attendees
+        for attendee in attendees:
+            if attendee.pid == pid:
+                attendees.remove(attendee)
+                self._session.commit()
+                self._session.flush()
+                break
+        # attendees.remove(pid)      change attendees model to take in pid

@@ -2,7 +2,7 @@ from fastapi import Depends
 from sqlalchemy import text, select
 from ..database import Session, db_session
 from ..models import Club, User
-from ..entities import ClubEntity
+from ..entities import ClubEntity, UserEntity
 
 class ClubService:
     _session: Session
@@ -10,6 +10,15 @@ class ClubService:
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
 
+    def get_user_from_pid(self, pid: int) -> User:
+        query = select(UserEntity).where(UserEntity.pid == pid)
+        user_entity: UserEntity = self._session.scalar(query)
+        if user_entity is None:
+            return None
+        else:
+            return user_entity.to_model()
+        
+        
     def get_all_clubs(self) -> list[Club]:
         all_clubs = list[Club]
         query = select(ClubEntity).all()
@@ -37,16 +46,15 @@ class ClubService:
                         clubs.append(model)
             return clubs
     
-    def add_user_to_club(self, user: User, club: Club) -> None:
+    def add_user_to_club(self, pid: int, club: Club) -> None:
         members = club.members
-        members.append(user)
-        self._session.commit()
+        members.append(self.get_user_from_pid(pid))
+        return
     
-    def delete_user_from_club(self, user: User, club: Club) -> None:
+    def delete_user_from_club(self, pid: int, club: Club) -> None:
         members = club.members
-        members.remove(user)
-        self._session.commit()
-        self._session.flush()
+        members.remove(self.get_user_from_pid(pid))
+        return
     
     
     

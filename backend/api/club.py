@@ -10,19 +10,19 @@ api = APIRouter(prefix="/api/club")
 def get_all_clubs(club_svc: ClubService = Depends()):
     return club_svc.get_all_clubs()
 
-# get club by user
-@api.get("/user", response_model=list[Club], tags=['Club'])
-def get_clubs_by_user(user: User = Depends(registered_user), club_svc: ClubService = Depends()):
-    return club_svc.get_clubs_by_user(user)
+# get clubs by pid
+@api.get("/user/{pid}", response_model=list[Club], tags=['Club'])
+def get_clubs_by_pid(pid: int, club_svc: ClubService = Depends()):
+    return club_svc.get_clubs_by_pid(pid)
 
 # Add user to club
-@api.put("/add", response_model=User, tags=['Club'])
-def add_user_to_club(user: User = Depends(registered_user), club_svc: ClubService = Depends()):
-    club_svc.add_user_to_club(user)
-    return user
+@api.put("/add/{pid}", response_model=User, tags=['Club'])
+def add_user_to_club(pid: int = Depends(registered_user), club_svc: ClubService = Depends()):
+    club_svc.add_user_to_club(pid)
+    return 
 
 # Remove user from club
-@api.delete("/remove", response_model=User, tags=['Club'])
-def remove_user_from_club(user: User = Depends(registered_user), club_svc: ClubService = Depends()):
-    club_svc.remove_user_from_club(user)
-    return user
+@api.delete("/remove/{pid}", response_model=User, tags=['Club'])
+def remove_user_from_club(pid: int, club: Club, club_svc: ClubService = Depends()):
+    club_svc.delete_user_from_club(pid, club)
+    return club
