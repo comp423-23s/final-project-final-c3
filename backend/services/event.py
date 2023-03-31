@@ -2,13 +2,21 @@ from fastapi import Depends
 from sqlalchemy import text, select
 from ..database import Session, db_session
 from ..models import Event, User
-from ..entities import EventEntity
+from ..entities import EventEntity, UserEntity
 
 class EventService:
     _session: Session
     
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
+        
+    def get_user_from_pid(self, pid: int) -> User:
+        query = select(UserEntity).where(UserEntity.pid == pid)
+        user_entity: UserEntity = self._session.scalar(query)
+        if user_entity is None:
+            return None
+        else:
+            return user_entity.to_model()
     
     def events_by_pid(self, pid: int) -> list[Event]:
         stmt = text('SELECT * FROM events WHERE user_id = :pid')
@@ -46,20 +54,8 @@ class EventService:
         
     def add_by_pid_to_event(self, pid: int, event: Event) -> None:
         attendees = event.attendees
-        for attendee in attendees:
-            if attendee.pid == pid:
-                attendees.append(attendee)
-                self._session.commit()
-                self._session.flush()
-                break
-        # attendees.append(pid)     change attendees model to take in pid
+        attendees.append(self.get_user_from_pid(pid))
         
     def delete_by_pid_from_event(self, pid: int, event: Event) -> None:
         attendees = event.attendees
-        for attendee in attendees:
-            if attendee.pid == pid:
-                attendees.remove(attendee)
-                self._session.commit()
-                self._session.flush()
-                break
-        # attendees.remove(pid)      change attendees model to take in pid
+        attendees.remove(self.get_user_from_pid(pid))

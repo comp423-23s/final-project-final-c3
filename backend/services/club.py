@@ -49,12 +49,10 @@ class ClubService:
     def add_user_to_club(self, pid: int, club: Club) -> None:
         members = club.members
         members.append(self.get_user_from_pid(pid))
-        return
     
     def delete_user_from_club(self, pid: int, club: Club) -> None:
         members = club.members
         members.remove(self.get_user_from_pid(pid))
-        return
     
     
     
