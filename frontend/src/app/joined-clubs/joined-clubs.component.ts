@@ -31,6 +31,9 @@ export class JoinedClubsComponent {
     this.profile = data.profile
     // this.clubs$ = clubsService.getJoinedClubs(123456789)
     this.clubs = [...this.clubsService.getJoinedClubs(this.profile.pid)]
+    for (var club of this.clubs) {
+      club.show_short_description = true
+    }
   }
 
   // controls which description is rendered on screen (short or long)
