@@ -2,11 +2,12 @@
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
-from .entity_base import EntityBase
-from .user_role_entity import user_role_table
-from .user_entity import UserEntity
-from .permission_entity import PermissionEntity
-from ..models import Role, RoleDetails
+from backend.models.role import Role
+from backend.models.role_details import RoleDetails
+from backend.entities.entity_base import EntityBase
+from backend.entities.user_role_entity import user_role_table
+from backend.entities.user_entity import UserEntity
+
 
 class RoleEntity(EntityBase):
     __tablename__ = "role"
@@ -37,3 +38,6 @@ class RoleEntity(EntityBase):
             permissions=[permission.to_model() for permission in self.permissions],
             users=[user.to_model() for user in self.users]
         )
+    
+# Must put dependent classes at the top and bottom to avoid circular issue.
+from backend.entities.permission_entity import PermissionEntity

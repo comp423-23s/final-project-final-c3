@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Column, ForeignKey
-from .entity_base import EntityBase
+from backend.entities.entity_base import EntityBase
 
 user_club_table = Table(
     "user_club",

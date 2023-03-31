@@ -3,11 +3,11 @@
 from sqlalchemy import Integer, String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
-from .entity_base import EntityBase
-from ..models import Event
-from .club_entity import ClubEntity
-from .user_entity import UserEntity
-from .user_event_entity import user_event_table
+from backend.entities.entity_base import EntityBase
+from backend.entities.club_entity import ClubEntity
+from backend.entities.user_entity import UserEntity
+from backend.entities.user_event_entity import user_event_table
+from backend.models.event import Event
 from datetime import datetime
 
 
@@ -27,12 +27,13 @@ class EventEntity(EntityBase):
         String(64), nullable=False, default='')
     description: Mapped[str] = mapped_column(
         String(64), nullable=False, default='')
-    date: Mapped[datetime] = mapped_column(
-        datetime(), nullable=False)
+    now: datetime = datetime.now()
+    date: Mapped[str] = mapped_column(
+        now.strftime("%m/%d/%Y, %H, %M, %S"), nullable=False)
     
     club_id: Mapped[int] = mapped_column(ForeignKey('club.id'))
     club: Mapped[ClubEntity] = relationship()
-    attendees: Mapped[list['UserEntity']] = relationship(secondary_table=user_event_table)
+    attendees: Mapped[list['UserEntity']] = relationship(secondary=user_event_table)
 
 
     @classmethod

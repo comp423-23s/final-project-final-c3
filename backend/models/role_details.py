@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from . import User, Permission
+from .user import User
+from .permission import Permission
 
 class RoleDetails(BaseModel):
     id: int | None = None

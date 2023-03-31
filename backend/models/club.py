@@ -3,6 +3,7 @@
 from pydantic import BaseModel
 from .user import User
 
+
 class Club(BaseModel):
     id: int | None = None
     name: str
