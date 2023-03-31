@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EventObject, EventService } from '../event.service'
-import { Route } from '@angular/router';
+import { ActivatedRoute, Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
+import { Profile } from '../profile/profile.service';
 
 @Component({
   selector: 'app-events',
@@ -21,13 +22,11 @@ export class EventsComponent {
     canActivate: [isAuthenticated], 
     resolve: { profile: profileResolver }
   };
-  
+
   //public events$ = Observable<Event[]>
   public events: EventObject[]
 
-  // TODO: create and import eventService
   constructor(eventService: EventService, private http: HttpClient) {
-    // TODO: create HTTP getEvents() method
     this.events = eventService.getAllEvents()
   }
 
