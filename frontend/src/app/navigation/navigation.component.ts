@@ -10,7 +10,6 @@ import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { Profile, ProfileService } from '../profile/profile.service';
 import { PermissionService } from '../permission.service';
-import { ClubsComponent } from '../clubs/clubs.component';
 
 @Component({
   selector: 'app-navigation',
@@ -28,6 +27,18 @@ export class NavigationComponent implements OnInit, OnDestroy {
   public checkinPermission$: Observable<boolean>;
   public adminPermission$: Observable<boolean>;
 
+  currentRoute: string = "/"
+  routes = [
+    {
+      value: 'all_clubs',
+      display: 'All Clubs'
+    },
+    {
+      value: 'joined_clubs',
+      display: 'My Clubs'
+    }
+  ]
+
   constructor(
     public auth: AuthenticationService,
     public router: Router,
@@ -42,9 +53,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.adminPermission$ = this.permission.check('admin.view', 'admin/')
   }
 
+  routeTo(e: Object) {
+    this.router.navigate(['/' + e]);
+  }
+
   ngOnInit(): void {
     this.errorDialogSubscription = this.initErrorDialog();
     this.isHandsetSubscription = this.initResponsiveMenu();
+    this.currentRoute = '/profile';
   }
 
   ngOnDestroy(): void {
@@ -74,5 +90,4 @@ export class NavigationComponent implements OnInit, OnDestroy {
         .pipe(map(result => result.matches))
         .subscribe(isHandset => this.isHandset = isHandset);
   }
-
 }

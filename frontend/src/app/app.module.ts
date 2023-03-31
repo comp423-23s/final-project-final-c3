@@ -24,6 +24,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FormsModule } from '@angular/forms';
 
 /* Application Specific */
 import { AppRoutingModule } from './app-routing.module';
@@ -75,6 +76,7 @@ import { JoinedClubsComponent } from './joined-clubs/joined-clubs.component';
         }
       }
     }),
+    FormsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
