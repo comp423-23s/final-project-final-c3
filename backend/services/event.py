@@ -5,13 +5,12 @@ from ..models import Event, User
 from ..entities import EventEntity, UserEntity
 from ..services import UserService
 
-
 class EventService:
     _session: Session
     
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
-    
+
     def events_by_pid(self, pid: int) -> list[Event]:
         stmt = text('SELECT * FROM events WHERE user_id = :pid')
         result = self._session.execute(stmt, {'id': pid})

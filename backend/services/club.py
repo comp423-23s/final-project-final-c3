@@ -10,7 +10,7 @@ class ClubService:
 
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
-              
+        
     def get_all_clubs(self) -> list[Club]:
         all_clubs = list[Club]
         query = select(ClubEntity).all()
@@ -49,3 +49,4 @@ class ClubService:
         club.members.remove(user)
         self._session.commit()
         self._session.flush()
+
