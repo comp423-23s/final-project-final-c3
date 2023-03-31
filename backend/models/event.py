@@ -1,7 +1,8 @@
 """Event model serves as the data object for representing a specific event."""
 
 from pydantic import BaseModel
-import datetime
+from datetime import datetime 
+from .user import User
 
 __authors__ = ["Aryonna Rice"]
 __copyright__ = "Copyright 2023"
@@ -26,5 +27,4 @@ class NewEvent(BaseModel):
 
 Event.update_forward_refs()
 NewEvent.update_forward_refs()
-from .user import User
 
