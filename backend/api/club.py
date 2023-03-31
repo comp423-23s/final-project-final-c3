@@ -12,8 +12,8 @@ def get_all_clubs(club_svc: ClubService = Depends()):
 
 # get club by user
 @api.get("/user", response_model=list[Club], tags=['Club'])
-def get_club_by_user(user: User = Depends(registered_user), club_svc: ClubService = Depends()):
-    return club_svc.get_club_by_user(user)
+def get_clubs_by_user(user: User = Depends(registered_user), club_svc: ClubService = Depends()):
+    return club_svc.get_clubs_by_user(user)
 
 # Add user to club
 @api.put("/add", response_model=User, tags=['Club'])

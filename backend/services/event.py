@@ -10,9 +10,9 @@ class EventService:
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
     
-    def event_by_user(self, user_id: int) -> list[Event]:
-        stmt = text('SELECT * FROM events WHERE user_id = :id')
-        result = self._session.execute(stmt, {'id': user_id})
+    def events_by_pid(self, pid: int) -> list[Event]:
+        stmt = text('SELECT * FROM events WHERE user_id = :pid')
+        result = self._session.execute(stmt, {'id': pid})
         return result
     
     def get_all_events(self) -> list[Event] | None:
