@@ -7,7 +7,7 @@
         <td>Date</td>
     </thead>
     <tbody>
-        <tr *ngFor="let event of events">
+        <tr *ngFor="let event of events$ | async">
             <td>{{ event.name }}</td>
             <td>{{ event.description }}</td>
             <td>{{ event.location }}</td>
