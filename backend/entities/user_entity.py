@@ -4,11 +4,9 @@
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
-from .entity_base import EntityBase
-from .user_role_entity import user_role_table
-from ..models import User
-from .role_entity import RoleEntity
-from .permission_entity import PermissionEntity
+from backend.models.user import User
+from backend.entities.entity_base import EntityBase
+from backend.entities.user_role_entity import user_role_table
 
 
 __authors__ = ['Kris Jordan']
@@ -63,3 +61,9 @@ class UserEntity(EntityBase):
         self.first_name = model.first_name
         self.last_name = model.last_name
         self.pronouns = model.pronouns
+
+
+#import entities
+from backend.entities.event_entity import EntityBase
+from backend.entities.role_entity import RoleEntity
+from backend.entities.permission_entity import PermissionEntity
