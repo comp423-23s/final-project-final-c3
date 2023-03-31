@@ -1,6 +1,7 @@
 """User model serves as the data object for representing registered users across application layers."""
 
 from pydantic import BaseModel
+from .permission import Permission
 
 
 __authors__ = ["Kris Jordan"]
@@ -14,6 +15,7 @@ class User(BaseModel):
     onyen: str = ""
     first_name: str = ""
     last_name: str = ""
+    isAdmin: bool
     email: str = ""
     pronouns: str = ""
     permissions: list['Permission'] = []
@@ -24,6 +26,7 @@ class NewUser(BaseModel):
     onyen: str
     first_name: str = ''
     last_name: str = ''
+    isAdmin: bool
     email: str = ''
     pronouns: str = ''
     permissions: list['Permission'] = []
@@ -37,6 +40,5 @@ class ProfileForm(BaseModel):
 
 
 # Python... :sob:... necessary due to circularity (TODO: refactor to remove circularity)
-from .permission import Permission
 User.update_forward_refs()
 NewUser.update_forward_refs()
