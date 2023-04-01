@@ -45,6 +45,7 @@ def delete_event(event: Event, event_svc: EventService = Depends()):
    
 # add user to event
 @api.get("/add_to_event/{pid}", tags=['Event'])
+@api.get("/add_to_event/{pid}", tags=['Event'])
 def add_user_to_event(pid: int, event: Event, event_svc: EventService = Depends()):
     try:
         event_svc.add_by_pid_to_event(pid, event)
