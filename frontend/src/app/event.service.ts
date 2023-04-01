@@ -31,14 +31,17 @@ export class EventService {
   }
 
   getAllEvents(): Observable<Event[]> {
-    //we need to be using the same event type object, there are two created right now
     let allEvents$ = this.http.get<Event[]>('/api/event/all')
     return allEvents$
   }
 
-  getMyEvents(): Observable<Event[]> {
-    // need this HTTP request to be by PID
-    let myEvents$ = this.http.get<Event[]>('/api/event/ ***')
+  getMyEvents(pid: number): Observable<Event[]> {
+    let myEvents$ = this.http.get<Event[]>('/api/event/by_pid/' + pid)
     return myEvents$
+  }
+
+  deleteMyEvent(event: Event, pid: number): {
+    //need to pass in event object once route is fixed
+    this.http.delete('/api/event/delete_from_event/' + pid)
   }
 }

@@ -24,13 +24,14 @@ export class MyEventsComponent {
   
   public my_events$: Observable<Event[]>
   public profile: Profile
+  private eventService: EventService
 
   constructor(eventService: EventService, route: ActivatedRoute, private http: HttpClient) {
+    this.eventService = eventService
     const data = route.snapshot.data as { profile: Profile }
     console.log(route.snapshot)
     this.profile = data.profile
-    // change this function to get events by pid
-    this.my_events$ = eventService.getMyEvents()
+    this.my_events$ = eventService.getMyEvents(this.profile.pid)
   }
 
   onDelete(event1: Event) {
@@ -43,7 +44,7 @@ export class MyEventsComponent {
   }
 
   reload(): void {
-    this.my_events$ = this.http.get<Event[]>('/api/event/all')
+    this.my_events$ = this.eventService.getMyEvents(this.profile.pid)
   }
 
   private onError(err: HttpErrorResponse) {
