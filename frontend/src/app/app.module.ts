@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 /* HTTP and Auth */
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -75,6 +77,8 @@ import { MyEventsComponent } from './my-events/my-events.component';
         }
       }
     }),
+    FormsModule,
+    MatSelectModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
