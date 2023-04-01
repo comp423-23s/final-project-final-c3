@@ -16,7 +16,7 @@ __license__ = 'MIT'
 
 
 class ClubEntity(EntityBase):
-    __tablename__ = 'clubs'
+    __tablename__ = 'club'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(

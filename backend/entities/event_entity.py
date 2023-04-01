@@ -17,7 +17,7 @@ __license__ = 'MIT'
 
 
 class EventEntity(EntityBase):
-    __tablename__ = 'events'
+    __tablename__ = 'event'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(

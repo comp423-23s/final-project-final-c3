@@ -1,6 +1,5 @@
 '''User accounts for all registered users in the application.'''
 
-
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
@@ -64,6 +63,5 @@ class UserEntity(EntityBase):
 
 
 #import entities
-from backend.entities.event_entity import EntityBase
 from backend.entities.role_entity import RoleEntity
 from backend.entities.permission_entity import PermissionEntity
