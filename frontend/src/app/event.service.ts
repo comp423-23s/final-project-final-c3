@@ -40,8 +40,8 @@ export class EventService {
     return myEvents$
   }
 
-  deleteMyEvent(event: Event, pid: number): {
-    //need to pass in event object once route is fixed
-    this.http.delete('/api/event/delete_from_event/' + pid)
-  }
+  // deleteMyEvent(event: Event, pid: number): {
+  //   //need to pass in event object once route is fixed
+  //   this.http.delete('/api/event/delete_from_event/' + pid)
+  // }
 }
