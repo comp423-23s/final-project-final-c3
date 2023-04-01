@@ -1,4 +1,4 @@
-<h1>All Events</h1>
+<h1>My Future Events</h1>
 <table>
     <thead>
         <td>Event</td>
@@ -7,7 +7,7 @@
         <td>Date</td>
     </thead>
     <tbody>
-        <tr *ngFor="let event of events$ | async">
+        <tr *ngFor="let event of my_events$ | async">
             <td>{{ event.name }}</td>
             <td>{{ event.description }}</td>
             <td>{{ event.location }}</td>

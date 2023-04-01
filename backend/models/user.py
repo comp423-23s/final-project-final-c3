@@ -15,7 +15,6 @@ class User(BaseModel):
     onyen: str = ""
     first_name: str = ""
     last_name: str = ""
-    isAdmin: bool
     email: str = ""
     pronouns: str = ""
     permissions: list['Permission'] = []
@@ -26,7 +25,6 @@ class NewUser(BaseModel):
     onyen: str
     first_name: str = ''
     last_name: str = ''
-    isAdmin: bool
     email: str = ''
     pronouns: str = ''
     permissions: list['Permission'] = []
