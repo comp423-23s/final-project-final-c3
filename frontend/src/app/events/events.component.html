@@ -1,18 +1,25 @@
-<h1>All Events</h1>
-<table>
-    <thead>
-        <td>Event</td>
-        <td>Description</td>
-        <td>Location</td>
-        <td>Date</td>
-    </thead>
-    <tbody>
-        <tr *ngFor="let event of events$ | async">
-            <td>{{ event.name }}</td>
-            <td>{{ event.description }}</td>
-            <td>{{ event.location }}</td>
-            <td>{{ event.date }}</td>
-            <td>Register</td>
-        </tr>
-    </tbody>
-</table>
+
+<tr *ngFor="let event of events">
+    <mat-card style="width:1600px">
+        <mat-card-header>
+            <mat-card-title>{{ event.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class='description'>
+                <td>{{ event.description }}</td>
+                <div class="side-buttons">
+                    <mat-card-actions>
+                        <button mat-raised-button type="submit">JOIN</button>
+                    </mat-card-actions>
+                    <mat-card-actions>
+                        <button mat-raised-button type="submit">Read More</button>
+                    </mat-card-actions>
+                </div>
+            </div>
+            <div class="time-place">
+                <span style='text-decoration: underline;'>Time:  </span> {{ event.date | date: 'MM/dd/yy @ hh:mma' }}
+                <span style="text-decoration: underline;">Place:  </span> {{ event.location  }}
+            </div>
+        </mat-card-content>
+    </mat-card>
+</tr>

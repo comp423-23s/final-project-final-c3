@@ -17,19 +17,21 @@ export interface Event {
 })
 
 export class EventService {
-
+  public fakeEvents: Event[] = []
   constructor(private http: HttpClient) {
     // Add fake events for Student Story view
-    // const event1: Event = {id: 0, "name": 'Event 1', "location": 'SN14', 'description': 'An event hosted by club X', "date": new Date("2023-04-05"), "club_id": 4}
-    // const event2: Event = {id: 1, "name": 'Event 2', "location": 'FB08', 'description': 'An event hosted by club Y', "date": new Date("2023-04-10"), "club_id": 5}
-    // const event3: Event = {id: 2, "name": 'Event 3', "location": 'Davis Library', 'description': 'An event hosted by club Z', "date": new Date("2023-04-15"), "club_id": 2}
-    // this.events.push(event1)
-    // this.events.push(event2)
-    // this.events.push(event3)
-    // this.myEvents.push(event1)
-    // this.myEvents.push(event3)
+    const event1: Event = {id: 0, "name": 'Event 1', "location": 'SN14', 'description': 'An event hosted by club X', "date": new Date("2023-04-05"), "club_id": 4}
+    const event2: Event = {id: 1, "name": 'Event 2', "location": 'FB08', 'description': 'An event hosted by club Y', "date": new Date("2023-04-10"), "club_id": 5}
+    const event3: Event = {id: 2, "name": 'Event 3', "location": 'Davis Library', 'description': 'An event hosted by club Z', "date": new Date("2023-04-15"), "club_id": 2}
+    this.fakeEvents.push(event1)
+    this.fakeEvents.push(event2)
+    this.fakeEvents.push(event3)
   }
 
+  getFakeEvents(): Event[] {
+    return this.fakeEvents
+  }
+  
   getAllEvents(): Observable<Event[]> {
     let allEvents$ = this.http.get<Event[]>('/api/event/all')
     return allEvents$

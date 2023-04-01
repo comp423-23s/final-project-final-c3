@@ -22,10 +22,12 @@ export class EventsComponent {
     resolve: { profile: profileResolver }
   };
 
-  public events$: Observable<Event[]>
+  //public events$: Observable<Event[]>
+  public events: Event[]
 
   constructor(eventService: EventService, private http: HttpClient) {
-    this.events$ = eventService.getAllEvents()
+    //this.events$ = eventService.getAllEvents()
+    this.events = eventService.getFakeEvents()
   }
 
 }
