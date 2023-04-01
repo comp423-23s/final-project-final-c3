@@ -39,7 +39,7 @@ def delete_event(event: Event, event_svc: EventService = Depends()):
     try: 
         event_svc.delete_event(event)
         return "OK"
-    except Exception e:
+    except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
         
    
@@ -48,7 +48,7 @@ def delete_event(event: Event, event_svc: EventService = Depends()):
 def add_user_to_event(pid: int, event: Event, event_svc: EventService = Depends()):
     try:
         event_svc.add_by_pid_to_event(pid, event)
-    except Exception e:
+    except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
 # delete user from event
@@ -56,6 +56,6 @@ def add_user_to_event(pid: int, event: Event, event_svc: EventService = Depends(
 def delete_user_from_event(pid: int, event: Event, event_svc: EventService = Depends()):
     try:
         event_svc.delete_by_pid_from_event(pid, event)
-    except Exception e:
+    except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 

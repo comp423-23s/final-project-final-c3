@@ -74,7 +74,7 @@ class ClubService:
                     self._session.commit()
                     self._session.flush()
                     return
-           return Exception("User is not a member of club.")
+            return Exception("User is not a member of club.")
             
     
     
