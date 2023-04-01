@@ -39,7 +39,7 @@ class EventService:
                 all_events.append(model)
             return all_events
     
-    def display_events_by_club_id(self, club_id: int) -> list[Event]:
+    def get_events_by_club_id(self, club_id: int) -> list[Event]:
         """Returns a list of all events the club has registered."""
         events: list[Event] = []
         query = select(EventEntity).where(EventEntity.club_id == club_id)
@@ -54,6 +54,10 @@ class EventService:
     
     def delete_event(self, event: Event) -> None:
         """Deletes an event."""
+        query = select(EventEntity).wehre(EventEntity.id == event.id)
+        event_entity: EventEntity = self._session.scalar(query)
+        if event_entity is None:
+            raise Exception("Event does not exist.")
         self._session.delete(event)
         self._session.commit()
         self._session.flush()
@@ -63,11 +67,13 @@ class EventService:
         query = select(EventEntity).where(EventEntity.id == event_id)
         event_entity: EventEntity = self._session.scalar(query)
         if event_entity is None:
-            #HTTPException
-            return None
+            raise Exception("Event does not exist.")
         else:
             event = event_entity.to_model()
             attendees = event.attendees
+            for attendee in attendees:
+                if attendee.pid == pid:
+                    raise Exception("User is already registered for this event.")
             attendees.append(UserService.get(pid))
             event_entity.update(event)
             self._session.commit()
@@ -78,8 +84,7 @@ class EventService:
         query = select(EventEntity).where(EventEntity.id == event_id)
         event_entity: EventEntity = self._session.scalar(query)
         if event_entity is None:
-            #HTTPException
-            return None
+            raise Exception("Event does not exist.")
         else:
             event = event_entity.to_model()
             attendees = event.attendees
@@ -89,5 +94,6 @@ class EventService:
                     event_entity.update(attendee)
                     self._session.commit()
                     self._session.flush()
-                    break
+                    return 
+            raise Exception("User not registered for this event")
     
