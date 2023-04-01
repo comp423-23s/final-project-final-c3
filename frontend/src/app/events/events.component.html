@@ -9,15 +9,20 @@
             </mat-card-header>
             <mat-card-content>
                 <div class='description'>
-                    <td>{{ event.description }}</td>
-                    <div class="side-buttons">
-                        <mat-card-actions>
-                            <button mat-raised-button type="submit">Register</button>
-                        </mat-card-actions>
-                        <mat-card-actions>
-                            <button class='read-more' type="submit" style="text-decoration: underline; margin-top: -5px;">Read More</button>
-                        </mat-card-actions>
+                    <div [ngClass]="{'show-less': event.show_short_description}">
+                        {{ event.show_short_description ? event.short_description : event.long_description }}
                     </div>
+                    
+                </div>
+                <div class="side-buttons">
+                    <mat-card-actions>
+                        <button mat-raised-button type="submit">Register</button>
+                    </mat-card-actions>
+                    <mat-card-actions>
+                        <button class='read-more' type="submit" style="text-decoration: underline; margin-top: -5px;" (click)="alterText(event)">
+                            {{ event.show_short_description ? "Read More" : "Read Less"}}
+                        </button>
+                    </mat-card-actions>
                 </div>
                 <br>
                 <div class="time-place">

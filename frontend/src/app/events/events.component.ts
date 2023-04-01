@@ -30,4 +30,9 @@ export class EventsComponent {
     this.events = eventService.getFakeEvents()
   }
 
+  // Alters whether or not the short description should be shown
+  alterText(event: Event) {
+    event.show_short_description = !event.show_short_description
+  }
+
 }
