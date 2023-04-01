@@ -24,9 +24,8 @@ export class MyEventsComponent {
   
   public my_events$: Observable<Event[]>
   public profile: Profile
-  private eventService: EventService
 
-  constructor(eventService: EventService, route: ActivatedRoute, private http: HttpClient) {
+  constructor(private eventService: EventService, route: ActivatedRoute, private http: HttpClient) {
     this.eventService = eventService
     const data = route.snapshot.data as { profile: Profile }
     console.log(route.snapshot)
