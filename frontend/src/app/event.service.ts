@@ -8,8 +8,10 @@ export interface Event {
   club_id: number,
   date: Date,
   location: string, 
-  description: string
-  // do we need attendees here?
+  short_description: string
+  long_description: string
+  show_short_description: boolean
+  members: number[]
 }
 
 @Injectable({
