@@ -63,5 +63,5 @@ class UserEntity(EntityBase):
 
 
 #import entities
-from .role_entity import RoleEntity
-from .permission_entity import PermissionEntity
+from backend.entities.role_entity import RoleEntity
+from backend.entities.permission_entity import PermissionEntity
