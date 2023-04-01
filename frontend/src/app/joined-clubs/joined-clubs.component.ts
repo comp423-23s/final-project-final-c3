@@ -12,7 +12,7 @@ import { profileResolver } from '../profile/profile.resolver';
   styleUrls: ['./joined-clubs.component.css']
 })
 export class JoinedClubsComponent {
-
+  
   public static Route: Route = {
     path: 'joined_clubs',
     component: JoinedClubsComponent, 
