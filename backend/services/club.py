@@ -1,9 +1,9 @@
 from fastapi import Depends
 from sqlalchemy import text, select
-from ..database import Session, db_session
-from ..models import Club, User
-from ..entities import ClubEntity, UserEntity
-from ..services import UserService
+from database import Session, db_session
+from models import Club, User
+from entities import ClubEntity, UserEntity
+from services import UserService
 
 class ClubService:
     _session: Session
@@ -13,16 +13,9 @@ class ClubService:
         
     def get_all_clubs(self) -> list[Club]:
         """Returns all registered clubs in the database."""
-        all_clubs: list[Club] = []
-        query = select(ClubEntity).where(ClubEntity.name != "None")
-        club_entities: list[ClubEntity] = self._session.scalar(query)
-        if club_entities is None:
-            return all_clubs
-        else:
-            for club in club_entities:
-                model = club.to_model()
-                all_clubs.append(model)
-            return all_clubs
+        query = select(ClubEntity)
+        club_entities = self._session.scalars(query).all()
+        return [entity.to_model() for entity in club_entities]
                 
     
     def get_clubs_by_pid(self, pid: int) -> list[Club]:

@@ -23,7 +23,7 @@ class ClubEntity(EntityBase):
         String(64), nullable=False, default='')
     description: Mapped[str] = mapped_column(
         String(100), nullable=False, default='')
-    members: Mapped[list['UserEntity']] = relationship(secondary=user_club_table)
+    members: Mapped[list[UserEntity]] = relationship(secondary=user_club_table)
 
 
     @classmethod

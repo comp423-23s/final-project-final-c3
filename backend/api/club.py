@@ -9,10 +9,9 @@ api = APIRouter(prefix="/api/club")
 @api.get("/all", response_model=list[Club], tags=['Club'])
 def get_all_clubs(club_svc: ClubService = Depends()):
     try: 
-        all_clubs = club_svc.get_all_clubs()
-        return all_clubs
+        return club_svc.get_all_clubs()
     except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
 
 # get all clubs a user is in using their pid
 @api.get("/user/{pid}", response_model=list[Club], tags=['Club'])
