@@ -3,7 +3,6 @@ from sqlalchemy import text, select
 from ..database import Session, db_session
 from ..models import Event, User
 from ..entities import EventEntity, UserEntity, ClubEntity
-from ..entities import EventEntity, UserEntity, ClubEntity
 from ..services import UserService
 
 class EventService:
