@@ -33,8 +33,8 @@ def add_user_to_club(club_id: int, pid: int, club_svc: ClubService = Depends()):
         raise HTTPException(status_code=404, detail=str(e))
 
 # Remove user from club
-@api.delete("/remove/{club_id}", tags=['Club'])
-def remove_user_from_club(club_id: int, pid: int,club_svc: ClubService = Depends()):
+@api.delete("/remove/{club_id}/{pid}", tags=['Club'])
+def remove_user_from_club(club_id: int, pid: int, club_svc: ClubService = Depends()):
     try:
         club_svc.delete_user_from_club(pid, club_id)
         return "OK"

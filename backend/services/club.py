@@ -10,6 +10,7 @@ class ClubService:
 
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
+        self._userService = UserService()
         
     def get_all_clubs(self) -> list[Club]:
         """Returns all registered clubs in the database."""
@@ -60,14 +61,13 @@ class ClubService:
         else:
             club = club_entity.to_model()
             members = club.members
-            for member in members:
-                if member.pid == pid:
-                    members.remove(member)
-                    club_entity.update(club)
-                    self._session.commit()
-                    self._session.flush()
-                    return
-            return Exception("User is not a member of club.")
+            deleted_member = self._userService.get(pid)
+            if deleted_member is None:
+                return Exception("User is not a member of club.")
+            members.remove(deleted_member)
+            club_entity.update(club)
+            self._session.commit()
+            self._session.flush()
             
     
     
