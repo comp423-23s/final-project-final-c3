@@ -1,9 +1,9 @@
 from fastapi import Depends
 from sqlalchemy import text, select
-from database import Session, db_session
-from models import Club, User
-from entities import ClubEntity, UserEntity
-from services import UserService
+from ..database import Session, db_session
+from ..models import Club, User
+from ..entities import ClubEntity, UserEntity
+from ..services import UserService
 
 class ClubService:
     _session: Session

@@ -1,9 +1,9 @@
 from fastapi import Depends
 from sqlalchemy import select
-from database import Session, db_session
-from models import Event
-from entities import EventEntity, ClubEntity
-from services import UserService
+from ..database import Session, db_session
+from ..models import Event
+from ..entities import EventEntity, ClubEntity
+from ..services import UserService
 
 class EventService:
     _session: Session

@@ -1,8 +1,8 @@
 """Creates and adds fake data to data base."""
 
 from services import ClubService, EventService
-from models import Club, Event
-from database import db_session
+from .models import Club, Event
+from .database import db_session
 from sqlalchemy.orm import Session
 from datetime import datetime
 
