@@ -1,10 +1,10 @@
 from fastapi import Depends
 from sqlalchemy import select, or_, func
 from sqlalchemy.orm import Session
-from ..database import db_session
-from ..models import User, Paginated, PaginationParams
-from ..entities import UserEntity
-from .permission import PermissionService
+from database import db_session
+from models import User, Paginated, PaginationParams
+from entities import UserEntity
+from permission import PermissionService
 
 
 class UserService:

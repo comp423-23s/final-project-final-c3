@@ -2,7 +2,7 @@
 
 import sqlalchemy
 from sqlalchemy.orm import Session
-from .env import getenv
+from env import getenv
 
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"
