@@ -42,18 +42,18 @@ export class ClubsComponent {
     club.show_short_description = !club.show_short_description
   }
 
-  isUserInClub(club: Club): boolean {
-    var joinedClubsArray: Club[] = new Array()
-    const subscription = this.clubsService.getJoinedClubs(this.profile.pid).subscribe((joinedClubs) => {
-      joinedClubsArray = joinedClubs
-    })
-    for (var joinedClub of joinedClubsArray) {
-      if (joinedClub.cid == club.cid) {
-        return true
-      }
-    }
-    return false
-  }
+  // isUserInClub(club: Club): boolean {
+  //   var joinedClubsArray: Club[] = new Array()
+  //   const subscription = this.clubsService.getJoinedClubs(this.profile.pid).subscribe((joinedClubs) => {
+  //     joinedClubsArray = joinedClubs
+  //   })
+  //   for (var joinedClub of joinedClubsArray) {
+  //     if (joinedClub.cid == club.cid) {
+  //       return true
+  //     }
+  //   }
+  //   return false
+  // }
   // isUserInClub(club: Club): boolean {
   //   var joinedClubsArray = this.clubsService.getJoinedClubs(this.profile.pid)
   //   for (var joinedClub of joinedClubsArray) {
@@ -63,6 +63,14 @@ export class ClubsComponent {
   //   }
   //   return false
   // }
+  isUserInClub(club: Club): boolean {
+    for (var member of club.members) {
+      if (member == this.profile.pid) {
+        return true
+      }
+    }
+    return false
+  }
 
   changeStatus(club: Club): void {
     if (this.isUserInClub(club)) {

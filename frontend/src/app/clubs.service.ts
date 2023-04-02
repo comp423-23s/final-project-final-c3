@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { Profile } from './profile/profile.service';
 
 export interface Club {
-  cid: number;
+  id: number;
   name: string;                    // club name
   short_description: string;
   full_description: string;   
@@ -46,7 +46,7 @@ export class ClubsService {
    * @returns Observale array of Club objects.
    */
   getAllClubs(): Observable<Club[]> {
-    return this.http.get<Club[]>("/api/all_clubs");
+    return this.http.get<Club[]>("/api/club/all");
   }
   // getAllClubs(): Club[] {
   //   return this.clubs
@@ -58,7 +58,7 @@ export class ClubsService {
    * @returns Observale array of Club objects
    */
   getJoinedClubs(pid: number): Observable<Club[]> {
-    return this.http.get<Club[]>(`/api/joined_clubs/${pid}`);
+    return this.http.get<Club[]>(`/api/club/user/${pid}`);
   }
   // getJoinedClubs(pid: number): Club[] {
   //   console.log("get joined clubs called")
@@ -101,7 +101,7 @@ export class ClubsService {
    * @returns Clubd that was left
    */
   leaveClub(pid: number, club: Club): Observable<Club> {
-    return this.http.delete<Club>(`api/leave_club/${pid}/${club.cid}`)
+    return this.http.delete<Club>(`api/leave_club/${pid}/${club.id}`)
   }
 //   leaveClub(pid: number, club_name: string): void {
 //     for (var club of this.clubs) {
