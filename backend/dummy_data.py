@@ -1,27 +1,28 @@
 """Creates and adds fake data to data base."""
 
-from services import ClubService, EventService
+from backend.entities.club_entity import ClubEntity
+from .services import ClubService, EventService
 from .models import Club, Event
 from .database import db_session
 from sqlalchemy.orm import Session
-from datetime import datetime
+import datetime
+from fastapi import Depends
 
 # Fake Clubs.
-session: Session = db_session()
+session: Session = Depends(db_session)
 csv: ClubService = ClubService
-club_a: Club = Club(id=1, name="Club101", description="A club called Club101.")
+club_a: ClubEntity = ClubEntity(id=1, name="Club101", description="A club called Club101.")
 session.add(club_a)
-club_b: Club = Club(id=2, name="Club102", description="A club called Club102.")
+club_b: ClubEntity = ClubEntity(id=2, name="Club102", description="A club called Club102.")
 session.add(club_b)
-club_c: Club = Club(id=3, name="Club103", description="A club called Club103.")
+club_c: ClubEntity = ClubEntity(id=3, name="Club103", description="A club called Club103.")
 session.add(club_c)
-club_d: Club = Club(id=4, name="Club104", description="A club called Club104.")
+club_d: ClubEntity = ClubEntity(id=4, name="Club104", description="A club called Club104.")
 session.add(club_d)
-club_e: Club = Club(id=5, name="Club105", description="A club called Club105.")
+club_e: ClubEntity = ClubEntity(id=5, name="Club105", description="A club called Club105.")
 session.add(club_e)
 
 #Fake Events
-esv: EventService = EventService
 event_a_date = datetime(year=2023, month=4, day=3, hour=5, minute=0)
 event_a: Event = Event(id=1, name="Event101", club_id=1, date=event_a_date, location="123 Main Street, Chapel Hill NC", description="A club called Club101.", attendees=[])
 session.add(event_a)

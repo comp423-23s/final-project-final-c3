@@ -22,12 +22,11 @@ def get_clubs_by_pid(pid: int, club_svc: ClubService = Depends()):
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
         
-
 # Add user to club
-@api.put("/add/{club_id}/{pid}", tags=['Club'])
-def add_user_to_club(club_id: int, pid: int, club_svc: ClubService = Depends()):
+@api.put("/add/{club_id}", tags=['Club'])
+def add_user_to_club(club_id: int, subject: User = Depends(registered_user), club_svc: ClubService = Depends()):
     try:
-        club_svc.add_user_to_club(pid, club_id)
+        club_svc.add_user_to_club(subject, club_id)
         return "OK"
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
