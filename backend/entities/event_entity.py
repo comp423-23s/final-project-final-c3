@@ -37,6 +37,7 @@ class EventEntity(EntityBase):
     def from_model(cls, model: Event) -> Self:
         return cls(
             id=model.id,
+            name=model.name,
             location=model.location,
             description=model.description,
             date=model.date,
@@ -48,6 +49,7 @@ class EventEntity(EntityBase):
         return Event(
 
             id=self.id,
+            name=self.name,
             location=self.location,
             description=self.description,
             date=self.date,
