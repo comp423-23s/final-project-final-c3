@@ -20,7 +20,7 @@ from .user_role_entity import user_role_table
 from .permission_entity import PermissionEntity
 from .event_entity import EventEntity
 from .club_entity import ClubEntity
-from .user_club_entity import user_club_table
+from .user_club_entity import UserClubEntity
 from .user_event_entity import user_event_table
 
 

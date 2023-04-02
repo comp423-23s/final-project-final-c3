@@ -1,0 +1,23 @@
+<h1>My Clubs</h1>
+
+<table>
+    <tbody>
+        <tr *ngFor="let club of clubs$ | async">
+        <!-- <tr *ngFor="let club of clubs"> -->
+            <td>{{ club.name }}</td>
+            <td>
+                {{ club.show_short_description ? club.short_description : club.full_description }}
+            </td>
+            <td>
+                <button (click)="alterText(club)">
+                    {{ club.show_short_description ? 'Read More' : "Read Less"}}
+                </button>
+            </td>
+            <td>
+                <button (click)="leaveClub(club)">
+                    Leave
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

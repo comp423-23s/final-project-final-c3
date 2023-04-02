@@ -3,7 +3,6 @@
 from pydantic import BaseModel
 from .permission import Permission
 
-
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"
 __license__ = "MIT"
@@ -20,6 +19,7 @@ class User(BaseModel):
     permissions: list['Permission'] = []
 
 
+
 class NewUser(BaseModel):
     pid: int
     onyen: str
@@ -28,6 +28,7 @@ class NewUser(BaseModel):
     email: str = ''
     pronouns: str = ''
     permissions: list['Permission'] = []
+
 
 
 class ProfileForm(BaseModel):

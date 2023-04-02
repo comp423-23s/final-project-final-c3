@@ -39,6 +39,17 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
   ]
 
+  routes = [
+    {
+      value: 'all_clubs',
+      display: 'All Clubs'
+    },
+    {
+      value: 'joined_clubs',
+      display: 'My Clubs'
+    }
+  ]
+
   constructor(
     public auth: AuthenticationService,
     public router: Router,
@@ -90,5 +101,4 @@ export class NavigationComponent implements OnInit, OnDestroy {
         .pipe(map(result => result.matches))
         .subscribe(isHandset => this.isHandset = isHandset);
   }
-
 }
