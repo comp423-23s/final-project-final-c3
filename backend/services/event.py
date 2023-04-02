@@ -1,8 +1,8 @@
 from fastapi import Depends
-from sqlalchemy import text, select
+from sqlalchemy import select
 from ..database import Session, db_session
-from ..models import Event, User
-from ..entities import EventEntity, UserEntity, ClubEntity
+from ..models import Event
+from ..entities import EventEntity, ClubEntity
 from ..services import UserService
 
 class EventService:
@@ -28,16 +28,11 @@ class EventService:
     
     def get_all_events(self) -> list[Event]:
         """Get all registered events in the database."""
-        all_events: list[Event] = []
-        query = select(EventEntity).where(EventEntity.name != "None")
-        event_entities: list[EventEntity] = self._session.scalar(query)
-        if event_entities is None:
-            return all_events
-        else:
-            for event in event_entities:
-                model = event.to_model()
-                all_events.append(model)
-            return all_events
+        query = select(EventEntity)
+        print('Event service: after query')
+        event_entities = self._session.scalars(query).all()
+        print('Event service: after scalars method')
+        return [entity.to_model() for entity in event_entities]
     
     def get_events_by_club_id(self, club_id: int) -> list[Event]:
         """Returns a list of all events the club has registered."""
@@ -52,13 +47,13 @@ class EventService:
                 events.append(model)
             return events
     
-    def delete_event(self, event: Event) -> None:
+    def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
-        query = select(EventEntity).wehre(EventEntity.id == event.id)
+        query = select(EventEntity).wehre(EventEntity.id == event_id)
         event_entity: EventEntity = self._session.scalar(query)
         if event_entity is None:
             raise Exception("Event does not exist.")
-        self._session.delete(event)
+        self._session.delete(event_entity.to_model())
         self._session.commit()
         self._session.flush()
         

@@ -7,7 +7,6 @@ from backend.models.user import User
 from backend.entities.entity_base import EntityBase
 from backend.entities.user_role_entity import user_role_table
 
-
 __authors__ = ['Kris Jordan']
 __copyright__ = 'Copyright 2023'
 __license__ = 'MIT'
@@ -30,7 +29,8 @@ class UserEntity(EntityBase):
         String(32), nullable=False, default='')
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
-
+    #clubs: Mapped[list['ClubEntity']] = relationship(secondary=user_club_table)
+    clubs = relationship('ClubEntity', secondary = 'user_club')
 
     @classmethod
     def from_model(cls, model: User) -> Self:
@@ -65,3 +65,4 @@ class UserEntity(EntityBase):
 #import entities
 from backend.entities.role_entity import RoleEntity
 from backend.entities.permission_entity import PermissionEntity
+from backend.entities.club_entity import ClubEntity

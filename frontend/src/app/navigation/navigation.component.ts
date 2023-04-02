@@ -27,6 +27,29 @@ export class NavigationComponent implements OnInit, OnDestroy {
   public checkinPermission$: Observable<boolean>;
   public adminPermission$: Observable<boolean>;
 
+  currentRoute: string = "/"
+  event_routes = [
+    {
+      value: 'events',
+      display: 'All Events'
+    },
+    {
+      value: 'my-events',
+      display: 'My Events'
+    }
+  ]
+
+  routes = [
+    {
+      value: 'all_clubs',
+      display: 'All Clubs'
+    },
+    {
+      value: 'joined_clubs',
+      display: 'My Clubs'
+    }
+  ]
+
   constructor(
     public auth: AuthenticationService,
     public router: Router,
@@ -41,9 +64,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.adminPermission$ = this.permission.check('admin.view', 'admin/')
   }
 
+  routeTo(e: Object) {
+    this.router.navigate(['/' + e]);
+  }
+
   ngOnInit(): void {
     this.errorDialogSubscription = this.initErrorDialog();
     this.isHandsetSubscription = this.initResponsiveMenu();
+    this.currentRoute = '/profile';
   }
 
   ngOnDestroy(): void {
@@ -73,5 +101,4 @@ export class NavigationComponent implements OnInit, OnDestroy {
         .pipe(map(result => result.matches))
         .subscribe(isHandset => this.isHandset = isHandset);
   }
-
 }

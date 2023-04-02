@@ -9,35 +9,44 @@ api = APIRouter(prefix="/api/club")
 @api.get("/all", response_model=list[Club], tags=['Club'])
 def get_all_clubs(club_svc: ClubService = Depends()):
     try: 
-        all_clubs = club_svc.get_all_clubs()
-        return all_clubs
+        return club_svc.get_all_clubs()
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
+    
 
 # get all clubs a user is in using their pid
-@api.get("/user/{pid}", response_model=list[Club], tags=['Club'])
-def get_clubs_by_pid(pid: int, club_svc: ClubService = Depends()):
+@api.get("/user", response_model=list[Club], tags=['Club'])
+def get_clubs_by_pid(subject: User = Depends(registered_user), club_svc: ClubService = Depends()):
     try:
-        user_clubs = club_svc.get_clubs_by_pid(pid)
+        user_clubs = club_svc.get_clubs_by_pid(subject.pid)
         return user_clubs
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
+    
         
-
 # Add user to club
-@api.put("/add/{club_id}/{pid}", tags=['Club'])
-def add_user_to_club(club_id: int, pid: int, club_svc: ClubService = Depends()):
+@api.get("/add/{club_id}", tags=['Club'])
+def add_user_to_club(
+    club_id: int, 
+    subject: User = Depends(registered_user), 
+    club_svc: ClubService = Depends()
+) -> str:
     try:
-        club_svc.add_user_to_club(pid, club_id)
+        club_svc.add_user_to_club(subject, club_id)
         return "OK"
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
+
 # Remove user from club
 @api.delete("/remove/{club_id}", tags=['Club'])
-def remove_user_from_club(club_id: int, pid: int,club_svc: ClubService = Depends()):
+def remove_user_from_club(
+    club_id: int, 
+    subject: User = Depends(registered_user),
+    club_svc: ClubService = Depends()
+) -> str:
     try:
-        club_svc.delete_user_from_club(pid, club_id)
+        club_svc.delete_user_from_club(subject, club_id)
         return "OK"
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))

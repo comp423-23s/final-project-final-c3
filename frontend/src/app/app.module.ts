@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 /* HTTP and Auth */
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpRequestInterceptor } from './navigation/http-request.interceptor';
 import { JwtModule } from '@auth0/angular-jwt';
-
 /* UI / Material Dependencies */
 import { NgForOf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +25,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
 /* Application Specific */
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,6 +35,8 @@ import { GateComponent } from './gate/gate.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
 import { EventsComponent } from './events/events.component';
 import { MyEventsComponent } from './my-events/my-events.component';
+import { JoinedClubsComponent } from './joined-clubs/joined-clubs.component';
+import { ClubsComponent } from './clubs/clubs.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { MyEventsComponent } from './my-events/my-events.component';
     GateComponent,
     ProfileEditorComponent,
     EventsComponent,
-    MyEventsComponent
+    MyEventsComponent,
+    ClubsComponent,
+    JoinedClubsComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +79,8 @@ import { MyEventsComponent } from './my-events/my-events.component';
         }
       }
     }),
+    FormsModule,
+    MatSelectModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

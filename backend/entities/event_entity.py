@@ -27,10 +27,7 @@ class EventEntity(EntityBase):
         String(64), nullable=False, default='')
     description: Mapped[str] = mapped_column(
         String(64), nullable=False, default='')
-    now: datetime = datetime.now()
-    date: Mapped[str] = mapped_column(
-        now.strftime("%m/%d/%Y, %H, %M, %S"), nullable=False)
-    
+    date: Mapped[datetime] = mapped_column(nullable=False)
     club_id: Mapped[int] = mapped_column(ForeignKey('club.id'))
     club: Mapped[ClubEntity] = relationship()
     attendees: Mapped[list['UserEntity']] = relationship(secondary=user_event_table)
@@ -40,6 +37,7 @@ class EventEntity(EntityBase):
     def from_model(cls, model: Event) -> Self:
         return cls(
             id=model.id,
+            name=model.name,
             location=model.location,
             description=model.description,
             date=model.date,
@@ -51,6 +49,7 @@ class EventEntity(EntityBase):
         return Event(
 
             id=self.id,
+            name=self.name,
             location=self.location,
             description=self.description,
             date=self.date,
