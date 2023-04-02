@@ -23,7 +23,7 @@ class ClubEntity(EntityBase):
         String(64), nullable=False, default='')
     description: Mapped[str] = mapped_column(
         String(100), nullable=False, default='')
-    members: Mapped[list[UserEntity]] = relationship(secondary=user_club_table)
+    members: Mapped[list[UserEntity]] = relationship(secondary=user_club_table, back_populates='clubs')
 
 
     @classmethod
@@ -46,4 +46,8 @@ class ClubEntity(EntityBase):
     def update(self, model: Club) -> None:
         self.name = model.name
         self.description = model.description
-        self.members = model.members
+        # self.members = model.members
+        # updated_members: list[UserEntity] = []
+        # for member in model.members:
+        #     updated_members.append(UserEntity.from_model(member))
+        # self.members = updated_members

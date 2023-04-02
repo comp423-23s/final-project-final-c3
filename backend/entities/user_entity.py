@@ -6,7 +6,7 @@ from typing import Self
 from backend.models.user import User
 from backend.entities.entity_base import EntityBase
 from backend.entities.user_role_entity import user_role_table
-
+from backend.entities.user_club_entity import user_club_table
 
 __authors__ = ['Kris Jordan']
 __copyright__ = 'Copyright 2023'
@@ -30,6 +30,7 @@ class UserEntity(EntityBase):
         String(32), nullable=False, default='')
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
+    clubs: Mapped[list['ClubEntity']] = relationship(secondary=user_club_table, back_populates='clubs')
 
 
     @classmethod
@@ -42,6 +43,7 @@ class UserEntity(EntityBase):
             first_name=model.first_name,
             last_name=model.last_name,
             pronouns=model.pronouns,
+            clubs=model.clubs
         )
 
     def to_model(self) -> User:
@@ -53,6 +55,7 @@ class UserEntity(EntityBase):
             first_name=self.first_name,
             last_name=self.last_name,
             pronouns=self.pronouns,
+            clubs=self.clubs
         )
 
     def update(self, model: User) -> None:
@@ -65,3 +68,4 @@ class UserEntity(EntityBase):
 #import entities
 from backend.entities.role_entity import RoleEntity
 from backend.entities.permission_entity import PermissionEntity
+from backend.entities.club_entity import ClubEntity

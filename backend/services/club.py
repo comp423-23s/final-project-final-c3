@@ -39,18 +39,16 @@ class ClubService:
 
     def add_user_to_club(self, subject: User, club_id: int) -> None:
         """Adds a user to a club.""" 
-        # query = select(ClubEntity).where(ClubEntity.id == club_id)
-        # club_entity = self._session.scalar(query)
-        club_entity = self._session.get(ClubEntity, club_id)
+        query = select(ClubEntity).where(ClubEntity.id == club_id)
+        club_entity = self._session.scalar(query)
         if club_entity is None:
             raise Exception("Club does not exist.")
         else:
             club = club_entity.to_model()
-            members = club.members
-            for member in members:
+            for member in club.members:
                 if member.pid == subject.pid:
                     raise Exception("User already is a member of club.")
-            members.append(subject)
+            club.members.append(subject)
             club_entity.update(club)
             self._session.flush()
             self._session.commit()
@@ -64,8 +62,7 @@ class ClubService:
             return Exception("Club does not exist.")
         else:
             club = club_entity.to_model()
-            members = club.members
-            members.remove(subject)
+            club.members.remove(subject)
             club_entity.update(club)
             self._session.flush()
             self._session.commit()
