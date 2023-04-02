@@ -29,11 +29,7 @@ export class JoinedClubsComponent {
     const data = route.snapshot.data as { profile: Profile }
     console.log(route.snapshot)
     this.profile = data.profile
-    this.clubs$ = clubsService.getJoinedClubs(123456789)
-    // this.clubs = [...this.clubsService.getJoinedClubs(this.profile.pid)]
-    // for (var club of this.clubs) {
-    //   club.show_short_description = true
-    // }
+    this.clubs$ = clubsService.getJoinedClubs()
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
   }
 
@@ -43,17 +39,14 @@ export class JoinedClubsComponent {
   }
 
   leaveClub(club: Club): void {
-    // this.clubsService.leaveClub(this.profile.pid, club.name)
-    // console.log(this.clubsService.getJoinedClubs(this.profile.pid))
-    // this.clubs = this.clubsService.getJoinedClubs(this.profile.pid)
-    this.clubsService.leaveClub(this.profile.pid, club).subscribe({
+    this.clubsService.leaveClub(club).subscribe({
       next: () => this.onSuccess(),
       error: (err) => this.onError(err)
     })
   }
 
   onSuccess(): void {
-    this.clubs$ = this.clubsService.getJoinedClubs(123456789)
+    this.clubs$ = this.clubsService.getJoinedClubs()
   }
 
   onError(err: Error) : void{

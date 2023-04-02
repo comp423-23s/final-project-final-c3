@@ -12,11 +12,6 @@ export interface Club {
   members: number[];               // array of club members
 }
 
-export interface JoinClubRequest {
-  pid: number
-  club: Club
-}
-
 /**
  * This class handles all student operations related to clubs including the ability 
  * to view all clubs, view joined clubs, join a club, and leave a joined club.
@@ -57,8 +52,8 @@ export class ClubsService {
    * @param pid 9-digit UNC PID
    * @returns Observale array of Club objects
    */
-  getJoinedClubs(pid: number): Observable<Club[]> {
-    return this.http.get<Club[]>(`/api/club/user/${pid}`);
+  getJoinedClubs(): Observable<Club[]> {
+    return this.http.get<Club[]>(`/api/club/user`);
   }
   // getJoinedClubs(pid: number): Club[] {
   //   console.log("get joined clubs called")
@@ -78,10 +73,9 @@ export class ClubsService {
    * @param pid 9-digit UNC PID
    * @param string club name
    * @returns Club that was joined
-   */
-  joinClub(pid: number, club: Club): Observable<Club> {
-    let joinClubRequest: JoinClubRequest = {pid, club}
-    return this.http.post<Club>("api/join_club", joinClubRequest);
+   */ 
+  joinClub(club: Club): Observable<Club> {
+    return this.http.get<Club>(`api/club/add/${club.id}`)
   }
   // joinClub(pid: number, club_name: string): Club | undefined {
   //   for (var club of this.clubs) {
@@ -100,8 +94,8 @@ export class ClubsService {
    * @param pid club name
    * @returns Clubd that was left
    */
-  leaveClub(pid: number, club: Club): Observable<Club> {
-    return this.http.delete<Club>(`api/leave_club/${pid}/${club.id}`)
+  leaveClub(club: Club): Observable<Club> {
+    return this.http.delete<Club>(`api/club/remove/${club.id}`)
   }
 //   leaveClub(pid: number, club_name: string): void {
 //     for (var club of this.clubs) {
