@@ -14,6 +14,7 @@ class ClubService:
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
 
+    # TODO
     def get_all_clubs(self) -> list[Club]:
         """Returns all registered clubs in the database."""
         query = select(ClubEntity)
@@ -21,6 +22,7 @@ class ClubService:
         return [entity.to_model() for entity in club_entities]
     
 
+    # TODO
     def get_clubs_by_pid(self, pid: int) -> list[Club]:
         """Returns all clubs that a user is a member of."""
         clubs: list[Club] = []
@@ -37,6 +39,7 @@ class ClubService:
             return clubs
     
 
+    # TODO
     def add_user_to_club(self, subject: User, club_id: int) -> None:
         """Adds a user to a club.""" 
         # query = select(ClubEntity).where(ClubEntity.id == club_id)
@@ -82,6 +85,7 @@ class ClubService:
         #     self._session.commit()
 
         
+    # TODO
     def delete_user_from_club(self, subject: User, club_id: int) -> None:
         """"Deletes a user from a club."""
         query = select(ClubEntity).where(ClubEntity.id == club_id)

@@ -19,3 +19,4 @@ class UserClubEntity(EntityBase):
         Integer,
         ForeignKey('club.id'),
         primary_key = True)
+    

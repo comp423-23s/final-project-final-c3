@@ -7,3 +7,4 @@ class RoleDetails(BaseModel):
     name: str
     permissions: list[Permission]
     users: list[User]
+    

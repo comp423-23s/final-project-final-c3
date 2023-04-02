@@ -54,7 +54,6 @@ def authenticated_pid(
     raise HTTPException(status_code=401, detail='Unauthorized')
 
 
-
 @api.get('/verify')
 def auth_verify(token: str, continue_to: str = '/'):
     return jwt.decode(token, _JWT_SECRET, algorithms=[_JST_ALGORITHM], options={'verify_signature': True})

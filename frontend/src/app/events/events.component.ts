@@ -34,5 +34,4 @@ export class EventsComponent {
   alterText(event: Event) {
     event.show_short_description = !event.show_short_description
   }
-
 }

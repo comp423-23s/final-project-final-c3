@@ -35,7 +35,6 @@ export class ClubsService {
 
   /**
    * Retrieve clubs joined by a specific student.
-   * @param pid 9-digit UNC PID
    * @returns Observale array of Club objects
    */
   getJoinedClubs(): Observable<Club[]> {
@@ -45,8 +44,7 @@ export class ClubsService {
 
   /**
    * Enable a student to join a club.
-   * @param pid 9-digit UNC PID
-   * @param string club name
+   * @param Club club object
    * @returns Club that was joined
    */ 
   joinClub(club: Club): Observable<Club> {
@@ -56,9 +54,8 @@ export class ClubsService {
 
   /**
    * Enable a student to leave a club
-   * @param pid 9-digit UNC PID
-   * @param pid club name
-   * @returns Clubd that was left
+   * @param Club club object
+   * @returns Club that was left
    */
   leaveClub(club: Club): Observable<Club> {
     return this.http.delete<Club>(`api/club/remove/${club.id}`)
