@@ -9,7 +9,7 @@ export interface Event {
   date: Date,
   location: string, 
   description: string,
-  show_short_description: boolean
+  show_short_description: boolean,
   members: number[]
 }
 
