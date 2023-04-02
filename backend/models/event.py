@@ -27,4 +27,3 @@ class NewEvent(BaseModel):
 
 Event.update_forward_refs()
 NewEvent.update_forward_refs()
-

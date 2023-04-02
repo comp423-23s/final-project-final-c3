@@ -11,3 +11,4 @@ __license__ = "MIT"
 class Role(BaseModel):
     id: int | None = None
     name: str
+    

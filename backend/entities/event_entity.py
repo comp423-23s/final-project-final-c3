@@ -63,3 +63,4 @@ class EventEntity(EntityBase):
         self.description = model.description
         self.attendees = model.attendees
         self.location = model.location
+        

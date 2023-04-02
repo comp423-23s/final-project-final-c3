@@ -55,3 +55,4 @@ class RoleService:
         role.users.remove(user)
         self._session.commit()
         return True
+    

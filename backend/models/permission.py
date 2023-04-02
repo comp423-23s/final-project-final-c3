@@ -12,3 +12,4 @@ class Permission(BaseModel):
     id: int | None = None
     action: str
     resource: str
+    
