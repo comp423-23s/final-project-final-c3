@@ -27,7 +27,7 @@ class EventEntity(EntityBase):
         String(64), nullable=False, default='')
     description: Mapped[str] = mapped_column(
         String(64), nullable=False, default='')
-    date_time: Mapped[datetime] = mapped_column(nullable=False)
+    date: Mapped[datetime] = mapped_column(nullable=False)
     club_id: Mapped[int] = mapped_column(ForeignKey('club.id'))
     club: Mapped[ClubEntity] = relationship()
     attendees: Mapped[list['UserEntity']] = relationship(secondary=user_event_table)
