@@ -6,7 +6,7 @@
         <!-- <tr *ngFor="let club of clubs"> -->
             <td>{{ club.name }}</td>
             <td>
-                {{ club.show_short_description ? club.short_description : club.full_description }}
+                {{ club.show_short_description ? club.description : club.description }}
             </td>
             <td>
                 <button (click)="alterText(club)">
