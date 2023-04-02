@@ -28,16 +28,9 @@ class EventService:
     
     def get_all_events(self) -> list[Event]:
         """Get all registered events in the database."""
-        all_events: list[Event] = []
-        query = select(EventEntity).where(EventEntity.name != "None")
-        event_entities: list[EventEntity] = self._session.scalar(query)
-        if event_entities is None:
-            return all_events
-        else:
-            for event in event_entities:
-                model = event.to_model()
-                all_events.append(model)
-            return all_events
+        query = select(EventEntity)
+        event_entities = self._session.scalars(query).all()
+        return [entity.to_model() for entity in event_entities]
     
     def get_events_by_club_id(self, club_id: int) -> list[Event]:
         """Returns a list of all events the club has registered."""
