@@ -24,6 +24,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 /* Application Specific */
 import { AppRoutingModule } from './app-routing.module';
@@ -33,8 +35,8 @@ import { ErrorDialogComponent } from './navigation/error-dialog/error-dialog.com
 import { HomeComponent } from './home/home.component';
 import { GateComponent } from './gate/gate.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
-import { EventsComponent } from './events/events.component';
-import { MyEventsComponent } from './my-events/my-events.component';
+import { ClubsComponent } from './clubs/clubs.component';
+import { JoinedClubsComponent } from './joined-clubs/joined-clubs.component';
 
 @NgModule({
   declarations: [
@@ -44,8 +46,8 @@ import { MyEventsComponent } from './my-events/my-events.component';
     HomeComponent,
     GateComponent,
     ProfileEditorComponent,
-    EventsComponent,
-    MyEventsComponent
+    ClubsComponent,
+    JoinedClubsComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +77,8 @@ import { MyEventsComponent } from './my-events/my-events.component';
         }
       }
     }),
+    FormsModule,
+    MatSelectModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
