@@ -20,7 +20,7 @@ app = FastAPI(
     description=description,
     openapi_tags=[health.openapi_tags],
 )
-# 
+
 app.include_router(user.api)
 app.include_router(profile.api)
 app.include_router(health.api)
@@ -29,6 +29,5 @@ app.include_router(admin_users.api)
 app.include_router(admin_roles.api)
 app.include_router(club.api)
 app.include_router(event.api)
-#app.include_router(event.api)
 
 app.mount("/", static_files.StaticFileMiddleware(directory="./static"))

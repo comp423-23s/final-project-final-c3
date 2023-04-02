@@ -33,7 +33,7 @@ export class JoinedClubsComponent {
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
   }
 
-  // controls which description is rendered on screen (short or long)
+  // Controls which description is rendered on screen (short or long)
   alterText(club: Club) {
     club.show_short_description = !club.show_short_description
   }

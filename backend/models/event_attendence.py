@@ -4,3 +4,4 @@ from pydantic import BaseModel
 class Event_Attendence(BaseModel):
     eventId: int
     userId: int
+    

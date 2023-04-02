@@ -12,7 +12,8 @@ import { profileResolver } from '../profile/profile.resolver';
   styleUrls: ['./clubs.component.css']
 })
 export class ClubsComponent {
-
+  // Use an observable class so that the event data can be synchronous with the database
+  
   public static Route: Route = {
     path: 'all_clubs',
     component: ClubsComponent, 

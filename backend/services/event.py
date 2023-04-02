@@ -10,7 +10,18 @@ class EventService:
     
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
+     
+    # DONE
+    def get_all_events(self) -> list[Event]:
+        """Get all registered events in the database."""
+        query = select(EventEntity)
+        print('Event service: after query')
+        event_entities = self._session.scalars(query).all()
+        print('Event service: after scalars method')
+        return [entity.to_model() for entity in event_entities]
     
+
+    # TODO
     def events_by_pid(self, pid: int) -> list[Event]:
         """Get events user has registered for by user's pid."""
         events: list[Event] = []
@@ -25,15 +36,9 @@ class EventService:
                         model = event.to_model()
                         events.append(model)
             return events
-    
-    def get_all_events(self) -> list[Event]:
-        """Get all registered events in the database."""
-        query = select(EventEntity)
-        print('Event service: after query')
-        event_entities = self._session.scalars(query).all()
-        print('Event service: after scalars method')
-        return [entity.to_model() for entity in event_entities]
-    
+        
+
+    # TODO
     def get_events_by_club_id(self, club_id: int) -> list[Event]:
         """Returns a list of all events the club has registered."""
         events: list[Event] = []
@@ -47,6 +52,8 @@ class EventService:
                 events.append(model)
             return events
     
+
+    # TODO
     def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
         query = select(EventEntity).wehre(EventEntity.id == event_id)
@@ -57,6 +64,8 @@ class EventService:
         self._session.commit()
         self._session.flush()
         
+
+    # TODO
     def add_by_pid_to_event(self, pid: int, event_id: int) -> None:
         """Add a user to an event."""
         query = select(EventEntity).where(EventEntity.id == event_id)
@@ -74,6 +83,8 @@ class EventService:
             self._session.commit()
             self._session.flush()
         
+
+    # TODO    
     def delete_by_pid_from_event(self, pid: int, event_id: int) -> None:
         """Degregister a user from an event."""
         query = select(EventEntity).where(EventEntity.id == event_id)
