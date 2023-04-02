@@ -7,6 +7,7 @@ from typing import Self
 from backend.models.club import Club
 from backend.entities.entity_base import EntityBase
 from backend.entities.user_entity import UserEntity
+from backend.entities.user_club_entity import UserClubEntity
 
 
 __authors__ = ['Aryonna Rice']
@@ -23,7 +24,7 @@ class ClubEntity(EntityBase):
     description: Mapped[str] = mapped_column(
         String(100), nullable=False, default='')
     # members: Mapped[list['UserEntity']] = relationship(secondary=user_club_table)
-    members = relationship('UserEntity', secondary = 'user_club')
+    members = relationship('UserEntity', secondary=UserClubEntity.__table__)
 
 
     @classmethod

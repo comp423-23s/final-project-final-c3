@@ -35,7 +35,7 @@ def add_user_to_club(
         club_svc.add_user_to_club(subject, club_id)
         return "OK"
     except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # Remove user from club

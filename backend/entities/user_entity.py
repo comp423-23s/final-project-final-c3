@@ -30,7 +30,7 @@ class UserEntity(EntityBase):
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
     #clubs: Mapped[list['ClubEntity']] = relationship(secondary=user_club_table)
-    clubs = relationship('ClubEntity', secondary = 'user_club')
+    clubs = relationship('ClubEntity', secondary='user_club', viewonly=True)
 
     @classmethod
     def from_model(cls, model: User) -> Self:

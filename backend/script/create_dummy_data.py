@@ -24,7 +24,6 @@ if getenv("MODE") != "development":
 
 # # Reset Tables
 # entities.EntityBase.metadata.drop_all(engine)
-# entities.EntityBase.metadata.create_all(engine)
 
 
 with Session(engine) as session:
