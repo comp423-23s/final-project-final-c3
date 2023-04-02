@@ -8,8 +8,7 @@ export interface Event {
   club_id: number,
   date: Date,
   location: string, 
-  short_description: string
-  long_description: string
+  description: string,
   show_short_description: boolean
   members: number[]
 }
