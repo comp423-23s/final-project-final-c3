@@ -1,22 +1,30 @@
-<h1>All Clubs</h1>
-
-<table>
-    <tbody>
-        <tr *ngFor="let club of clubs$ | async">
-            <td>{{ club.name }}</td>
-            <div [ngClass]="{'show-less': club.show_short_description}">
-                {{ club.show_short_description ? club.short_description : club.full_description }}
-            </div>
-            <td>
-                <button (click)="alterText(club)">
-                    {{ club.show_short_description ? "Read More" : "Read Less"}}
-                </button>
-            </td>
-            <td>
-                <button (click)="changeStatus(club)">
-                    {{ isUserInClub(club) ? "Leave" : "Join"}}
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<tr *ngFor="let club of clubs$ | async">
+    <div style="position: relative">
+        <mat-card style="width:1600px;">
+            <mat-card-header>
+                <div class="'event-name-join-button">
+                    <mat-card-title>{{ club.name }}</mat-card-title>
+                </div>
+            </mat-card-header>
+            <mat-card-content>
+                <div class='description'>
+                    <div [ngClass]="{'show-less': club.show_short_description}">
+                        {{ club.show_short_description ? club.short_description : club.full_description }}
+                    </div>
+                    
+                </div>
+                <div class="side-buttons">
+                    <mat-card-actions>
+                        <button mat-raised-button type="submit">Join</button>
+                    </mat-card-actions>
+                    <mat-card-actions>
+                        <button class='read-more' type="submit" style="text-decoration: underline; margin-top: -5px;" (click)="alterText(club)">
+                            {{ club.show_short_description ? "Read More" : "Read Less"}}
+                        </button>
+                    </mat-card-actions>
+                </div>
+                <br>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</tr>

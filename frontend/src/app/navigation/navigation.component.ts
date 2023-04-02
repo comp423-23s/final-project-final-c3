@@ -28,6 +28,17 @@ export class NavigationComponent implements OnInit, OnDestroy {
   public adminPermission$: Observable<boolean>;
 
   currentRoute: string = "/"
+  event_routes = [
+    {
+      value: 'events',
+      display: 'All Events'
+    },
+    {
+      value: 'my-events',
+      display: 'My Events'
+    }
+  ]
+
   routes = [
     {
       value: 'all_clubs',

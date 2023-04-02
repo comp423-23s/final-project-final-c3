@@ -1,18 +1,35 @@
-<h1>All Events</h1>
-<table>
-    <thead>
-        <td>Event</td>
-        <td>Description</td>
-        <td>Location</td>
-        <td>Date</td>
-    </thead>
-    <tbody>
-        <tr *ngFor="let event of events$ | async">
-            <td>{{ event.name }}</td>
-            <td>{{ event.description }}</td>
-            <td>{{ event.location }}</td>
-            <td>{{ event.date }}</td>
-            <td>Register</td>
-        </tr>
-    </tbody>
-</table>
+
+<tr *ngFor="let event of events">
+    <div style="position: relative">
+        <mat-card style="width:1600px;">
+            <mat-card-header>
+                <div class="'event-name-join-button">
+                    <mat-card-title>{{ event.name }}</mat-card-title>
+                </div>
+            </mat-card-header>
+            <mat-card-content>
+                <div class='description'>
+                    <div [ngClass]="{'show-less': event.show_short_description}">
+                        {{ event.show_short_description ? event.short_description : event.long_description }}
+                    </div>
+                    
+                </div>
+                <div class="side-buttons">
+                    <mat-card-actions>
+                        <button mat-raised-button type="submit">Register</button>
+                    </mat-card-actions>
+                    <mat-card-actions>
+                        <button class='read-more' type="submit" style="text-decoration: underline; margin-top: -5px;" (click)="alterText(event)">
+                            {{ event.show_short_description ? "Read More" : "Read Less"}}
+                        </button>
+                    </mat-card-actions>
+                </div>
+                <br>
+                <div class="time-place">
+                    <span style="font-size: 16px">{{ event.date | date: 'MM/dd/yy @ hh:mma' }} </span>
+                    <span style="font-size: 16px">{{ event.location  }}</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</tr>
