@@ -26,10 +26,13 @@ def get_clubs_by_pid(subject: User = Depends(registered_user), club_svc: ClubSer
         
 # Add user to club
 @api.get("/add/{club_id}", tags=['Club'])
-def add_user_to_club(club_id: str, subject: User = Depends(registered_user), club_svc: ClubService = Depends()):
-    club_id_num = int(club_id)
+def add_user_to_club(
+    club_id: int, 
+    subject: User = Depends(registered_user), 
+    club_svc: ClubService = Depends()
+) -> str:
     try:
-        club_svc.add_user_to_club(subject, club_id_num)
+        club_svc.add_user_to_club(subject, club_id)
         return "OK"
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
