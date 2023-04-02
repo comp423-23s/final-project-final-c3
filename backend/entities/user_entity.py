@@ -30,7 +30,7 @@ class UserEntity(EntityBase):
         String(32), nullable=False, default='')
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
-    clubs: Mapped[list['ClubEntity']] = relationship(secondary=user_club_table, back_populates='clubs')
+    clubs: Mapped[list['ClubEntity']] = relationship(secondary=user_club_table, back_populates='members')
 
 
     @classmethod
@@ -43,7 +43,6 @@ class UserEntity(EntityBase):
             first_name=model.first_name,
             last_name=model.last_name,
             pronouns=model.pronouns,
-            clubs=model.clubs
         )
 
     def to_model(self) -> User:
@@ -55,7 +54,6 @@ class UserEntity(EntityBase):
             first_name=self.first_name,
             last_name=self.last_name,
             pronouns=self.pronouns,
-            clubs=self.clubs
         )
 
     def update(self, model: User) -> None:

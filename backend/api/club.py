@@ -11,7 +11,7 @@ def get_all_clubs(club_svc: ClubService = Depends()):
     try: 
         return club_svc.get_all_clubs()
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e))
     
 
 # get all clubs a user is in using their pid
@@ -40,7 +40,11 @@ def add_user_to_club(
 
 # Remove user from club
 @api.delete("/remove/{club_id}", tags=['Club'])
-def remove_user_from_club(club_id: int, subject: User = Depends(registered_user), club_svc: ClubService = Depends()):
+def remove_user_from_club(
+    club_id: int, 
+    subject: User = Depends(registered_user),
+    club_svc: ClubService = Depends()
+) -> str:
     try:
         club_svc.delete_user_from_club(subject, club_id)
         return "OK"

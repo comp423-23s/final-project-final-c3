@@ -23,7 +23,8 @@ export class ClubsComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  public joinedClubsArray: Club[] = new Array()
+  // public joinedClubsArray: Club[] = new Array()
+  public joined_clubs$: Observable<Club[]>
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService) {
     const data = route.snapshot.data as { profile: Profile }
@@ -31,9 +32,7 @@ export class ClubsComponent {
     this.profile = data.profile
     this.clubs$ = clubsService.getAllClubs()
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
-    const subscription = this.clubsService.getJoinedClubs().subscribe((joinedClubs) => {
-      this.joinedClubsArray = joinedClubs
-    })
+    this.joined_clubs$ = clubsService.getJoinedClubs()
   }
 
   // controls which description is rendered on screen (short or long)
@@ -54,13 +53,13 @@ export class ClubsComponent {
   //   return false
   // }
   isUserInClub(club: Club): boolean {
-    for (var joinedClub of this.joinedClubsArray) {
-      if (joinedClub.id == club.id) {
-        console.log("user is in club")
-        return true
-      }
-    }
-    console.log("user not in club")
+    // for (var joinedClub of this.joinedClubsArray) {
+    //   if (joinedClub.id == club.id) {
+    //     console.log("user is in club")
+    //     return true
+    //   }
+    // }
+    // console.log("user not in club")
     return false
   }
   // isUserInClub(club: Club): boolean {
@@ -82,12 +81,20 @@ export class ClubsComponent {
   // }
 
   changeStatus(club: Club): void {
-    if (this.isUserInClub(club)) {
-      this.leaveClub(club)
-    } else {
-      this.joinClub(club)
-    }
-    this.clubs$ = this.clubsService.getAllClubs()
+    this.joinClub(club)
+    var joinedClubsArray: Club[] = new Array()
+    const subscription = this.clubsService.getJoinedClubs().subscribe((joinedClubs) => {
+      joinedClubsArray = joinedClubs
+    })
+    console.log(joinedClubsArray.length)
+
+    // this.leaveClub(club)
+    // if (this.isUserInClub(club)) {
+    //   this.leaveClub(club)
+    // } else {
+    //   this.joinClub(club)
+    // }
+    // this.clubs$ = this.clubsService.getAllClubs()
   }
 
   joinClub(club: Club): void {
@@ -105,7 +112,8 @@ export class ClubsComponent {
   }
 
   onSuccess(): void {
-    this.clubs$ = this.clubsService.getJoinedClubs()
+    this.clubs$ = this.clubsService.getAllClubs()
+    
   }
 
   onError(err: Error) : void{

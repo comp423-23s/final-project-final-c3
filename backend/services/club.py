@@ -4,20 +4,18 @@ from sqlalchemy.orm import Session
 from ..database import db_session
 from ..models import Club, User
 from ..entities import ClubEntity, UserEntity
-from ..services import UserService
+from ..services import UserService, PermissionService
 
 class ClubService:
     _session: Session
 
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
-        
 
     def get_all_clubs(self) -> list[Club]:
         """Returns all registered clubs in the database."""
         query = select(ClubEntity)
         club_entities = self._session.scalars(query).all()
-        
         return [entity.to_model() for entity in club_entities]
     
 
