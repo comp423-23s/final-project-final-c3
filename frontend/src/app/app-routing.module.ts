@@ -15,6 +15,8 @@ const routes: Routes = [
   GateComponent.Route,
   ClubsComponent.Route,
   JoinedClubsComponent.Route,
+  EventsComponent.Route,
+  MyEventsComponent.Route,
   { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
 ];
 
