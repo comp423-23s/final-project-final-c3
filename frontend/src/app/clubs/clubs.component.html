@@ -8,20 +8,7 @@
             </mat-card-header>
             <mat-card-content>
                 <div class='description'>
-                    <div [ngClass]="{'show-less': club.show_short_description}">
-                        {{ club.show_short_description ? club.short_description : club.full_description }}
-                    </div>
-                    
-                </div>
-                <div class="side-buttons">
-                    <mat-card-actions>
-                        <button mat-raised-button type="submit">Join</button>
-                    </mat-card-actions>
-                    <mat-card-actions>
-                        <button class='read-more' type="submit" style="text-decoration: underline; margin-top: -5px;" (click)="alterText(club)">
-                            {{ club.show_short_description ? "Read More" : "Read Less"}}
-                        </button>
-                    </mat-card-actions>
+                    {{club.description}}                    
                 </div>
                 <br>
             </mat-card-content>
