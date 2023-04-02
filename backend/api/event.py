@@ -19,10 +19,10 @@ def get_events_by_pid(pid: int, event_svc: EventService = Depends()):
 @api.get("/all", response_model=list[Event], tags=['Event'])
 def get_all_events(event_svc: EventService = Depends()):
     try:
-        all_events = event_svc.get_all_events()
-        return all_events
+        print('Entered try block')
+        return event_svc.get_all_events()
     except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
 
 # get events by club
 @api.get("/by_club/{club_id}", response_model=list[Event], tags=['Event'])

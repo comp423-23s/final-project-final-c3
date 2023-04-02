@@ -28,6 +28,7 @@ app.include_router(authentication.api)
 app.include_router(admin_users.api)
 app.include_router(admin_roles.api)
 app.include_router(club.api)
+app.include_router(event.api)
 #app.include_router(event.api)
 
 app.mount("/", static_files.StaticFileMiddleware(directory="./static"))
