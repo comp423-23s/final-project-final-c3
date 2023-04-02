@@ -6,7 +6,6 @@ from typing import Self
 from backend.models.user import User
 from backend.entities.entity_base import EntityBase
 from backend.entities.user_role_entity import user_role_table
-from backend.entities.user_club_entity import user_club_table
 
 __authors__ = ['Kris Jordan']
 __copyright__ = 'Copyright 2023'
@@ -30,8 +29,8 @@ class UserEntity(EntityBase):
         String(32), nullable=False, default='')
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
-    clubs: Mapped[list['ClubEntity']] = relationship(secondary=user_club_table, back_populates='members')
-
+    #clubs: Mapped[list['ClubEntity']] = relationship(secondary=user_club_table)
+    clubs = relationship('ClubEntity', secondary = 'user_club')
 
     @classmethod
     def from_model(cls, model: User) -> Self:
