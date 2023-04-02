@@ -1,8 +1,8 @@
 from fastapi import Depends
-from sqlalchemy import text, select
+from sqlalchemy import select
 from ..database import Session, db_session
-from ..models import Event, User
-from ..entities import EventEntity, UserEntity, ClubEntity
+from ..models import Event
+from ..entities import EventEntity, ClubEntity
 from ..services import UserService
 
 class EventService:
@@ -52,13 +52,13 @@ class EventService:
                 events.append(model)
             return events
     
-    def delete_event(self, event: Event) -> None:
+    def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
-        query = select(EventEntity).wehre(EventEntity.id == event.id)
+        query = select(EventEntity).wehre(EventEntity.id == event_id)
         event_entity: EventEntity = self._session.scalar(query)
         if event_entity is None:
             raise Exception("Event does not exist.")
-        self._session.delete(event)
+        self._session.delete(event_entity.to_model())
         self._session.commit()
         self._session.flush()
         

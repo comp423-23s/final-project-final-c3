@@ -6,15 +6,16 @@ import { MyEventsComponent } from './my-events/my-events.component';
 import { GateComponent } from './gate/gate.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
-
+import { ClubsComponent } from './clubs/clubs.component';
+import { JoinedClubsComponent } from './joined-clubs/joined-clubs.component';
 
 const routes: Routes = [
   HomeComponent.Route,
   ProfileEditorComponent.Route,
   GateComponent.Route,
-  EventsComponent.Route, 
-  MyEventsComponent.Route, 
-  { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+  ClubsComponent.Route,
+  JoinedClubsComponent.Route,
+  { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
 ];
 
 @NgModule({

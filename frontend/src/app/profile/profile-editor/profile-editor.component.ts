@@ -38,6 +38,7 @@ export class ProfileEditorComponent implements OnInit {
     form.get('pronouns')?.addValidators(Validators.required);
 
     const data = route.snapshot.data as { profile: Profile };
+    console.log(route.snapshot)
     this.profile = data.profile;
   }
 

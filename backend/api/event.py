@@ -34,17 +34,16 @@ def get_events_by_club(club_id: int, event_svc: EventService = Depends()):
         raise HTTPException(status_code=404, detail=str(e))
 
 # delete event
-@api.delete("/delete/{event}", tags=['Event'])
-def delete_event(event: Event, event_svc: EventService = Depends()):
+@api.delete("/delete/{event_id}", tags=['Event'])
+def delete_event(event_id: int, event_svc: EventService = Depends()):
     try: 
-        event_svc.delete_event(event)
+        event_svc.delete_event(event_id)
         return "OK"
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
         
    
 # add user to event
-@api.get("/add_to_event/{pid}", tags=['Event'])
 @api.get("/add_to_event/{pid}", tags=['Event'])
 def add_user_to_event(pid: int, event: Event, event_svc: EventService = Depends()):
     try:
