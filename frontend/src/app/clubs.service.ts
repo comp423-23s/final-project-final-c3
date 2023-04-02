@@ -6,8 +6,7 @@ import { Profile } from './profile/profile.service';
 export interface Club {
   id: number;
   name: string;                    // club name
-  short_description: string;
-  full_description: string;   
+  description: string; 
   show_short_description: boolean;
   members: number[];               // array of club members
 }
