@@ -14,7 +14,7 @@ class ClubService:
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
 
-    # TODO
+    # DONE
     def get_all_clubs(self) -> list[Club]:
         """Returns all registered clubs in the database."""
         query = select(ClubEntity)
