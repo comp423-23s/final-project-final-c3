@@ -8,19 +8,19 @@
             </mat-card-header>
             <mat-card-content>
                 <div class='description'>
-                    {{ event.description}}
+                    {{ event.description }}
                 </div>
                 <div class="side-buttons">
                     <mat-card-actions>
                         <button mat-raised-button (click)='changeStatus(event)' type="submit">
-                            {{ isUserInEvent(event) ? "Cancel Registration" : "Register"}}
+                            {{ isUserInEvent(event) ? "Cancel Registration" : "Register" }}
                         </button>
                     </mat-card-actions>
                 </div>
                 <br>
                 <div class="time-place">
                     <span style="font-size: 16px">{{ event.date | date: 'MM/dd/yy @ hh:mma' }} </span>
-                    <span style="font-size: 16px">{{ event.location  }}</span>
+                    <span style="font-size: 16px">{{ event.location }}</span>
                 </div>
             </mat-card-content>
         </mat-card>
