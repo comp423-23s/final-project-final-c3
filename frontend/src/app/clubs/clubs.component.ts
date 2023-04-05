@@ -46,7 +46,7 @@ export class ClubsComponent {
     this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
   }
 
-  private onCancel(club: Club) {
+  private onLeave(club: Club) {
     this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
   }
 
