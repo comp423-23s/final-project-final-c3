@@ -5,6 +5,7 @@ import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile } from '../profile/profile.service'
 import { Club, ClubsService } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-clubs',
@@ -27,7 +28,7 @@ export class ClubsComponent {
   // public joinedClubsArray: Club[] = new Array()
   public joined_clubs$: Observable<Club[]>
 
-  constructor(route: ActivatedRoute, private clubsService: ClubsService) {
+  constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
     console.log(data)
     this.profile = data.profile
@@ -41,53 +42,26 @@ export class ClubsComponent {
     club.show_short_description = !club.show_short_description
   }
 
-  // isUserInClub(club: Club): boolean {
-  //   var joinedClubsArray: Club[] = new Array()
-  //   const subscription = this.clubsService.getJoinedClubs(this.profile.pid).subscribe((joinedClubs) => {
-  //     joinedClubsArray = joinedClubs
-  //   })
-  //   for (var joinedClub of joinedClubsArray) {
-  //     if (joinedClub.cid == club.cid) {
-  //       return true
-  //     }
-  //   }
-  //   return false
-  // }
-  isUserInClub(club: Club): boolean {
-    // for (var joinedClub of this.joinedClubsArray) {
-    //   if (joinedClub.id == club.id) {
-    //     console.log("user is in club")
-    //     return true
-    //   }
-    // }
-    // console.log("user not in club")
-    return false
+  private onJoin(club: Club) {
+    this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
   }
-  // isUserInClub(club: Club): boolean {
-  //   var joinedClubsArray = this.clubsService.getJoinedClubs(this.profile.pid)
-  //   for (var joinedClub of joinedClubsArray) {
-  //     if (joinedClub == club) {
-  //       return true
-  //     }
-  //   }
-  //   return false
-  // }
-  // isUserInClub(club: Club): boolean {
-  //   for (var member of club.members) {
-  //     if (member == this.profile.pid) {
-  //       return true
-  //     }
-  //   }
-  //   return false
-  // }
+
+  private onLeave(club: Club) {
+    this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
+  }
+
+  isUserInClub(club: Club): boolean {
+    return this.clubsService.isUserInClub(club)
+  }
 
   changeStatus(club: Club): void {
-    this.joinClub(club)
-    var joinedClubsArray: Club[] = new Array()
-    const subscription = this.clubsService.getJoinedClubs().subscribe((joinedClubs) => {
-      joinedClubsArray = joinedClubs
-    })
-    console.log(joinedClubsArray.length)
+    this.onJoin(club)
+    // this.joinClub(club)
+    // var joinedClubsArray: Club[] = new Array()
+    // const subscription = this.clubsService.getJoinedClubs().subscribe((joinedClubs) => {
+    //   joinedClubsArray = joinedClubs
+    // })
+    // console.log(joinedClubsArray.length)
 
     // this.leaveClub(club)
     // if (this.isUserInClub(club)) {
