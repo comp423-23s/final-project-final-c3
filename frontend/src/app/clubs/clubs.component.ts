@@ -5,6 +5,7 @@ import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile } from '../profile/profile.service'
 import { Club, ClubsService } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-clubs',
@@ -27,7 +28,7 @@ export class ClubsComponent {
   // public joinedClubsArray: Club[] = new Array()
   public joined_clubs$: Observable<Club[]>
 
-  constructor(route: ActivatedRoute, private clubsService: ClubsService) {
+  constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
     console.log(data)
     this.profile = data.profile
@@ -39,6 +40,14 @@ export class ClubsComponent {
   // controls which description is rendered on screen (short or long)
   alterText(club: Club) {
     club.show_short_description = !club.show_short_description
+  }
+
+  private onJoin(club: Club) {
+    this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
+  }
+
+  private onCancel(club: Club) {
+    this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
   }
 
   // isUserInClub(club: Club): boolean {
@@ -82,12 +91,13 @@ export class ClubsComponent {
   // }
 
   changeStatus(club: Club): void {
-    this.joinClub(club)
-    var joinedClubsArray: Club[] = new Array()
-    const subscription = this.clubsService.getJoinedClubs().subscribe((joinedClubs) => {
-      joinedClubsArray = joinedClubs
-    })
-    console.log(joinedClubsArray.length)
+    this.onJoin(club)
+    // this.joinClub(club)
+    // var joinedClubsArray: Club[] = new Array()
+    // const subscription = this.clubsService.getJoinedClubs().subscribe((joinedClubs) => {
+    //   joinedClubsArray = joinedClubs
+    // })
+    // console.log(joinedClubsArray.length)
 
     // this.leaveClub(club)
     // if (this.isUserInClub(club)) {
