@@ -60,4 +60,10 @@ export class ClubsService {
   leaveClub(club: Club): Observable<Club> {
     return this.http.delete<Club>(`api/club/remove/${club.id}`)
   }
+
+  // Determine whether or not a user in a member of a particular club
+  isUserInClub(club: Club): boolean {
+    //TODO: implement
+    return true
+  }
 }
