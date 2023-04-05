@@ -17,6 +17,8 @@ def get_all_clubs(club_svc: ClubService = Depends()):
 # get all clubs a user is in using their pid
 @api.get("/user", response_model=list[Club], tags=['Club'])
 def get_clubs_by_pid(subject: User = Depends(registered_user), club_svc: ClubService = Depends()):
+    # print("PID IS")
+    # print(subject.pid)
     try:
         user_clubs = club_svc.get_clubs_by_pid(subject.pid)
         return user_clubs
