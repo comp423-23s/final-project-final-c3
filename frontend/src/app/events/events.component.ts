@@ -5,6 +5,7 @@ import { Event, EventService } from '../event.service'
 import { ActivatedRoute, Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-events',
@@ -23,15 +24,33 @@ export class EventsComponent {
   };
 
   public events$: Observable<Event[]>
-  //public events: Event[]
 
-  constructor(eventService: EventService, private http: HttpClient) {
+  constructor(private eventService: EventService, private http: HttpClient, protected snackBar: MatSnackBar) {
     this.events$ = eventService.getAllEvents()
-    //this.events = eventService.getFakeEvents()
   }
 
-  // Alters whether or not the short description should be shown
-  alterText(event: Event) {
-    event.show_short_description = !event.show_short_description
+  // Function to either add or remove a member from an event's attendance
+  changeStatus(event: Event) {
+    // TODO: implement
+    if (this.isUserInEvent(event)) {
+      this.onCancel(event)
+    }
+    else {
+      this.onRegister(event)
+    }
+  }
+
+  private onRegister(event: Event) {
+    this.snackBar.open("Successfully registered for " + event.name, "", { duration: 2000 })
+  }
+
+  private onCancel(event: Event) {
+    this.snackBar.open("Successfully cancelled registration for " + event.name, "", { duration: 2000 })
+  }
+
+  // Function to determine whether or not a student is part of an event
+  isUserInEvent(event: Event) {
+    // Delegate to the service. 
+    return this.eventService.isUserInEvent(event)
   }
 }
