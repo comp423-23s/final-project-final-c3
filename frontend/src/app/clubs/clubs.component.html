@@ -11,6 +11,13 @@
                     {{club.description}}                    
                 </div>
                 <br>
+                <div class="side-buttons">
+                    <mat-card-actions>
+                        <button mat-raised-button (click)='changeStatus(club)' type="submit">
+                            {{ isUserInClub(club) ? "Leave" : "Join"}}
+                        </button>
+                    </mat-card-actions>
+                </div>
             </mat-card-content>
         </mat-card>
     </div>
