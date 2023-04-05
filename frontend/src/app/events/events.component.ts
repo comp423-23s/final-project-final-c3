@@ -5,6 +5,7 @@ import { Event, EventService } from '../event.service'
 import { ActivatedRoute, Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-events',
@@ -23,15 +24,18 @@ export class EventsComponent {
   };
 
   public events$: Observable<Event[]>
-  //public events: Event[]
 
-  constructor(eventService: EventService, private http: HttpClient) {
+  constructor(eventService: EventService, private http: HttpClient, protected snackBar: MatSnackBar) {
     this.events$ = eventService.getAllEvents()
-    //this.events = eventService.getFakeEvents()
   }
 
-  // Alters whether or not the short description should be shown
-  alterText(event: Event) {
-    event.show_short_description = !event.show_short_description
+  // Function to add a student to an event's attendance
+  onRegister(event: Event) {
+    // TODO: implement
+    this.onSuccess(event)
+  }
+
+  private onSuccess(event: Event) {
+    this.snackBar.open("Successfully registered for " + event.name, "", { duration: 2000 })
   }
 }
