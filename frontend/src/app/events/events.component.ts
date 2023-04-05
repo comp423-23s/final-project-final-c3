@@ -25,17 +25,32 @@ export class EventsComponent {
 
   public events$: Observable<Event[]>
 
-  constructor(eventService: EventService, private http: HttpClient, protected snackBar: MatSnackBar) {
+  constructor(private eventService: EventService, private http: HttpClient, protected snackBar: MatSnackBar) {
     this.events$ = eventService.getAllEvents()
   }
 
-  // Function to add a student to an event's attendance
-  onRegister(event: Event) {
+  // Function to either add or remove a member from an event's attendance
+  changeStatus(event: Event) {
     // TODO: implement
-    this.onSuccess(event)
+    if (this.isUserInEvent(event)) {
+      this.onCancel(event)
+    }
+    else {
+      this.onRegister(event)
+    }
   }
 
-  private onSuccess(event: Event) {
+  private onRegister(event: Event) {
     this.snackBar.open("Successfully registered for " + event.name, "", { duration: 2000 })
+  }
+
+  private onCancel(event: Event) {
+    this.snackBar.open("Successfully cancelled registration for " + event.name, "", { duration: 2000 })
+  }
+
+  // Function to determine whether or not a student is part of an event
+  isUserInEvent(event: Event) {
+    // Delegate to the service. 
+    return this.eventService.isUserInEvent(event)
   }
 }
