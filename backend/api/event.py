@@ -36,7 +36,7 @@ def delete_event(event_id: int, event_svc: EventService = Depends()):
         raise HTTPException(status_code=404, detail=str(e))
         
 
-# TODO: Get events by user PID
+# TODO: Get all events a user in by their PID
 @api.get("/by_pid/{pid}", response_model=list[Event], tags=['Event'])
 def get_events_by_pid(pid: int, event_svc: EventService = Depends()):
     try:
@@ -47,18 +47,27 @@ def get_events_by_pid(pid: int, event_svc: EventService = Depends()):
    
 
 # TODO: Add user to event
-@api.get("/add_to_event/{pid}", tags=['Event'])
-def add_user_to_event(pid: int, event: Event, event_svc: EventService = Depends()):
-    try:
-        event_svc.add_by_pid_to_event(pid, event)
+@api.get("/add_to_event/{event_id}", tags=['Event'])
+def add_user_to_event(
+    event_id: int, 
+    subject: User = Depends(registered_user), 
+    event_svc: EventService = Depends()) -> str:
+    try: 
+        event_svc.add_user_to_event(subject, event_id)
+        return "OK"
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
 
+
 # TODO: Delete user from event
-@api.get("/delete_from_event/{pid}", tags=['Event'])
-def delete_user_from_event(pid: int, event: Event, event_svc: EventService = Depends()):
-    try:
-        event_svc.delete_by_pid_from_event(pid, event)
+@api.get("/delete_from_event/{event_id}", tags=['Event'])
+def delete_user_from_event(
+    event_id: int, 
+    subject: User = Depends(registered_user), 
+    event_svc: EventService = Depends()) -> str:
+    try: 
+        event_svc.delete_user_from_event(subject, event_id)
+        return "OK"
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
