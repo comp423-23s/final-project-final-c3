@@ -39,7 +39,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
   ]
 
-  routes = [
+  club_routes = [
     {
       value: 'all_clubs',
       display: 'All Clubs'
