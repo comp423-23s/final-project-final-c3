@@ -64,6 +64,6 @@ export class ClubsService {
   // Determine whether or not a user in a member of a particular club
   isUserInClub(club: Club): boolean {
     //TODO: implement
-    return true
+    return false
   }
 }
