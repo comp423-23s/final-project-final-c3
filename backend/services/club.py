@@ -12,7 +12,7 @@ class ClubService:
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
 
-    # DONE
+
     def get_all_clubs(self) -> list[Club]:
         """Returns all registered clubs in the database."""
         query = select(ClubEntity)
@@ -20,11 +20,10 @@ class ClubService:
         return [entity.to_model() for entity in club_entities]
     
 
-    # TODO, May or may not be right need to check via front end.
-    def get_clubs_by_pid(self, subject: User) -> list[Club]:
+    def get_clubs_by_user_id(self, subject: User) -> list[Club]:
         """Returns all clubs that a user is a member of."""
         clubs: list[Club] = []
-        query = user_club_table.select(user_club_table.club_id).where(user_club_table.user_id== subject.id)
+        query = select(user_club_table.c.club_id).where(user_club_table.c.user_id== subject.id)
         club_entites = self._session.scalars(query).all()
         for entity in club_entites:
             club_entity = self._session.get(ClubEntity, entity)
@@ -32,7 +31,6 @@ class ClubService:
         return clubs
     
 
-    # DONE
     def add_user_to_club(self, subject: User, club_id: int) -> None:
         """Adds a user to a club.""" 
         club_entity = self._session.get(ClubEntity, club_id)
@@ -44,9 +42,8 @@ class ClubService:
         club_entity.members.append(user_entity)
         self._session.commit()
 
-    # DONE
+   
     def is_user_in_club(self, subject: User, club_id: int) -> bool:
-        # TODO: Write this in SQL (using user_club_table)
         club_entity = self._session.get(ClubEntity, club_id)
         club = club_entity.to_model()
         for member in club.members:
@@ -54,7 +51,7 @@ class ClubService:
                 return True
         return False
     
-    # DONE
+   
     def delete_user_from_club(self, subject: User, club_id: int) -> None:
         """"Deletes a user from a club."""
         club_entity = self._session.get(ClubEntity, club_id)
@@ -63,5 +60,5 @@ class ClubService:
             raise Exception("Club does not exist.")
         if not self.is_user_in_club(subject=subject, club_id=club_id):
             raise Exception("User is not in club, cannot be removed.")
-        club_entity.members.pop(user_entity)
+        club_entity.members.remove(user_entity)
         self._session.commit()

@@ -24,7 +24,6 @@ class ClubEntity(EntityBase):
     description: Mapped[str] = mapped_column(
         String(100), nullable=False, default='')
     members: Mapped[list['UserEntity']] = relationship(secondary=user_club_table, back_populates="clubs")
-    #members = relationship(UserEntity, secondary=user_club_table)
 
     @classmethod
     def from_model(cls, model: Club) -> Self:
@@ -48,6 +47,4 @@ class ClubEntity(EntityBase):
         self.description = model.description
 
     def add_member(self, user: UserEntity) -> None:
-        print("😀")
-        print(user)
         self.members.append(user)
