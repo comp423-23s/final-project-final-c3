@@ -23,7 +23,6 @@ export class JoinedClubsComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  // public clubs: Club[]
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService) {
     const data = route.snapshot.data as { profile: Profile }
@@ -56,5 +55,12 @@ export class JoinedClubsComponent {
     } else {
       window.alert("Unknown error: " + JSON.stringify(err));
     }
+  }
+
+  getShortDescription(club: Club): String {
+    if (club.description.length <= 67) {
+      return club.description
+    }
+    return club.description.substring(0, 67) + "..."
   }
 }
