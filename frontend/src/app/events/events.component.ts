@@ -51,7 +51,13 @@ export class EventsComponent {
   }
 
   private onCancel(event: Event) {
-    this.snackBar.open("Successfully cancelled registration for " + event.name, "", { duration: 2000 })
+    try {
+      this.eventService.deleteUserFromEvent(event)
+      this.snackBar.open("Successfully cancelled registration for " + event.name, "", { duration: 2000 })
+    }
+    catch (err) {
+      window.alert("Unknown error: " + JSON.stringify(err));
+    } 
   }
 
   // Function to determine whether or not a student is part of an event

@@ -40,6 +40,12 @@ export class EventService {
   addUserToEvent(event: Event): Observable<Event[]> {
     return this.http.get<Event[]>('/api/event/add_to_event/' + event.id)
   }
+
+  // Delete a user from an event's list of attendees
+  deleteUserFromEvent(event: Event): Observable<Event[]> {
+    return this.http.delete<Event[]>('/api/delete_from_event/' + event.id)
+  }
+
   /**
    * Retrieve events joined by a specific student.
    * @param pid 9-digit UNC PID
