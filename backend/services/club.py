@@ -1,12 +1,10 @@
 from fastapi import Depends
-from sqlalchemy import insert, select, or_, func
+from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-# from backend.entities import user_club_entity
+from backend.entities.user_club_entity import user_club_table
 from ..database import db_session
 from ..models import Club, User
 from ..entities import ClubEntity, UserEntity
-from ..services import UserService, PermissionService
 
 class ClubService:
     _session: Session
@@ -14,7 +12,7 @@ class ClubService:
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
 
-    # DONE
+
     def get_all_clubs(self) -> list[Club]:
         """Returns all registered clubs in the database."""
         query = select(ClubEntity)
@@ -22,79 +20,45 @@ class ClubService:
         return [entity.to_model() for entity in club_entities]
     
 
-    # TODO
-    def get_clubs_by_pid(self, pid: int) -> list[Club]:
+    def get_clubs_by_user_id(self, subject: User) -> list[Club]:
         """Returns all clubs that a user is a member of."""
         clubs: list[Club] = []
-        query = select(ClubEntity)
-        club_entities = self._session.scalars(query).all()
-        if club_entities is None:
-            return clubs
-        else:
-            for club in club_entities:
-                for member in club.members:
-                    if member.pid == pid:
-                        model = club.to_model()
-                        clubs.append(model)
-            return clubs
+        query = select(user_club_table.c.club_id).where(user_club_table.c.user_id== subject.id)
+        club_entites = self._session.scalars(query).all()
+        for entity in club_entites:
+            club_entity = self._session.get(ClubEntity, entity)
+            clubs.append(club_entity.to_model())
+        return clubs
     
 
-    # TODO
     def add_user_to_club(self, subject: User, club_id: int) -> None:
         """Adds a user to a club.""" 
-        # query = select(ClubEntity).where(ClubEntity.id == club_id)
-        # club_entity = self._session.scalar(query)
-        # if club_entity is None:
-        #     raise Exception("Club does not exist.")
-        # else:
-        #     club = club_entity.to_model()
-        #     for member in club.members:
-        #         if member.pid == subject.pid:
-        #             raise Exception("User already is a member of club.")
-        #     club.members.append(subject)
-        # stmt = (
-        #     insert(user_club_table).
-        #     values(user_id=subject.id, club_id=club_id)
-        # )
-        
-        # print("LENGTH")
-        # print(len(club_entity.members))
-        # self._session.commit()
-        # self._session.flush()
-        
-
-        query = select(ClubEntity).where(ClubEntity.id == club_id)
-        club_entity = self._session.scalar(query)
-        query2 = select(UserEntity).where(UserEntity.id == subject.id)
-        user_entity = self._session.scalar(query2)
+        club_entity = self._session.get(ClubEntity, club_id)
+        user_entity = self._session.get(UserEntity, subject.id)
+        if club_entity is None:
+            raise Exception("Club does not exist.")
+        if self.is_user_in_club(subject=subject, club_id=club_id):
+            raise Exception("User is already in club.")
         club_entity.members.append(user_entity)
-        self._session.flush()
         self._session.commit()
 
-        #     self._session.commit()
-        # if club_entity is None:
-        #     raise Exception("Club does not exist.")
-        # else:
-        #     club = club_entity.to_model()
-        #     for member in club.members:
-        #         if member.pid == subject.pid:
-        #             raise Exception("User already is a member of club.")
-        #     club.members.append(subject)
-        #     club_entity.update(club)
-        #     self._session.flush()
-        #     self._session.commit()
-
-        
-    # TODO
+   
+    def is_user_in_club(self, subject: User, club_id: int) -> bool:
+        club_entity = self._session.get(ClubEntity, club_id)
+        club = club_entity.to_model()
+        for member in club.members:
+            if member.pid == subject.pid:
+                return True
+        return False
+    
+   
     def delete_user_from_club(self, subject: User, club_id: int) -> None:
         """"Deletes a user from a club."""
-        query = select(ClubEntity).where(ClubEntity.id == club_id)
-        club_entity = self._session.scalar(query)
+        club_entity = self._session.get(ClubEntity, club_id)
+        user_entity = self._session.get(UserEntity, subject.id)
         if club_entity is None:
-            return Exception("Club does not exist.")
-        else:
-            club = club_entity.to_model()
-            club.members.remove(subject)
-            club_entity.update(club)
-            self._session.flush()
-            self._session.commit()
+            raise Exception("Club does not exist.")
+        if not self.is_user_in_club(subject=subject, club_id=club_id):
+            raise Exception("User is not in club, cannot be removed.")
+        club_entity.members.remove(user_entity)
+        self._session.commit()
