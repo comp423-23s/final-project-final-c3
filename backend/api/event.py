@@ -13,6 +13,7 @@ def get_all_events(event_svc: EventService = Depends()):
         print('Entered try block')
         return event_svc.get_all_events()
     except Exception as e:
+        print("❌ " + str(e))
         raise HTTPException(status_code=400, detail=str(e))
 
 
@@ -23,6 +24,7 @@ def get_events_by_club(club_id: int, event_svc: EventService = Depends()):
         club_events = event_svc.get_events_by_club_id(club_id)
         return club_events
     except Exception as e:
+        print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
 
@@ -33,7 +35,7 @@ def delete_event(event_id: int, event_svc: EventService = Depends()) -> str:
         event_svc.delete_event(event_id)
         return "OK"
     except Exception as e:
-        print("!!!! " + str(e))
+        print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
         
 
@@ -44,6 +46,7 @@ def get_events_by_user(subject: User = Depends(registered_user), event_svc: Even
         user_events = event_svc.events_by_user(subject)
         return user_events
     except Exception as e:
+        print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
    
 
@@ -57,7 +60,7 @@ def add_user_to_event(
         event_svc.add_user_to_event(subject, event_id)
         return "OK"
     except Exception as e:
-        print("!!!! " + str(e))
+        print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
 
@@ -71,7 +74,7 @@ def delete_user_from_event(
         event_svc.delete_user_from_event(subject, event_id)
         return "OK"
     except Exception as e:
-        print("!!!! " + str(e))
+        print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
     
     
@@ -84,5 +87,5 @@ def get_users_in_event(
         users = event_svc.get_users_in_event(event_id)
         return users
     except Exception as e:
-        print("!!!! " + str(e))
+        print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))

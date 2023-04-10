@@ -46,7 +46,7 @@ class EventService:
         self._session.commit()
         
 
-    def delete_by_pid_from_event(self, subject: User, event_id: int) -> None:
+    def delete_user_from_event(self, subject: User, event_id: int) -> None:
         """Degregister a user from an event."""
         event_entity: self._session.get(EventEntity, event_id)
         user_entity: self._session.get(UserEntity, subject.pid)
