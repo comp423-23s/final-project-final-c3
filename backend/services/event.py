@@ -1,8 +1,9 @@
 from fastapi import Depends
 from sqlalchemy import select
+
 from ..database import Session, db_session
-from ..models import Event
-from ..entities import EventEntity, ClubEntity
+from ..models import Event, User
+from ..entities import EventEntity, UserEntity
 from ..services import UserService
 
 class EventService:
@@ -11,7 +12,6 @@ class EventService:
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
      
-    # DONE
     def get_all_events(self) -> list[Event]:
         """Get all registered events in the database."""
         query = select(EventEntity)
@@ -21,24 +21,53 @@ class EventService:
         return [entity.to_model() for entity in event_entities]
     
 
-    # TODO
-    def events_by_pid(self, pid: int) -> list[Event]:
+# STUDENT METHODS
+
+    def events_by_user(self, subject: User) -> list[Event]:
         """Get events user has registered for by user's pid."""
         events: list[Event] = []
-        query = select(EventEntity).where(EventEntity.name != "None")
-        event_entities: list[ClubEntity] = self._session.scalar(query)
-        if event_entities is None:
-            return events
-        else:
-            for event in event_entities:
-                for attendee in event.attendees:
-                    if attendee.pid == pid:
-                        model = event.to_model()
-                        events.append(model)
-            return events
+        query = select(EventEntity).where(EventEntity.members.contains(subject.pid))
+        event_entities = self._session.scalars(query).all()
+        for entity in event_entities:
+            event_entity = self._session.get(EventEntity, entity)
+            events.append(event_entity.to_model())
+        return events
         
 
-    # TODO
+    def add_user_to_event(self, subject: User, event_id: int) -> None:
+        """Add a user to an event."""
+        event_entity: self._session.get(EventEntity, event_id)
+        user_entity: self._session.get(UserEntity, subject.pid)
+        if event_entity is None:
+            raise Exception("Event does not exist.")
+        if self.is_user_registered(subject, event_id):
+            raise Exception("User is already registered for this event.")
+        event_entity.attendees.append(user_entity)
+        self._session.commit()
+        
+
+    def delete_by_pid_from_event(self, subject: User, event_id: int) -> None:
+        """Degregister a user from an event."""
+        event_entity: self._session.get(EventEntity, event_id)
+        user_entity: self._session.get(UserEntity, subject.pid)
+        if event_entity is None:
+            raise Exception("Event does not exist.")
+        if not self.is_user_registered(subject, event_id):
+            raise Exception("User is not registered for this event.")
+        event_entity.attendees.remove(user_entity)
+        self._session.commit()
+    
+    
+    def is_user_registered(self, subject: User, event_id: int) -> bool:
+        """Returns True if the user is registered for the event."""
+        event_entity: self._session.get(EventEntity, event_id)
+        event = event_entity.to_model()
+        for attendee in event.attendees:
+            if attendee.pid == subject.pid:
+                return True
+            return False
+        
+        
     def get_events_by_club_id(self, club_id: int) -> list[Event]:
         """Returns a list of all events the club has registered."""
         events: list[Event] = []
@@ -51,12 +80,13 @@ class EventService:
                 model = event.to_model()
                 events.append(model)
             return events
-    
 
-    # TODO
+
+# CLUB LEADER METHODS
+
     def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
-        query = select(EventEntity).wehre(EventEntity.id == event_id)
+        query = select(EventEntity).where(EventEntity.id == event_id)
         event_entity: EventEntity = self._session.scalar(query)
         if event_entity is None:
             raise Exception("Event does not exist.")
@@ -64,42 +94,13 @@ class EventService:
         self._session.commit()
         self._session.flush()
         
-
-    # TODO
-    def add_by_pid_to_event(self, pid: int, event_id: int) -> None:
-        """Add a user to an event."""
+    def get_users_in_event(self, event_id: int) -> list[User]:
+        """Returns a list of all students registered for an event."""
+        students: list[User] = []
         query = select(EventEntity).where(EventEntity.id == event_id)
         event_entity: EventEntity = self._session.scalar(query)
         if event_entity is None:
             raise Exception("Event does not exist.")
-        else:
-            event = event_entity.to_model()
-            attendees = event.attendees
-            for attendee in attendees:
-                if attendee.pid == pid:
-                    raise Exception("User is already registered for this event.")
-            attendees.append(UserService.get(pid))
-            event_entity.update(event)
-            self._session.commit()
-            self._session.flush()
-        
-
-    # TODO    
-    def delete_by_pid_from_event(self, pid: int, event_id: int) -> None:
-        """Degregister a user from an event."""
-        query = select(EventEntity).where(EventEntity.id == event_id)
-        event_entity: EventEntity = self._session.scalar(query)
-        if event_entity is None:
-            raise Exception("Event does not exist.")
-        else:
-            event = event_entity.to_model()
-            attendees = event.attendees
-            for attendee in attendees:
-                if attendee.pid == pid:
-                    attendees.remove(attendee)
-                    event_entity.update(attendee)
-                    self._session.commit()
-                    self._session.flush()
-                    return 
-            raise Exception("User not registered for this event")
-    
+        for attendee in event_entity.attendees:
+            students.append(attendee.to_model())
+        return students
