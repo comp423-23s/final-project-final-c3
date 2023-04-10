@@ -41,7 +41,13 @@ export class EventsComponent {
   }
 
   private onRegister(event: Event) {
-    this.snackBar.open("Successfully registered for " + event.name, "", { duration: 2000 })
+    try {
+      this.eventService.addUserToEvent(event)
+      this.snackBar.open("Successfully registered for " + event.name, "", { duration: 2000 })
+    }
+    catch (err) {
+      window.alert("Unknown error: " + JSON.stringify(err));
+    }    
   }
 
   private onCancel(event: Event) {
