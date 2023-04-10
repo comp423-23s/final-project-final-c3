@@ -36,6 +36,10 @@ export class EventService {
     return allEvents$
   }
 
+  // Add a user to an event's list of attendees
+  addUserToEvent(event: Event): Observable<Event[]> {
+    return this.http.get<Event[]>('/api/event/add_to_event/' + event.id)
+  }
   /**
    * Retrieve events joined by a specific student.
    * @param pid 9-digit UNC PID
