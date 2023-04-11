@@ -54,20 +54,18 @@ export class EventService {
   }
 
   // Call to backend to see if user is a registered attendee for an event
-  isUserInEvent(event: Event): Observable<Boolean> {
+  isUserInEvent(event: Event): boolean {
     // TODO: Some HTTP method
     // For now, return true
-    return this.http.get<Event>(`api/event/is_user_registered/${event.id}`)
+
+    let bool$ =  this.http.get<Event>(`api/event/is_user_registered/${event.id}`)
       .pipe(
         map((response: Event) => {
           return response != null
         })
       );
-  }
-
-  isUserInEventResponse(event: Event): boolean {
     let truth = false
-    this.isUserInEvent(event).subscribe((response: Boolean) => {
+    bool$.subscribe((response: Boolean) => {
       if(response) {
         truth = true
       }
@@ -77,6 +75,7 @@ export class EventService {
     })
     return truth
   }
+
 
   /**
    * Enable a student to leave an event

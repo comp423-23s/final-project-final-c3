@@ -72,7 +72,6 @@ export class EventsComponent {
   // Function to determine whether or not a student is part of an event
   isUserInEvent(event: Event) {
     // Delegate to the service. 
-    this.eventService.isUserInEvent(event)
-    return this.eventService.isUserInEventResponse(event)
+    return this.eventService.isUserInEvent(event)
   }
 }
