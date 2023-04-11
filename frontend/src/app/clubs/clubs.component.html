@@ -8,8 +8,13 @@
             </mat-card-header>
             <mat-card-content>
                 <div class='description'>
-                    {{club.description}}                    
+                    {{ club.show_short_description ? getShortDescription(club) : club.description }}                  
                 </div>
+                <mat-card-actions>
+                    <button mat-raised-button (click)='alterText(club)' type="submit">
+                        {{ club.show_short_description ? "Read More" : "Read Less" }}
+                    </button>
+                </mat-card-actions>
                 <br>
                 <div class="side-buttons">
                     <mat-card-actions>
