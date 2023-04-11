@@ -104,3 +104,10 @@ class EventService:
         for attendee in event_entity.attendees:
             students.append(attendee.to_model())
         return students
+    
+    def add_event(self, event: Event) -> None:
+        """Adds an event to the database."""
+        event_entity = EventEntity.from_model(event)
+        self._session.add(event_entity)
+        self._session.commit()
+        self._session.flush()
