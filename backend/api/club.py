@@ -54,9 +54,10 @@ def remove_user_from_club(
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
-    
+
+# Club Leader Methods Below
 @api.delete("/delete/{club_id}", tags=['Club'])
-def remove_user_from_club(
+def delete_club(
     club_id: int, 
     club_svc: ClubService = Depends()
 ) -> str:
