@@ -25,7 +25,6 @@ export class ClubsComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  // public joinedClubsArray: Club[] = new Array()
   public joined_clubs$: Observable<Club[]>
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar) {
@@ -43,7 +42,7 @@ export class ClubsComponent {
   }
 
   // Checks whether the current user is already in this club
-  isUserInClub(club: Club): boolean {
+  isUserInClub(club: Club): Observable<Boolean> {
     return this.clubsService.isUserInClub(club)
   }
 

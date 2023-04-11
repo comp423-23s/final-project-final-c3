@@ -66,9 +66,7 @@ export class ClubsService {
    * @param Club club object
    * @returns boolean
    */
-  isUserInClub(club: Club): boolean {
-    // TODO: implement
-    // return this.http.get<Club>(`api/club/is_user_in_club/${club.id}`)
-    return false
+  isUserInClub(club: Club): Observable<Boolean> {
+    return this.http.get<Boolean>(`api/club/check_membership/${club.id}`)
   }
 }
