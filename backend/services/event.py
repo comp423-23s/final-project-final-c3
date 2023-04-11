@@ -28,7 +28,7 @@ class EventService:
     def events_by_user(self, subject: User) -> list[Event]:
         """Get events user has registered for by user's pid."""
         events: list[Event] = []
-        query = select(user_event_table.c.event_id).where(user_event_table.c.user_id== subject.pid)
+        query = select(user_event_table.c.event_id).where(user_event_table.c.user_id == subject.id)
         event_entities = self._session.scalars(query).all()
         for entity in event_entities:
             event_entity = self._session.get(EventEntity, entity)
@@ -54,7 +54,7 @@ class EventService:
     def delete_user_from_event(self, subject: User, event_id: int) -> None:
         """Degregister a user from an event."""
         event_entity = self._session.get(EventEntity, event_id)
-        user_entity = self._session.get(UserEntity, subject.pid)
+        user_entity = self._session.get(UserEntity, subject.id)
         if event_entity is None:
             raise Exception("Event does not exist.")
         if not self.is_user_registered(subject, event_id):
@@ -68,7 +68,7 @@ class EventService:
         event_entity = self._session.get(EventEntity, event_id)
         event = event_entity.to_model()
         for attendee in event.attendees:
-            if attendee.pid == subject.pid:
+            if attendee.pid == subject.id:
                 return True
             return False
         
