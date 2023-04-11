@@ -37,11 +37,12 @@ export class ClubsComponent {
     this.joined_clubs$ = clubsService.getJoinedClubs()
   }
 
-  // controls which description is rendered on screen (short or long)
+  // Controls which description is rendered on screen (short or long)
   alterText(club: Club) {
     club.show_short_description = !club.show_short_description
   }
 
+  // Checks whether the current user is already in this club
   isUserInClub(club: Club): boolean {
     return this.clubsService.isUserInClub(club)
   }
@@ -50,6 +51,7 @@ export class ClubsComponent {
     this.onJoin(club)
   }
 
+  // Enables a student to join a club
   onJoin(club: Club): void {
     this.clubsService.joinClub(club).subscribe({
       next: () => this.onSuccess(),
@@ -57,6 +59,7 @@ export class ClubsComponent {
     })
   }
 
+  // Enables a student to leave a club
   onLeave(club: Club): void {
     this.clubsService.leaveClub(club).subscribe({
       next: () => this.onSuccess(),

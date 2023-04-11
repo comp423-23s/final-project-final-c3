@@ -37,6 +37,7 @@ export class JoinedClubsComponent {
     club.show_short_description = !club.show_short_description
   }
 
+  // Enables a student to leave a club
   leaveClub(club: Club): void {
     this.clubsService.leaveClub(club).subscribe({
       next: () => this.onSuccess(),
