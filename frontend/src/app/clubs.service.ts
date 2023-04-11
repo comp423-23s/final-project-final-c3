@@ -61,6 +61,7 @@ export class ClubsService {
     return this.http.delete<Club>(`api/club/remove/${club.id}`)
   }
 
+  
   /**
    * Determines whether a user is in a club
    * @param Club club object
