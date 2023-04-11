@@ -46,12 +46,12 @@ export class EventService {
     return myEvents$
   }
 
-  addUserToEvent(event: Event) {
-
+  addUserToEvent(event: Event): Observable<Event> {
+    return this.http.get<Event>(`api/event/add_to_event/${event.id}`)
   }
 
-  removeUserFromEvent(event: Event) {
-    
+  removeUserFromEvent(event: Event): Observable<Event> {
+    return this.http.delete<Event>(`api/event/delete_from_event/${event.id}`)
   }
 
   // Call to backend to see if user is a registered attendee for an event

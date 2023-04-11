@@ -41,13 +41,32 @@ export class EventsComponent {
   }
 
   onRegister(event: Event) {
-    this.eventService.addUserToEvent(event)
+    this.eventService.addUserToEvent(event).subscribe({
+      next: () => this.onSuccess(),
+      error: (err) => this.onError(err)
+    })
     this.snackBar.open("Successfully registered for " + event.name, "", { duration: 2000 })
   }
 
   onCancel(event: Event) {
-    this.eventService.removeUserFromEvent(event)
+    this.eventService.removeUserFromEvent(event).subscribe({
+      next: () => this.onSuccess(),
+      error: (err) => this.onError(err)
+    })
     this.snackBar.open("Successfully cancelled registration for " + event.name, "", { duration: 2000 })
+  }
+
+  onSuccess(): void {
+    this.events$ = this.eventService.getAllEvents()
+  }
+
+  onError(err: Error) : void{
+    if (err.message) {
+      console.log(err)
+      window.alert("The error is: " + err.message);
+    } else {
+      window.alert("Unknown error: " + JSON.stringify(err));
+    }
   }
 
   // Function to determine whether or not a student is part of an event
