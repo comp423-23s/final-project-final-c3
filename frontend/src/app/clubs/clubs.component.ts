@@ -42,9 +42,9 @@ export class ClubsComponent {
     club.show_short_description = !club.show_short_description
   }
 
-  private onJoin(club: Club) {
-    this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
-  }
+  // private onJoin(club: Club) {
+  //   this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
+  // }
 
   private onLeave(club: Club) {
     this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
@@ -72,7 +72,7 @@ export class ClubsComponent {
     // this.clubs$ = this.clubsService.getAllClubs()
   }
 
-  joinClub(club: Club): void {
+  onJoin(club: Club): void {
     this.clubsService.joinClub(club).subscribe({
       next: () => this.onSuccess(),
       error: (err) => this.onError(err)
