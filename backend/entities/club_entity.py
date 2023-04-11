@@ -8,6 +8,7 @@ from backend.models.club import Club
 from backend.entities.entity_base import EntityBase
 from backend.entities.user_entity import UserEntity
 from backend.entities.user_club_entity import user_club_table
+from backend.entities.leader_club_entity import leader_club_table
 
 
 __authors__ = ['Aryonna Rice']
@@ -24,6 +25,7 @@ class ClubEntity(EntityBase):
     description: Mapped[str] = mapped_column(
         String(100), nullable=False, default='')
     members: Mapped[list['UserEntity']] = relationship(secondary=user_club_table, back_populates="clubs")
+    leaders: Mapped[list['UserEntity']] = relationship(secondary=leader_club_table)
 
     @classmethod
     def from_model(cls, model: Club) -> Self:
