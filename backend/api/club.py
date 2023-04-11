@@ -41,7 +41,7 @@ def add_user_to_club(
         raise HTTPException(status_code=404, detail=str(e))
 
 
-@api.delete("/remove/{club_id}", tags=['Club'])
+@api.delete("/remove/from/{club_id}", tags=['Club'])
 def remove_user_from_club(
     club_id: int, 
     subject: User = Depends(registered_user),
@@ -50,6 +50,45 @@ def remove_user_from_club(
     """Unenrolls a user from a club via that club's ID."""
     try:
         club_svc.delete_user_from_club(subject, club_id)
+        return "OK"
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
+@api.delete("/delete/{club_id}", tags=['Club'])
+def remove_user_from_club(
+    club_id: int, 
+    club_svc: ClubService = Depends()
+) -> str:
+    """Deletes a Club from our database."""
+    try:
+        club_svc.delete_club(club_id)
+        return "OK"
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+
+@api.get("/members", tags=['Club'])
+def add_user_to_club(
+    club_id: int, 
+    club_svc: ClubService = Depends()
+) -> list[Club]:
+    """Retrives a list of all the members of a Club."""
+    try:
+        clubs = club_svc.get_members(club_id)
+        return clubs
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+
+@api.post("/create/club", tags=['Club'])
+def create_club(
+    club: Club, 
+    club_svc: ClubService = Depends()
+) -> str:
+    """Creates a new club and adds it to the database."""
+    try:
+        club_svc.create_club(club)
         return "OK"
     except Exception as e:
         print("❌" + str(e))

@@ -43,6 +43,7 @@ with Session(engine) as session:
     session.add_all([to_entity(model) for model in roles.models])
     session.execute(text(f'ALTER SEQUENCE {entities.RoleEntity.__table__}_id_seq RESTART WITH {len(roles.models) + 1}'))
     session.commit()
+    
 
 # Add Users to Roles
 with Session(engine) as session:

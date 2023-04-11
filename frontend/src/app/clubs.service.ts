@@ -58,7 +58,7 @@ export class ClubsService {
    * @returns Club that was left
    */
   leaveClub(club: Club): Observable<Club> {
-    return this.http.delete<Club>(`api/club/remove/${club.id}`)
+    return this.http.delete<Club>(`api/club/remove/from/${club.id}`)
   }
 
   // Determine whether or not a user in a member of a particular club

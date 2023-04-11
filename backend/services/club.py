@@ -13,6 +13,7 @@ class ClubService:
         self._session = session
 
 
+
     def get_all_clubs(self) -> list[Club]:
         """Returns all registered clubs in the database."""
         query = select(ClubEntity)
@@ -62,3 +63,29 @@ class ClubService:
             raise Exception("User is not in club, cannot be removed.")
         club_entity.members.remove(user_entity)
         self._session.commit()
+
+
+    # Leader Methods Below
+
+    def get_members(self, club_id: int) -> list[User]:
+        """Returns a list of members for a club."""
+        members: list[User] = []
+        query = select(user_club_table.c.user_id).where(user_club_table.c.club_id== club_id)
+        user_entites = self._session.scalars(query).all()
+        for entity in user_entites:
+            user_entity = self._session.get(UserEntity, entity)
+            members.append(user_entity.to_model())
+        return members
+    
+    def create_club(self, club: Club) -> None:
+        club_entity = ClubEntity.from_model(club)
+        self._session.add(club_entity)
+        self._session.commit()
+
+    def delete_club(self, club_id: int) -> None:
+        club_entity = self._session.get(ClubEntity, club_id)
+        self._session.delete(club_entity)
+        self._session.commit()
+
+
+
