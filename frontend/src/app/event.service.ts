@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 export interface Event {
   id: number,
@@ -54,10 +54,28 @@ export class EventService {
   }
 
   // Call to backend to see if user is a registered attendee for an event
-  isUserInEvent(event: Event): boolean {
+  isUserInEvent(event: Event): Observable<Boolean> {
     // TODO: Some HTTP method
     // For now, return true
-    return this.http.get(`api/event/is_user_registered/${event.id}`)
+    return this.http.get<Event>(`api/event/is_user_registered/${event.id}`)
+      .pipe(
+        map((response: Event) => {
+          return response != null
+        })
+      );
+  }
+
+  isUserInEventResponse(event: Event): boolean {
+    let truth = false
+    this.isUserInEvent(event).subscribe((response: Boolean) => {
+      if(response) {
+        truth = true
+      }
+      else {
+        truth = false
+      }
+    })
+    return truth
   }
 
   /**
