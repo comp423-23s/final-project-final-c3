@@ -78,4 +78,16 @@ export class MyEventsComponent {
   //     window.alert("Unknown error: " + JSON.stringify(err));
   //   }
   // }
+
+  alterText(event: Event) {
+    event.show_short_description = !event.show_short_description
+  }
+
+  getShortDescription(event: Event): String {
+    if (event.description.length <= 25) {
+      return event.description
+    }
+    return event.description.substring(0, 25) + "..."
+  }
+
 }
