@@ -37,41 +37,21 @@ export class ClubsComponent {
     this.joined_clubs$ = clubsService.getJoinedClubs()
   }
 
-  // controls which description is rendered on screen (short or long)
+  // Controls which description is rendered on screen (short or long)
   alterText(club: Club) {
     club.show_short_description = !club.show_short_description
   }
 
-  // private onJoin(club: Club) {
-  //   this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
-  // }
-
-  private onLeave(club: Club) {
-    this.snackBar.open("Successfully joined " + club.name, "", { duration: 2000 })
-  }
-
+  // Checks whether the current user is already in this club
   isUserInClub(club: Club): boolean {
     return this.clubsService.isUserInClub(club)
   }
 
   changeStatus(club: Club): void {
     this.onJoin(club)
-    // this.joinClub(club)
-    // var joinedClubsArray: Club[] = new Array()
-    // const subscription = this.clubsService.getJoinedClubs().subscribe((joinedClubs) => {
-    //   joinedClubsArray = joinedClubs
-    // })
-    // console.log(joinedClubsArray.length)
-
-    // this.leaveClub(club)
-    // if (this.isUserInClub(club)) {
-    //   this.leaveClub(club)
-    // } else {
-    //   this.joinClub(club)
-    // }
-    // this.clubs$ = this.clubsService.getAllClubs()
   }
 
+  // Enables a student to join a club
   onJoin(club: Club): void {
     this.clubsService.joinClub(club).subscribe({
       next: () => this.onSuccess(),
@@ -79,7 +59,8 @@ export class ClubsComponent {
     })
   }
 
-  leaveClub(club: Club): void {
+  // Enables a student to leave a club
+  onLeave(club: Club): void {
     this.clubsService.leaveClub(club).subscribe({
       next: () => this.onSuccess(),
       error: (err) => this.onError(err)
@@ -90,12 +71,19 @@ export class ClubsComponent {
     this.clubs$ = this.clubsService.getAllClubs()
   }
 
-  onError(err: Error) : void{
+  onError(err: Error): void{
     if (err.message) {
       console.log(err)
       window.alert("The error is: " + err.message);
     } else {
       window.alert("Unknown error: " + JSON.stringify(err));
     }
+  }
+
+  getShortDescription(club: Club): String {
+    if (club.description.length <= 67) {
+      return club.description
+    }
+    return club.description.substring(0, 67) + "..."
   }
 }

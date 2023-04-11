@@ -47,14 +47,13 @@ class EventEntity(EntityBase):
 
     def to_model(self) -> Event:
         return Event(
-
             id=self.id,
             name=self.name,
             location=self.location,
             description=self.description,
             date=self.date,
             club_id = self.club_id,
-            attendees=self.attendees
+            attendees= [attendee.to_model() for attendee in self.attendees]
         )
 
     def update(self, model: Event) -> None:

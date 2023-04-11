@@ -23,7 +23,6 @@ export class JoinedClubsComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  // public clubs: Club[]
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService) {
     const data = route.snapshot.data as { profile: Profile }
@@ -38,6 +37,7 @@ export class JoinedClubsComponent {
     club.show_short_description = !club.show_short_description
   }
 
+  // Enables a student to leave a club
   leaveClub(club: Club): void {
     this.clubsService.leaveClub(club).subscribe({
       next: () => this.onSuccess(),
@@ -56,5 +56,12 @@ export class JoinedClubsComponent {
     } else {
       window.alert("Unknown error: " + JSON.stringify(err));
     }
+  }
+
+  getShortDescription(club: Club): String {
+    if (club.description.length <= 67) {
+      return club.description
+    }
+    return club.description.substring(0, 67) + "..."
   }
 }
