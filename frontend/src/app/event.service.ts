@@ -46,11 +46,19 @@ export class EventService {
     return myEvents$
   }
 
+  addUserToEvent(event: Event) {
+
+  }
+
+  removeUserFromEvent(event: Event) {
+    
+  }
+
   // Call to backend to see if user is a registered attendee for an event
   isUserInEvent(event: Event): boolean {
     // TODO: Some HTTP method
     // For now, return true
-    return true
+    return false
   }
 
   /**

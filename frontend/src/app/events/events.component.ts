@@ -40,11 +40,13 @@ export class EventsComponent {
     }
   }
 
-  private onRegister(event: Event) {
+  onRegister(event: Event) {
+    this.eventService.addUserToEvent(event)
     this.snackBar.open("Successfully registered for " + event.name, "", { duration: 2000 })
   }
 
-  private onCancel(event: Event) {
+  onCancel(event: Event) {
+    this.eventService.removeUserFromEvent(event)
     this.snackBar.open("Successfully cancelled registration for " + event.name, "", { duration: 2000 })
   }
 
