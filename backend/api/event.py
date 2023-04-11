@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from ..services import EventService
 from ..models import User, Event
 from .authentication import registered_user
+from ..entities import EventEntity, UserEntity
 
 api = APIRouter(prefix="/api/event")
 

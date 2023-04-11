@@ -5,6 +5,8 @@ from ..database import Session, db_session
 from ..models import Event, User
 from ..entities import EventEntity, UserEntity
 from ..services import UserService
+from backend.entities.user_event_entity import user_event_table
+
 
 class EventService:
     _session: Session
@@ -26,7 +28,7 @@ class EventService:
     def events_by_user(self, subject: User) -> list[Event]:
         """Get events user has registered for by user's pid."""
         events: list[Event] = []
-        query = select(EventEntity).where(EventEntity.members.contains(subject.pid))
+        query = select(user_event_table.c.event_id).where(user_event_table.c.user_id == subject.id)
         event_entities = self._session.scalars(query).all()
         for entity in event_entities:
             event_entity = self._session.get(EventEntity, entity)
@@ -36,20 +38,23 @@ class EventService:
 
     def add_user_to_event(self, subject: User, event_id: int) -> None:
         """Add a user to an event."""
-        event_entity: self._session.get(EventEntity, event_id)
-        user_entity: self._session.get(UserEntity, subject.pid)
+        event_entity = self._session.get(EventEntity, event_id)
+        user_entity = self._session.get(UserEntity, subject.id)
         if event_entity is None:
             raise Exception("Event does not exist.")
         if self.is_user_registered(subject, event_id):
             raise Exception("User is already registered for this event.")
-        event_entity.attendees.append(user_entity)
+        if user_entity is not None:
+            event_entity.attendees.append(user_entity)
+        else:
+            raise Exception("User does not exist.")
         self._session.commit()
         
 
     def delete_user_from_event(self, subject: User, event_id: int) -> None:
         """Degregister a user from an event."""
-        event_entity: self._session.get(EventEntity, event_id)
-        user_entity: self._session.get(UserEntity, subject.pid)
+        event_entity = self._session.get(EventEntity, event_id)
+        user_entity = self._session.get(UserEntity, subject.id)
         if event_entity is None:
             raise Exception("Event does not exist.")
         if not self.is_user_registered(subject, event_id):
@@ -60,10 +65,10 @@ class EventService:
     
     def is_user_registered(self, subject: User, event_id: int) -> bool:
         """Returns True if the user is registered for the event."""
-        event_entity: self._session.get(EventEntity, event_id)
+        event_entity = self._session.get(EventEntity, event_id)
         event = event_entity.to_model()
         for attendee in event.attendees:
-            if attendee.pid == subject.pid:
+            if attendee.pid == subject.id:
                 return True
             return False
         
@@ -92,7 +97,6 @@ class EventService:
             raise Exception("Event does not exist.")
         self._session.delete(event_entity.to_model())
         self._session.commit()
-        self._session.flush()
         
     def get_users_in_event(self, event_id: int) -> list[User]:
         """Returns a list of all students registered for an event."""

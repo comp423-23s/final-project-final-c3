@@ -61,9 +61,14 @@ export class ClubsService {
     return this.http.delete<Club>(`api/club/remove/${club.id}`)
   }
 
-  // Determine whether or not a user in a member of a particular club
+  /**
+   * Determines whether a user is in a club
+   * @param Club club object
+   * @returns boolean
+   */
   isUserInClub(club: Club): boolean {
-    //TODO: implement
+    // TODO: implement
+    // return this.http.get<Club>(`api/club/is_user_in_club/${club.id}`)
     return false
   }
 }
