@@ -57,7 +57,7 @@ export class EventService {
   isUserInEvent(event: Event): boolean {
     // TODO: Some HTTP method
     // For now, return true
-    return false
+    return this.http.get(`api/event/is_user_registered/${event.id}`)
   }
 
   /**

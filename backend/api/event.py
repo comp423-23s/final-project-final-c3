@@ -96,7 +96,7 @@ def get_users_in_event(
 def is_user_registered(
     event_id: int, 
     subject: User = Depends(registered_user), 
-    event_svc: EventService = Depends()) -> str:
+    event_svc: EventService = Depends()) -> bool:
     try: 
         is_registered = event_svc.is_user_registered(subject, event_id)
         return is_registered
