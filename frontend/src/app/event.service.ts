@@ -41,9 +41,8 @@ export class EventService {
    * @param pid 9-digit UNC PID
    * @returns Observale array of Event objects
    */
-  getMyEvents(pid: number): Observable<Event[]> {
-    let myEvents$ = this.http.get<Event[]>('/api/event/by_pid/' + pid)
-    return myEvents$
+  getMyEvents(): Observable<Event[]> {
+    return this.http.get<Event[]>('/api/event/user_events')
   }
 
   addUserToEvent(event: Event): Observable<Event> {

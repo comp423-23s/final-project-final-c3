@@ -31,7 +31,7 @@ export class MyEventsComponent {
     const data = route.snapshot.data as { profile: Profile }
     console.log(route.snapshot)
     this.profile = data.profile
-    this.my_events$ = eventService.getMyEvents(this.profile.pid)
+    this.my_events$ = eventService.getMyEvents()
   }
 
   changeStatus(event: Event) {
