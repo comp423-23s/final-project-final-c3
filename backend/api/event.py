@@ -66,7 +66,7 @@ def add_user_to_event(
 
 
 # Delete user from event
-@api.get("/delete_from_event/{event_id}", tags=['Event'])
+@api.delete("/delete_from_event/{event_id}", tags=['Event'])
 def delete_user_from_event(
     event_id: int, 
     subject: User = Depends(registered_user), 
