@@ -5,6 +5,7 @@ from ..database import db_session
 from ..models import User, Role, RoleDetails, Permission
 from ..entities import RoleEntity, PermissionEntity, UserEntity
 from .permission import PermissionService, UserPermissionError
+from backend.entities.user_role_entity import user_role_table
 
 
 class RoleService:
@@ -55,4 +56,14 @@ class RoleService:
         role.users.remove(user)
         self._session.commit()
         return True
+    
+    def get_users_roles(self, subject: User) -> list[Role]:
+        """Gets a users list of roles."""
+        roles: list[Role] = []
+        query = select(user_role_table.c.role_id).where(user_role_table.c.user_id== subject.id)
+        role_ids = self._session.scalars(query).all()
+        for entity in role_ids:
+            role_entity = self._session.get(RoleEntity, entity)
+            roles.append(role_entity.to_model())
+        return roles
     
