@@ -6,6 +6,7 @@ import { Profile } from '../profile/profile.service'
 import { Club, ClubsService } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-clubs',
@@ -43,10 +44,16 @@ export class ClubsComponent {
 
   // Checks whether the current user is already in this club
   isUserInClub(club: Club): Observable<Boolean> {
+    console.log("component isUserInClub called")
+    console.log(this.clubsService.isUserInClub(club))
     return this.clubsService.isUserInClub(club)
   }
 
   changeStatus(club: Club): void {
+    if (this.isUserInClub(club)) {
+      this.onLeave(club)
+      return
+    }
     this.onJoin(club)
   }
 

@@ -9,6 +9,7 @@ api = APIRouter(prefix="/api/club")
 def get_all_clubs(club_svc: ClubService = Depends()):
     """Gets all registered clubs."""
     try: 
+        print("🧐 get all called")
         return club_svc.get_all_clubs()
     except Exception as e:
         print("❌" + str(e))
@@ -55,14 +56,16 @@ def remove_user_from_club(
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
-@api.get("/check_membership/{club_id}", tags=['Club'])
+
+@api.get("/check_membership/{club_id}", response_model=bool, tags=['Club'])
 def check_membership(
-    club_id: int, 
-    subject: User = Depends(registered_user), 
+    club_id: int,
+    subject: User = Depends(registered_user),
     club_svc: ClubService = Depends()
-) -> bool:
+):
     """Checks if a member is in a club or not."""
     try:
+        print("🌕 check function called")
         return club_svc.is_user_in_club(subject, club_id)
     except Exception as e:
         print("❌" + str(e))

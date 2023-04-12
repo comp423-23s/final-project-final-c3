@@ -47,8 +47,8 @@ export class ClubsService {
    * @param Club club object
    * @returns Club that was joined
    */ 
-  joinClub(club: Club): Observable<Club> {
-    return this.http.get<Club>(`api/club/add/${club.id}`)
+  joinClub(club: Club): Observable<String> {
+    return this.http.get<String>(`api/club/add/${club.id}`)
   }
 
 
@@ -57,8 +57,8 @@ export class ClubsService {
    * @param Club club object
    * @returns Club that was left
    */
-  leaveClub(club: Club): Observable<Club> {
-    return this.http.delete<Club>(`api/club/remove/${club.id}`)
+  leaveClub(club: Club): Observable<String> {
+    return this.http.delete<String>(`api/club/remove/${club.id}`)
   }
 
   /**
@@ -67,6 +67,7 @@ export class ClubsService {
    * @returns boolean
    */
   isUserInClub(club: Club): Observable<Boolean> {
+    console.log("service isUserInClub called")
     return this.http.get<Boolean>(`api/club/check_membership/${club.id}`)
   }
 }
