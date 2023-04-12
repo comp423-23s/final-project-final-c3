@@ -26,6 +26,7 @@ export class RegisterEventComponent implements OnInit{
     name: '',
     description: '',
     location: '',
+    clud_id: 0,
   });
 
   constructor(route: ActivatedRoute, protected formBuilder: FormBuilder, protected snackBar: MatSnackBar, private eventService: EventService) {
@@ -33,6 +34,7 @@ export class RegisterEventComponent implements OnInit{
     form.get('name')?.addValidators(Validators.required);
     form.get('description')?.addValidators(Validators.required);
     form.get('location')?.addValidators(Validators.required);
+    form.get('club_id')?.addValidators(Validators.required);
 
     const data = route.snapshot.data as { event: Event };
     console.log(route.snapshot)
@@ -46,6 +48,7 @@ export class RegisterEventComponent implements OnInit{
       name: event.name,
       description: event.description,
       location: event.location,
+      clud_id: event.club_id,
     });
   }
 
