@@ -55,7 +55,7 @@ def remove_user_from_club(
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
-@api.get("/check_membership/{club_id}", tags=['Club'])
+@api.get("/check/membership/{club_id}", tags=['Club'])
 def check_membership(
     club_id: int, 
     subject: User = Depends(registered_user), 
@@ -105,16 +105,16 @@ def get_all_leader_clubs(subject: User = Depends(registered_user), club_svc: Clu
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
-@api.post("/add/leader", tags=['Club'])
+@api.get("/add/leader/{club_id}/{given_club_code}", tags=['Club'])
 def add_leader(
-    club_id: int,
+    club_id: str,
     given_club_code: str,
     potential_leader: User = Depends(registered_user), 
     club_svc: ClubService = Depends()
 ) -> str:
     """Adds a leader to an existing club."""
     try:
-        club_svc.add_leader(potential_leader, club_id, given_club_code)
+        club_svc.add_leader(potential_leader, int(club_id), given_club_code)
         return "OK"
     except Exception as e:
         print("❌" + str(e))

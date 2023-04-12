@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
-import { Profile } from './profile/profile.service';
 
 export interface Club {
   id: number;
@@ -68,7 +67,7 @@ export class ClubsService {
    */
   isUserInClub(club: Club): boolean {
     // TODO: implement
-    // return this.http.get<Club>(`api/club/is_user_in_club/${club.id}`)
+    // return this.http.get<Club>(`api/club/check/membership/${club.id}`)
     return false
   }
 }

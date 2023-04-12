@@ -32,6 +32,7 @@ def create_club(
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
+
 @api.post("/reject/club", tags=['Club'])
 def delete_club(
     potential_club: PotentialClub, 
@@ -58,6 +59,7 @@ def potential_club_request(
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
+    
     
 @api.get("/all/potential/clubs", response_model=list[PotentialClub], tags=['Club'])
 def get_all_clubs(potential_club_svc: PotentialClubService = Depends()):
