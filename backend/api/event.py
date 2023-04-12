@@ -90,3 +90,14 @@ def get_users_in_event(
     except Exception as e:
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
+    
+@api.post("/create_event/{club_id}", tags=['Event'])
+def create_event_for_club(
+    event: EventEntity = Depends(),
+    event_svc: EventService = Depends()):
+    try: 
+        event_svc.create_event_for_club(event)
+        return 
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=404, detail=str(e))

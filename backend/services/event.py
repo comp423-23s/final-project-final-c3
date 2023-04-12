@@ -109,9 +109,8 @@ class EventService:
             students.append(attendee.to_model())
         return students
     
-    def add_event(self, event: Event) -> None:
-        """Adds an event to the database."""
+    def create_event_for_club(self, event: Event) -> None:
+        """Creates an event for a club."""
         event_entity = EventEntity.from_model(event)
         self._session.add(event_entity)
         self._session.commit()
-        self._session.flush()
