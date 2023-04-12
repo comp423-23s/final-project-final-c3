@@ -17,8 +17,8 @@
           <a mat-list-item for="website">
             Roles: 
             <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
-              <option *ngFor="let r of role_routes" [ngValue]="r.value">{{r.display}}</option>
-            </select> 
+              <option *ngFor="let r of role_routes$ | async" [ngValue]="r.value">{{r.display}}</option>
+            </select>
           </a>
 
           <a mat-list-item for="website">
@@ -34,11 +34,10 @@
               <option *ngFor="let r of event_routes" [ngValue]="r.value">{{r.display}}</option>
             </select> 
           </a>
+          <a mat-list-item routerLink="/register_leader">Become a Leader</a>
           <a mat-list-item routerLink="/registerevents">Register Events</a>
           <a mat-list-item (click)="auth.signOut()">Sign out</a>
 
-          <a *ngIf="roles$" routerLink="/register_leader">Leader</a>
-          <!-- <a mat-list-item *ngIf="roles$ | async" routerLink="/register_leader">Admin</a> -->
         </ng-template>
       </mat-nav-list>
     </mat-sidenav>

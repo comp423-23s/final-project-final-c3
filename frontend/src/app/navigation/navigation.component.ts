@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NavigationService as NavigationTitleService } from './navigation.service';
+import { RoleRoute, NavigationService as NavigationTitleService } from './navigation.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -34,12 +34,17 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   currentRoute: string = "/"
 
-  role_routes = [
-    {
-      value: 'profile',
-      display: 'Student'
-    }
-  ]
+  role_routes$: Observable<RoleRoute[]>
+  // role_routes = [
+  //   {
+  //     value: 'profile',
+  //     display: 'Student'
+  //   },
+  //   {
+  //     value: 'register_leader',
+  //     display: 'Leader'
+  //   }
+  // ]
 
   club_routes = [
     {
@@ -77,6 +82,24 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.checkinPermission$ = this.permission.check('checkin.create', 'checkin/');
     this.adminPermission$ = this.permission.check('admin.view', 'admin/')
     this.roles$ = this.roleAdminService.list();
+    // this.isNotLeader$ = this.roles$.pipe(map((roles: Role[]) => {
+    //   if (!roles.find(role => role.name == "Leader")) {
+    //     console.log("is not leader")
+    //     return true
+    //   } else {
+    //     console.log("is leader")
+    //     return false
+    //   }
+    // }))
+    this.role_routes$ = this.roles$.pipe(map((roles: Role[]) => {
+      return roles.map(a_role => {
+        const role_route: RoleRoute = {
+          value: 'register_'+a_role.name.toLowerCase(),
+          display: a_role.name
+        }
+        return role_route
+      })
+    }))
   }
 
   routeTo(e: Object) {

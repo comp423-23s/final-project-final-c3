@@ -4,6 +4,11 @@ import { BehaviorSubject, switchMap, Observable, map, of } from 'rxjs';
 import { Role } from '../role';
 import { RoleAdminService } from '../admin/roles/role-admin.service';
 
+export interface RoleRoute {
+  value: string;
+  display: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
