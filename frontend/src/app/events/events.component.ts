@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Event, EventService } from '../event.service'
+import { Observable, map } from 'rxjs';
+import { Event, EventService, User_Event } from '../event.service'
 import { ActivatedRoute, Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Profile } from '../profile/profile.service';
 
 @Component({
   selector: 'app-events',
@@ -24,19 +25,33 @@ export class EventsComponent {
   };
 
   public events$: Observable<Event[]>
+  public user_events$: Observable<User_Event[]>
+  public profile: Profile
 
-  constructor(private eventService: EventService, private http: HttpClient, protected snackBar: MatSnackBar) {
+  constructor(private eventService: EventService, private http: HttpClient, protected snackBar: MatSnackBar, route: ActivatedRoute) {
+    const data = route.snapshot.data as { profile: Profile }
+    this.profile = data.profile
     this.events$ = eventService.getAllEvents()
+    this.events$ = this.events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
+    this.user_events$ = this.events$.pipe(map((events: Event[]) => {
+      return events.map(a_event => {
+        const user_event : User_Event = {
+          event: a_event, 
+          is_joined: a_event.members.map(member => member.id).includes(this.profile.id)
+        }
+        return user_event
+      })
+    }))
   }
 
   // Function to either add or remove a member from an event's attendance
-  changeStatus(event: Event) {
+  changeStatus(user_event: User_Event) {
     // TODO: implement
-    if (this.isUserInEvent(event)) {
-      this.onCancel(event)
+    if (user_event.is_joined) {
+      this.onCancel(user_event.event)
     }
     else {
-      this.onRegister(event)
+      this.onRegister(user_event.event)
     }
   }
 
@@ -58,6 +73,16 @@ export class EventsComponent {
 
   onSuccess(): void {
     this.events$ = this.eventService.getAllEvents()
+    this.events$ = this.events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
+    this.user_events$ = this.events$.pipe(map((events: Event[]) => {
+      return events.map(a_event => {
+        const user_event : User_Event = {
+          event: a_event, 
+          is_joined: a_event.members.map(member => member.id).includes(this.profile.id)
+        }
+        return user_event
+      })
+    }))
   }
 
   onError(err: Error) : void{

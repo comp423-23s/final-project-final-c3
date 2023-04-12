@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Profile } from './profile/profile.service';
 
 export interface Event {
   id: number,
@@ -10,7 +11,7 @@ export interface Event {
   location: string, 
   description: string,
   show_short_description: boolean,
-  members: number[]
+  members: Profile[]
 }
 
 export interface User_Event {
