@@ -9,6 +9,7 @@ api = APIRouter(prefix="/api/club")
 def get_all_clubs(club_svc: ClubService = Depends()):
     """Gets all registered clubs."""
     try: 
+        print("🥝 backend get all clubs called")
         return club_svc.get_all_clubs()
     except Exception as e:
         print("❌" + str(e))

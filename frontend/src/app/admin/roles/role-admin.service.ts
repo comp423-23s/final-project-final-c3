@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class RoleAdminService {
 
-    constructor(protected http: HttpClient) { }
+    constructor(protected http: HttpClient) {
+    }
 
     list() {
         return this.http.get<Role[]>("/api/admin/roles");
@@ -32,5 +33,4 @@ export class RoleAdminService {
     remove(roleId: number, userId: number) {
         return this.http.delete(`/api/admin/roles/${roleId}/member/${userId}`);
     }
-
 }

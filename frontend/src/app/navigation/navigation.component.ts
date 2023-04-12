@@ -10,6 +10,8 @@ import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { Profile, ProfileService } from '../profile/profile.service';
 import { PermissionService } from '../permission.service';
+import { Role } from '../role';
+import { RoleAdminService } from '../admin/roles/role-admin.service';
 
 @Component({
   selector: 'app-navigation',
@@ -27,15 +29,15 @@ export class NavigationComponent implements OnInit, OnDestroy {
   public checkinPermission$: Observable<boolean>;
   public adminPermission$: Observable<boolean>;
 
+  public roles$: Observable<Role[]>;
+  // public isNotLeader$: Observable<boolean>
+
   currentRoute: string = "/"
-  event_routes = [
+
+  role_routes = [
     {
-      value: 'events',
-      display: 'All Events'
-    },
-    {
-      value: 'my-events',
-      display: 'My Events'
+      value: 'profile',
+      display: 'Student'
     }
   ]
 
@@ -50,11 +52,23 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
   ]
 
+  event_routes = [
+    {
+      value: 'events',
+      display: 'All Events'
+    },
+    {
+      value: 'my-events',
+      display: 'My Events'
+    }
+  ]
+
   constructor(
     public auth: AuthenticationService,
     public router: Router,
     private permission: PermissionService,
     private profileService: ProfileService,
+    private roleAdminService: RoleAdminService,
     private breakpointObserver: BreakpointObserver,
     protected navigationService: NavigationTitleService,
     protected errorDialog: MatDialog
@@ -62,6 +76,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.profile$ = profileService.profile$;
     this.checkinPermission$ = this.permission.check('checkin.create', 'checkin/');
     this.adminPermission$ = this.permission.check('admin.view', 'admin/')
+    this.roles$ = this.roleAdminService.list();
   }
 
   routeTo(e: Object) {
@@ -101,4 +116,18 @@ export class NavigationComponent implements OnInit, OnDestroy {
         .pipe(map(result => result.matches))
         .subscribe(isHandset => this.isHandset = isHandset);
   }
+
+  // checkIsNotLeader(): Observable<boolean> {
+  //   this.roles$.pipe(
+  //       map(roles => {
+  //       if(roles.find(role => role.name=="Student")) {
+  //           console.log("find student")
+  //           return of(false)
+  //       } else {
+  //           return of(true)
+  //       }
+  //       })
+  //   )
+  //   return of(true)
+  // }
 }

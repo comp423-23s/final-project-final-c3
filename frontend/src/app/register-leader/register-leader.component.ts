@@ -49,17 +49,19 @@ export class RegisterLeaderComponent {
     this.clubExists = false
   }
 
-  registerLeaderForExistingClub() {
-    this.registerLeaderService.addLeaderForExistingClub(this.curClub, this.curClubCode)
+  leadereRegistrationRequestForExistingClub() {
+    if (this.curClub != undefined && this.curClubCode != undefined) {
+      this.registerLeaderService.leadereRegistrationRequestForExistingClub(this.curClub, this.curClubCode)
+    }
   }
 
-  registerLeaderForNonExistingClub() {
-    const newClub: PotentialClub = {
+  leaderRegistrationRequestForNonExistingClub() {
+    const potentialClub: PotentialClub = {
       id: 1,
       name: this.newClubName ?? "",
       description: this.newClubDescription ?? "",
       founder_id: this.profile.id || 0
     }
-    this.registerLeaderService.addLeaderForNonExistingClub(newClub)
+    this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub)
   }
 }

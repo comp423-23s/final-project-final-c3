@@ -21,6 +21,7 @@ def list_roles(
     role_service: RoleService = Depends(),
 ) -> list[Role]:
     try:
+        print("🍄 backend list_roles called")
         return role_service.list(subject)
     except UserPermissionError as e:
         raise HTTPException(status_code=403, detail=str(e))

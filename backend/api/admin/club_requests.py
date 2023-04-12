@@ -3,7 +3,7 @@ from ...services import ClubService, PermissionService, PotentialClubService
 from ...models import User, Club, PotentialClub
 from ..authentication import registered_user
 
-api = APIRouter(prefix="/api/admin/club_requests")
+api = APIRouter(prefix="/api/admin/club/requests")
 
 @api.get("/members", tags=['Club'])
 def add_user_to_club(

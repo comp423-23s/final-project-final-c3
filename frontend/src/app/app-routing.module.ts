@@ -18,7 +18,7 @@ const routes: Routes = [
   JoinedClubsComponent.Route,
   EventsComponent.Route,
   MyEventsComponent.Route,
-  RegisterLeaderComponent.Route
+  RegisterLeaderComponent.Route,
   { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
 ];
 
