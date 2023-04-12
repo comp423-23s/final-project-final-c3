@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile } from '../profile/profile.service'
-import { Club, ClubsService } from '../clubs.service';
+import { Club, ClubsService, User_Club } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-clubs',
@@ -25,15 +26,22 @@ export class ClubsComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  public joined_clubs$: Observable<Club[]>
+  public user_clubs$: Observable<User_Club[]>
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
-    console.log(data)
     this.profile = data.profile
     this.clubs$ = clubsService.getAllClubs()
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
-    this.joined_clubs$ = clubsService.getJoinedClubs()
+    this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
+      return clubs.map(a_club => {
+        const user_club : User_Club = {
+          club: a_club, 
+          is_joined: a_club.members.map(member => member.id).includes(this.profile.id)
+        }
+        return user_club
+      })
+    }))
   }
 
   // Controls which description is rendered on screen (short or long)
@@ -41,13 +49,12 @@ export class ClubsComponent {
     club.show_short_description = !club.show_short_description
   }
 
-  // Checks whether the current user is already in this club
-  isUserInClub(club: Club): boolean {
-    return this.clubsService.isUserInClub(club)
-  }
-
-  changeStatus(club: Club): void {
-    this.onJoin(club)
+  changeStatus(user_club: User_Club): void {
+    if (user_club.is_joined) {
+      this.onLeave(user_club.club)
+    } else {
+      this.onJoin(user_club.club)
+    }
   }
 
   // Enables a student to join a club
@@ -68,6 +75,16 @@ export class ClubsComponent {
 
   onSuccess(): void {
     this.clubs$ = this.clubsService.getAllClubs()
+    this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
+    this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
+      return clubs.map(a_club => {
+        const user_club : User_Club = {
+          club: a_club, 
+          is_joined: a_club.members.map(member => member.id).includes(this.profile.id)
+        }
+        return user_club
+      })
+    }))
   }
 
   onError(err: Error): void{

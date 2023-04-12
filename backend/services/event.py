@@ -57,7 +57,7 @@ class EventService:
         user_entity = self._session.get(UserEntity, subject.id)
         if event_entity is None:
             raise Exception("Event does not exist.")
-        if not self.is_user_registered(subject, event_id):
+        if not self.is_user_registered(subject=subject, event_id=event_id):
             raise Exception("User is not registered for this event.")
         event_entity.attendees.remove(user_entity)
         self._session.commit()

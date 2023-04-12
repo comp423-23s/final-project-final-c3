@@ -34,6 +34,7 @@
               <option *ngFor="let r of event_routes" [ngValue]="r.value">{{r.display}}</option>
             </select> 
           </a>
+          <a mat-list-item routerLink="/registerevents">Register Events</a>
           <a mat-list-item (click)="auth.signOut()">Sign out</a>
 
           <a *ngIf="roles$" routerLink="/register_leader">Leader</a>

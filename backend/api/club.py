@@ -56,69 +56,18 @@ def remove_user_from_club(
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
-@api.get("/check/membership/{club_id}", tags=['Club'])
+
+@api.get("/check/membership/{club_id}", response_model=bool, tags=['Club'])
 def check_membership(
-    club_id: int, 
-    subject: User = Depends(registered_user), 
+    club_id: int,
+    subject: User = Depends(registered_user),
     club_svc: ClubService = Depends()
-) -> bool:
+):
     """Checks if a member is in a club or not."""
     try:
+        print("🍏 backend check membership called")
+        print(club_svc.is_user_in_club(subject, club_id))
         return club_svc.is_user_in_club(subject, club_id)
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
-
-# Club Leader Methods Below
-# TODO for sprint 2
-@api.delete("/delete/{club_id}", tags=['Club'])
-def delete_club(
-    club_id: int, 
-    club_svc: ClubService = Depends()
-) -> str:
-    """Deletes a Club from our database."""
-    try:
-        club_svc.delete_club(club_id)
-        return "OK"
-    except Exception as e:
-        print("❌" + str(e))
-        raise HTTPException(status_code=404, detail=str(e))
-
-@api.get("/members", tags=['Club'])
-def get_members(
-    club_id: int, 
-    club_svc: ClubService = Depends()
-) -> list[Club]:
-    """Retrives a list of all the members of a Club."""
-    try:
-        clubs = club_svc.get_members(club_id)
-        return clubs
-    except Exception as e:
-        print("❌" + str(e))
-        raise HTTPException(status_code=404, detail=str(e))
-
-@api.get("/leader/clubs", response_model=list[Club], tags=['Club'])
-def get_all_leader_clubs(subject: User = Depends(registered_user), club_svc: ClubService = Depends()):
-    """Gets all the clubs a leader is leading."""
-    try: 
-        return club_svc.get_clubs_led_by_user(subject)
-    except Exception as e:
-        print("❌" + str(e))
-        raise HTTPException(status_code=404, detail=str(e))
-
-@api.get("/add/leader/{club_id}/{given_club_code}", tags=['Club'])
-def add_leader(
-    club_id: str,
-    given_club_code: str,
-    potential_leader: User = Depends(registered_user), 
-    club_svc: ClubService = Depends()
-) -> str:
-    """Adds a leader to an existing club."""
-    try:
-        club_svc.add_leader(potential_leader, int(club_id), given_club_code)
-        return "OK"
-    except Exception as e:
-        print("❌" + str(e))
-        raise HTTPException(status_code=404, detail=str(e))
-
-
