@@ -60,6 +60,5 @@ class EventEntity(EntityBase):
         self.name = model.name
         self.date = model.date
         self.description = model.description
-        self.attendees = model.attendees
         self.location = model.location
         

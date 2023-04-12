@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from ..services import EventService
 from ..models import User, Event
 from .authentication import registered_user
+from ..entities import EventEntity, UserEntity
 
 api = APIRouter(prefix="/api/event")
 
@@ -65,7 +66,7 @@ def add_user_to_event(
 
 
 # Delete user from event
-@api.get("/delete_from_event/{event_id}", tags=['Event'])
+@api.delete("/delete_from_event/{event_id}", tags=['Event'])
 def delete_user_from_event(
     event_id: int, 
     subject: User = Depends(registered_user), 
@@ -86,6 +87,19 @@ def get_users_in_event(
     try: 
         users = event_svc.get_users_in_event(event_id)
         return users
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+
+# Determine if user is registered for event
+@api.get("/is_user_registered/{event_id}", tags=['Event'])
+def is_user_registered(
+    event_id: int, 
+    subject: User = Depends(registered_user), 
+    event_svc: EventService = Depends()) -> str:
+    try: 
+        is_registered = event_svc.is_user_registered(subject, event_id)
+        return is_registered
     except Exception as e:
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))

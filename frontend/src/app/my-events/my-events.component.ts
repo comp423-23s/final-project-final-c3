@@ -24,32 +24,30 @@ export class MyEventsComponent {
   };
   
   public my_events$: Observable<Event[]>
-  public profile: Profile
 
   constructor(private eventService: EventService, route: ActivatedRoute, private http: HttpClient, protected snackBar: MatSnackBar) {
-    this.eventService = eventService
-    const data = route.snapshot.data as { profile: Profile }
-    console.log(route.snapshot)
-    this.profile = data.profile
-    this.my_events$ = eventService.getMyEvents(this.profile.pid)
+    this.my_events$ = eventService.getMyEvents()
   }
 
-  changeStatus(event: Event) {
-    // TODO: implement
-    if (this.isUserInEvent(event)) {
-      this.onCancel(event)
-    }
-    else {
-      this.onRegister(event)
-    }
-  }
-
-  private onRegister(event: Event) {
-    this.snackBar.open("Successfully registered for " + event.name, "", { duration: 2000 })
-  }
-
-  private onCancel(event: Event) {
+  onCancel(event: Event) {
+    this.eventService.removeUserFromEvent(event).subscribe({
+      next: () => this.onSuccess(),
+      error: (err) => this.onError(err)
+    })
     this.snackBar.open("Successfully cancelled registration for " + event.name, "", { duration: 2000 })
+  }
+
+  onSuccess(): void {
+    this.my_events$ = this.eventService.getMyEvents()
+  }
+
+  onError(err: Error) : void{
+    if (err.message) {
+      console.log(err)
+      window.alert("The error is: " + err.message);
+    } else {
+      window.alert("Unknown error: " + JSON.stringify(err));
+    }
   }
 
   // Function to determine whether or not a student is part of an event

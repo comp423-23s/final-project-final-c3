@@ -12,8 +12,11 @@
                 </div>
                 <div class="side-buttons">
                     <mat-card-actions>
-                        <button mat-raised-button (click)='changeStatus(event)' type="submit">
-                            {{ isUserInEvent(event) ? "Cancel Registration" : "Register" }}
+                        <button mat-raised-button (click)='onRegister(event)' type="submit">
+                            {{ "Register" }}
+                        </button>
+                        <button mat-raised-button (click)='onCancel(event)' type="submit">
+                            {{ "Cancel Registration"  }}
                         </button>
                     </mat-card-actions>
                     <mat-card-actions>

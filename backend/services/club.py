@@ -23,7 +23,7 @@ class ClubService:
     def get_clubs_by_user_id(self, subject: User) -> list[Club]:
         """Returns all clubs that a user is a member of."""
         clubs: list[Club] = []
-        query = select(user_club_table.c.club_id).where(user_club_table.c.user_id== subject.id)
+        query = select(user_club_table.c.club_id).where(user_club_table.c.user_id == subject.id)
         club_entites = self._session.scalars(query).all()
         for entity in club_entites:
             club_entity = self._session.get(ClubEntity, entity)
