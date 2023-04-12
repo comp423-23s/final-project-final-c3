@@ -8,12 +8,17 @@
             </mat-card-header>
             <mat-card-content>
                 <div class='description'>
-                    {{ event.description }}
+                    {{ event.show_short_description ? getShortDescription(event) : event.description }}
                 </div>
                 <div class="side-buttons">
                     <mat-card-actions>
                         <button mat-raised-button (click)='onCancel(event)' type="submit">
                             {{ "Cancel Registration" }}
+                        </button>
+                    </mat-card-actions>
+                    <mat-card-actions>
+                        <button mat-raised-button (click)='alterText(event)' type="submit">
+                            {{ event.show_short_description ? "Read More" : "Read Less" }}
                         </button>
                     </mat-card-actions>
                 </div>
