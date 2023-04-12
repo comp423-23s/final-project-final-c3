@@ -36,7 +36,8 @@
           </a>
           <a mat-list-item (click)="auth.signOut()">Sign out</a>
 
-          <a *ngIf="(roles$ | async) === undefined">Leader</a>
+          <a *ngIf="roles$" routerLink="/register_leader">Leader</a>
+          <!-- <a mat-list-item *ngIf="roles$ | async" routerLink="/register_leader">Admin</a> -->
         </ng-template>
       </mat-nav-list>
     </mat-sidenav>
