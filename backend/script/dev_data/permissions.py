@@ -8,11 +8,11 @@ __copyright__ = "Copyright 2023"
 __license__ = "MIT"
 
 pairs = [
-    (roles.sudoer, Permission(action="*", resource="*")),
-    (roles.staff, Permission(action="admin.*", resource="*")),
-    (roles.staff, Permission(action="user.*", resource="*")),
-    (roles.staff, Permission(action="role.*", resource="*")),
-    (roles.staff, Permission(action="checkin.*", resource="*")),
-    (roles.ambassador, Permission(action="user.search", resource="*")),
-    (roles.ambassador, Permission(action="checkin.*", resource="*"))
+    (roles.student, Permission(action="*", resource="*")),
+    (roles.leader, Permission(action="admin.*", resource="*")),
+    (roles.leader, Permission(action="user.*", resource="*")),
+    (roles.leader, Permission(action="role.*", resource="*")),
+    (roles.leader, Permission(action="checkin.*", resource="*")),
+    (roles.administrator, Permission(action="user.search", resource="*")),
+    (roles.administrator, Permission(action="checkin.*", resource="*"))
 ]

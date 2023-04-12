@@ -69,6 +69,7 @@ def check_membership(
         raise HTTPException(status_code=404, detail=str(e))
 
 # Club Leader Methods Below
+# TODO for sprint 2
 @api.delete("/delete/{club_id}", tags=['Club'])
 def delete_club(
     club_id: int, 
@@ -83,7 +84,7 @@ def delete_club(
         raise HTTPException(status_code=404, detail=str(e))
 
 @api.get("/members", tags=['Club'])
-def add_user_to_club(
+def get_members(
     club_id: int, 
     club_svc: ClubService = Depends()
 ) -> list[Club]:
@@ -95,15 +96,28 @@ def add_user_to_club(
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
-@api.post("/create/club", tags=['Club'])
-def create_club(
-    club: Club, 
+@api.get("/leader/clubs", response_model=list[Club], tags=['Club'])
+def get_all_leader_clubs(subject: User = Depends(registered_user), club_svc: ClubService = Depends()):
+    """Gets all the clubs a leader is leading."""
+    try: 
+        return club_svc.get_clubs_led_by_user(subject)
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+
+@api.post("/add/leader", tags=['Club'])
+def add_leader(
+    club_id: int,
+    given_club_code: str,
+    potential_leader: User = Depends(registered_user), 
     club_svc: ClubService = Depends()
 ) -> str:
-    """Creates a new club and adds it to the database."""
+    """Adds a leader to an existing club."""
     try:
-        club_svc.create_club(club)
+        club_svc.add_leader(potential_leader, club_id, given_club_code)
         return "OK"
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
+
+

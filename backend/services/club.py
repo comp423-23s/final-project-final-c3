@@ -2,9 +2,11 @@ from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from backend.entities.user_club_entity import user_club_table
+from backend.entities.leader_club_entity import leader_club_table
+
 from ..database import db_session
 from ..models import Club, User
-from ..entities import ClubEntity, UserEntity
+from ..entities import ClubEntity, UserEntity, RoleEntity
 
 class ClubService:
     _session: Session
@@ -66,7 +68,6 @@ class ClubService:
 
 
     # Leader Methods Below
-
     def get_members(self, club_id: int) -> list[User]:
         """Returns a list of members for a club."""
         members: list[User] = []
@@ -77,15 +78,36 @@ class ClubService:
             members.append(user_entity.to_model())
         return members
     
-    def create_club(self, club: Club) -> None:
-        club_entity = ClubEntity.from_model(club)
-        self._session.add(club_entity)
-        self._session.commit()
 
     def delete_club(self, club_id: int) -> None:
         club_entity = self._session.get(ClubEntity, club_id)
         self._session.delete(club_entity)
         self._session.commit()
+
+    def add_leader(self, potential_leader: User, club_id: int, given_club_code: str) -> None:
+        """Adds a leader to an existing club."""
+        club_entity = self._session.get(ClubEntity, club_id)
+        actual_club_code = club_entity.club_code
+        if (given_club_code == actual_club_code):
+            leader_as_user_entity = self._session.get(UserEntity, potential_leader.id)
+            club_entity.leaders.append(leader_as_user_entity)
+            role_entity = self._session.get(RoleEntity, 2)
+            leader_as_user_entity.roles.append(role_entity)
+        else:
+            raise Exception("Club code does not match. Request denied.")
+        
+    def get_clubs_led_by_user(self, leader: User) -> list[Club]:
+        """Returns a list of all the clubs a user is leading."""
+        clubs: list[Club] = []
+        query = select(leader_club_table.c.club_id).where(leader_club_table.c.user_id== leader.id)
+        club_entities = self._session.scalars(query).all()
+        for entity in club_entities:
+            club_entity = self._session.get(ClubEntity, entity)
+            clubs.append(club_entity.to_model())
+        return clubs
+
+
+        
 
 
 
