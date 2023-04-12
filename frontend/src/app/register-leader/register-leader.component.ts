@@ -7,6 +7,7 @@ import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Club, ClubsService } from '../clubs.service';
 import { PotentialClub, RegisterLeaderService } from '../register-leader.service';
+import { FormBuilder, Validators } from '@angular/forms';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Component({

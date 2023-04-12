@@ -1,1 +1,24 @@
-<p>register-leader works!</p>
+<form [formGroup]="leaderForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Become a Leader</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field appearance="fill">
+                <mat-label>Club Name</mat-label>
+                <input matInput placeholder="3" formControlName="club_id" name="club_id" required>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Club Code</mat-label>
+                <input matInput placeholder="Workshop" formControlName="name" name="name" required>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Club Description</mat-label>
+                <input matInput placeholder="A scheduled workshop" formControlName="description" name="description" required>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button type="submit" [disabled]="eventForm.invalid">SAVE</button>
+        </mat-card-actions>
+    </mat-card>
+</form>
