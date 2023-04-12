@@ -68,6 +68,6 @@ export class ClubsService {
    */
   isUserInClub(club: Club): Observable<Boolean> {
     console.log("service isUserInClub called")
-    return this.http.get<Boolean>(`api/club/check_membership/${club.id}`)
+    return this.http.get<Boolean>(`api/club/check/membership/${club.id}`)
   }
 }

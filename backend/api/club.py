@@ -57,7 +57,7 @@ def remove_user_from_club(
         raise HTTPException(status_code=404, detail=str(e))
 
 
-@api.get("/check_membership/{club_id}", response_model=bool, tags=['Club'])
+@api.get("/check/membership/{club_id}", response_model=bool, tags=['Club'])
 def check_membership(
     club_id: int,
     subject: User = Depends(registered_user),
