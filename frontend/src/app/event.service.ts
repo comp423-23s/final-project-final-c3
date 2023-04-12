@@ -13,6 +13,11 @@ export interface Event {
   members: number[]
 }
 
+export interface User_Event {
+  event: Event,
+  is_joined: boolean
+}
+
 /**
  * This class handles all student operations related to events including the ability 
  * to view all events, view joined events, join an event, and leave an event.
