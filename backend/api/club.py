@@ -54,3 +54,16 @@ def remove_user_from_club(
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
+
+@api.get("/check_membership/{club_id}", tags=['Club'])
+def check_membership(
+    club_id: int, 
+    subject: User = Depends(registered_user), 
+    club_svc: ClubService = Depends()
+) -> bool:
+    """Checks if a member is in a club or not."""
+    try:
+        return club_svc.is_user_in_club(subject, club_id)
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
