@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
 import { ClubsComponent } from './clubs/clubs.component';
 import { JoinedClubsComponent } from './joined-clubs/joined-clubs.component';
+import { RegisterEventComponent } from './register-event/register-event.component';
 
 const routes: Routes = [
   HomeComponent.Route,
@@ -17,6 +18,7 @@ const routes: Routes = [
   JoinedClubsComponent.Route,
   EventsComponent.Route,
   MyEventsComponent.Route,
+  RegisterEventComponent.Route,
   { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
 ];
 

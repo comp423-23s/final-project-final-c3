@@ -60,6 +60,10 @@ export class EventService {
     return false
   }
 
+  put(club_id: number) {
+    // TODO: implement HTTPClient route to add an event by club
+  }
+
   /**
    * Enable a student to leave an event
    * @param Event event object
