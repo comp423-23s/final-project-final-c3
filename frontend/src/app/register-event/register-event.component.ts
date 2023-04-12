@@ -54,15 +54,15 @@ export class RegisterEventComponent implements OnInit{
 
   onSubmit(): void {
     // TODO: add put method to event service
-    if (this.eventForm.valid) {
-      // Object.assign(this.event, this.eventForm.value)
-      // this.eventService.put(this.event).subscribe(
-      //   {
-      //     next: (user) => this.onSuccess(user),
-      //     error: (err) => this.onError(err)
-      //   } 
-      // );
-    }
+    // if (this.eventForm.valid) {
+    //   Object.assign(this.event, this.eventForm.value)
+    //   this.eventService.put(this.event).subscribe(
+    //     {
+    //       next: (user) => this.onSuccess(user),
+    //       error: (err) => this.onError(err)
+    //     } 
+    //   );
+    // }
   }
 
   private onSuccess(event: Event) {
