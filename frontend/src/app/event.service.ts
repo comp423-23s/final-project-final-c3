@@ -41,16 +41,27 @@ export class EventService {
    * @param pid 9-digit UNC PID
    * @returns Observale array of Event objects
    */
-  getMyEvents(pid: number): Observable<Event[]> {
-    let myEvents$ = this.http.get<Event[]>('/api/event/by_pid/' + pid)
-    return myEvents$
+  getMyEvents(): Observable<Event[]> {
+    return this.http.get<Event[]>('/api/event/user_events')
+  }
+
+  addUserToEvent(event: Event): Observable<Event> {
+    return this.http.get<Event>(`api/event/add_to_event/${event.id}`)
+  }
+
+  removeUserFromEvent(event: Event): Observable<Event> {
+    return this.http.delete<Event>(`api/event/delete_from_event/${event.id}`)
   }
 
   // Call to backend to see if user is a registered attendee for an event
   isUserInEvent(event: Event): boolean {
     // TODO: Some HTTP method
     // For now, return true
-    return true
+    return false
+  }
+
+  put(club_id: number) {
+    // TODO: implement HTTPClient route to add an event by club
   }
 
   /**
