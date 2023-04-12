@@ -9,7 +9,7 @@ api = APIRouter(prefix="/api/club")
 def get_all_clubs(club_svc: ClubService = Depends()):
     """Gets all registered clubs."""
     try: 
-        print("🧐 get all called")
+        print("🧐 backend get all called")
         return club_svc.get_all_clubs()
     except Exception as e:
         print("❌" + str(e))
@@ -20,6 +20,7 @@ def get_all_clubs(club_svc: ClubService = Depends()):
 def get_clubs_by_pid(subject: User = Depends(registered_user), club_svc: ClubService = Depends()):
     """Gets all the clubs a User is registered for via the User's ID."""
     try:
+        print("💧 backend get user's clubs called")
         user_clubs = club_svc.get_clubs_by_user_id(subject)
         return user_clubs
     except Exception as e:
@@ -65,7 +66,7 @@ def check_membership(
 ):
     """Checks if a member is in a club or not."""
     try:
-        print("🌕 check function called")
+        print("🍎 backend check membership called")
         return club_svc.is_user_in_club(subject, club_id)
     except Exception as e:
         print("❌" + str(e))

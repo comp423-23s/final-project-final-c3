@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile } from '../profile/profile.service'
@@ -30,9 +30,9 @@ export class ClubsComponent {
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
-    console.log(data)
     this.profile = data.profile
     this.clubs$ = clubsService.getAllClubs()
+    // this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, is_user_in_club: clubsService.isUserInClub(club)}})}))
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
     this.joined_clubs$ = clubsService.getJoinedClubs()
   }
@@ -43,18 +43,20 @@ export class ClubsComponent {
   }
 
   // Checks whether the current user is already in this club
-  isUserInClub(club: Club): Observable<Boolean> {
-    console.log("component isUserInClub called")
-    console.log(this.clubsService.isUserInClub(club))
-    return this.clubsService.isUserInClub(club)
+  isUserInClub(club: Club): boolean {
+    // console.log("component isUserInClub called")
+    // console.log(this.clubsService.isUserInClub(club))
+    var result: boolean = false
+    this.clubsService.isUserInClub(club).subscribe(res => result = res)
+    return result
   }
 
   changeStatus(club: Club): void {
     if (this.isUserInClub(club)) {
       this.onLeave(club)
-      return
+    } else {
+      this.onJoin(club)
     }
-    this.onJoin(club)
   }
 
   // Enables a student to join a club

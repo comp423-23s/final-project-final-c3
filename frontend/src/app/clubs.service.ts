@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, map } from 'rxjs';
 import { Profile } from './profile/profile.service';
 
 export interface Club {
@@ -9,6 +9,7 @@ export interface Club {
   description: string; 
   show_short_description: boolean;
   members: number[];               // array of club members
+  is_user_in_club: Observable<boolean>;
 }
 
 /**
@@ -19,8 +20,11 @@ export interface Club {
   providedIn: 'root'
 })
 export class ClubsService {
+  // public clubs$: Observable<Club[]>
 
   constructor(private http: HttpClient) {
+    // var rawClubs: Observable<Club[]> = this.getAllClubs()
+    // this.clubs$ = rawClubs.pipe(map((rawClubs: Club[]) => {return rawClubs.map(club => {return {...club, is_user_in_club: this.isUserInClub(club)}})}))
   }
 
   /**
@@ -61,13 +65,14 @@ export class ClubsService {
     return this.http.delete<String>(`api/club/remove/${club.id}`)
   }
 
+
   /**
    * Determines whether a user is in a club
    * @param Club club object
    * @returns boolean
    */
-  isUserInClub(club: Club): Observable<Boolean> {
+  isUserInClub(club: Club): Observable<boolean> {
     console.log("service isUserInClub called")
-    return this.http.get<Boolean>(`api/club/check/membership/${club.id}`)
+    return this.http.get<boolean>(`api/club/check/membership/${club.id}`)
   }
 }
