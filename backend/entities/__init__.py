@@ -23,7 +23,6 @@ from .club_entity import ClubEntity
 from .user_club_entity import user_club_table
 from .user_event_entity import user_event_table
 from .leader_club_entity import leader_club_table
-from .potential_club_entity import PotentialClubEntity
 
 
 __authors__ = ["Kris Jordan"]
