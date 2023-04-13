@@ -41,7 +41,7 @@ def add_user_to_club(
         raise HTTPException(status_code=404, detail=str(e))
 
 
-@api.delete("/remove/{club_id}", tags=['Club'])
+@api.delete("/remove/from/{club_id}", tags=['Club'])
 def remove_user_from_club(
     club_id: int, 
     subject: User = Depends(registered_user),

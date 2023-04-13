@@ -20,6 +20,7 @@ class ClubEntity(EntityBase):
     __tablename__ = 'club'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    club_code: Mapped[str] = mapped_column(String, unique=True)
     name: Mapped[str] = mapped_column(
         String(64), nullable=False, default='')
     description: Mapped[str] = mapped_column(
@@ -31,17 +32,21 @@ class ClubEntity(EntityBase):
     def from_model(cls, model: Club) -> Self:
         return cls(
             id=model.id,
+            club_code=model.club_code,
             name=model.name,
             description=model.description,
-            members=model.members
+            members=model.members,
+            leaders=model.leaders
         )
 
     def to_model(self) -> Club:
         return Club(
             id=self.id,
+            club_code=self.club_code,
             name=self.name,
             description=self.description,
-            members = [member.to_model() for member in self.members]
+            members = [member.to_model() for member in self.members],
+            leaders = [leader.to_model() for leader in self.leaders]
         )
 
     def update(self, model: Club) -> None:
