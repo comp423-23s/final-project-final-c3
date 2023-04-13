@@ -14,7 +14,7 @@ class RoleService:
         self._session = session
         self._permission = permission
 
-    def list(self, subject: User) -> list[Role]:
+    def my_list(self, subject: User) -> list[Role]:
         self._permission.enforce(subject, 'role.list', 'role/')
         stmt = select(RoleEntity).order_by(RoleEntity.name)
         role_entities = self._session.execute(stmt).scalars()
@@ -66,4 +66,3 @@ class RoleService:
             role_entity = self._session.get(RoleEntity, entity)
             roles.append(role_entity.to_model())
         return roles
-    
