@@ -27,46 +27,50 @@ export class RegisterLeaderComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
+  public selectedClubId: number = -1
+  public enteredClubCode: String = ""
 
-  public clubExists: boolean
-  public curClub: Club | undefined
-  public curClubCode: String | undefined
-
-  public newClubName: String | undefined
-  public newClubDescription: String | undefined
+  public leaderForm = this.formBuilder.group({
+    club: '',
+    clud_code: 0
+  });
   
   constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.clubs$ = clubService.getAllClubs()
-    this.clubExists = false
   }
 
-  setClubExist() {
-    this.clubExists = true
-  }
+  // setClubExist() {
+  //   this.clubExists = true
+  // }
 
-  setClubNotExist() {
-    this.clubExists = false
+  // setClubNotExist() {
+  //   this.clubExists = false
+  // }
+
+  selectionChange(clubId: number) {
+    this.selectedClubId = clubId
   }
 
   leadereRegistrationRequestForExistingClub() {
-    if (this.curClub != undefined && this.curClubCode != undefined) {
-      this.registerLeaderService.leadereRegistrationRequestForExistingClub(this.curClub, this.curClubCode)
+    if (this.selectedClubId != -1 && this.enteredClubCode.length != 0) {
+      this.registerLeaderService.leadereRegistrationRequestForExistingClub(this.selectedClubId, this.enteredClubCode)
     }
   }
 
-  leaderRegistrationRequestForNonExistingClub() {
-    const potentialClub: PotentialClub = {
-      id: 1,
-      name: this.newClubName ?? "",
-      description: this.newClubDescription ?? "",
-      founder_id: this.profile.id || 0
-    }
-    this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub)
-  }
+  // leaderRegistrationRequestForNonExistingClub() {
+  //   const potentialClub: PotentialClub = {
+  //     id: 1,
+  //     name: this.newClubName ?? "",
+  //     description: this.newClubDescription ?? "",
+  //     founder_id: this.profile.id || 0
+  //   }
+  //   this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub)
+  // }
 
-  onSubmit(): void {
-
+  onSubmit(clubCode: String): void {
+    this.enteredClubCode = clubCode
+    this.registerLeaderService.leadereRegistrationRequestForExistingClub(this.selectedClubId, this.enteredClubCode)
   }
 }

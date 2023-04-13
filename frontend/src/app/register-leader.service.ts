@@ -25,8 +25,8 @@ export class RegisterLeaderService {
    * @param int givenClubCode
    * @returns String
    */
-  leadereRegistrationRequestForExistingClub(club: Club, givenClubCode: String): Observable<String> {
-    return this.http.get<String>(`/api/club/add/leader/${club.id}/${givenClubCode}`)
+  leadereRegistrationRequestForExistingClub(clubId: number, givenClubCode: String): Observable<String> {
+    return this.http.get<String>(`/api/club/add/leader/${clubId}/${givenClubCode}`)
   }
 
   /**
@@ -35,7 +35,7 @@ export class RegisterLeaderService {
    * @Param PotentialClub potentialClub
    * @returns String
    */
-  leaderRegistrationRequestForNonExistingClub(potentialClub: PotentialClub): Observable<String> {
-    return this.http.post<String>(`/api/admin/club/requests/potential/club/request`, potentialClub)
-  }
+  // leaderRegistrationRequestForNonExistingClub(potentialClub: PotentialClub): Observable<String> {
+  //   return this.http.post<String>(`/api/admin/club/requests/potential/club/request`, potentialClub)
+  // }
 }

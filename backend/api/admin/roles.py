@@ -21,7 +21,6 @@ def list_roles(
     role_service: RoleService = Depends(),
 ) -> list[Role]:
     try:
-        print("🧩 good")
         return role_service.my_list(subject)
     except UserPermissionError as e:
         raise HTTPException(status_code=403, detail=str(e))
@@ -32,6 +31,7 @@ def get_user_roles(
     role_service: RoleService = Depends()
 ):
     try:
+        print("🚗 backed get_user_roles api called")
         user_roles = role_service.get_users_roles(subject)
         return user_roles
     except Exception as e:

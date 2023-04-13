@@ -81,16 +81,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.profile$ = profileService.profile$;
     this.checkinPermission$ = this.permission.check('checkin.create', 'checkin/');
     this.adminPermission$ = this.permission.check('admin.view', 'admin/')
-    this.roles$ = this.roleAdminService.list();
-    // this.isNotLeader$ = this.roles$.pipe(map((roles: Role[]) => {
-    //   if (!roles.find(role => role.name == "Leader")) {
-    //     console.log("is not leader")
-    //     return true
-    //   } else {
-    //     console.log("is leader")
-    //     return false
-    //   }
-    // }))
+    this.roles$ = this.roleAdminService.list_my_roles();
     this.role_routes$ = this.roles$.pipe(map((roles: Role[]) => {
       return roles.map(a_role => {
         const role_route: RoleRoute = {
