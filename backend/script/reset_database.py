@@ -82,7 +82,7 @@ with Session(engine) as session:
 
     #Fake Events
     event_a_date = datetime.datetime(year=2023, month=4, day=3, hour=5, minute=0)
-    event_a: EventEntity = EventEntity(id=1, name="Event101", club_id=1, date=event_a_date, location="123 Main Street, Chapel Hill NC", description="An event that is scheduled", attendees=[])
+    event_a: EventEntity = EventEntity(id=1, name="Event101", club_id=1, date=event_a_date, location="123 Main Street, Chapel Hill NC", description="An event that is scheduled at 123 Main Street, Chapel Hill NC.", attendees=[])
     session.add(event_a)
     event_b_date = datetime.datetime(year=2023, month=4, day=6, hour=3, minute=30)
     event_b: EventEntity = EventEntity(id=2, name="Event102", club_id=2, date=event_b_date, location="123 Short Street, Chapel Hill NC", description="An event that is schedules.", attendees=[])
