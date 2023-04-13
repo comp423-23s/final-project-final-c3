@@ -43,6 +43,7 @@ with Session(engine) as session:
     session.add_all([to_entity(model) for model in roles.models])
     session.execute(text(f'ALTER SEQUENCE {entities.RoleEntity.__table__}_id_seq RESTART WITH {len(roles.models) + 1}'))
     session.commit()
+    
 
 # Add Users to Roles
 with Session(engine) as session:
@@ -68,15 +69,15 @@ with Session(engine) as session:
 # Add Fake Data to Display
 with Session(engine) as session:
     # Fake Clubs.
-    club_a: ClubEntity = ClubEntity(id=1, name="Pearl Hacks", description="Pearl Hacks is a weekend-long hackathon targeting women and non-binary students.")
+    club_a: ClubEntity = ClubEntity(id=1, club_code="1AB45TY0", name="Pearl Hacks", description="Pearl Hacks is a weekend-long hackathon targeting women and non-binary students.")
     session.add(club_a)
-    club_b: ClubEntity = ClubEntity(id=2, name="App Team", description="App Team Carolina provides a collaborative environment for UNC students to learn iOS development.")
+    club_b: ClubEntity = ClubEntity(id=2, club_code="1NB457Y9", name="App Team", description="App Team Carolina provides a collaborative environment for UNC students to learn iOS development.")
     session.add(club_b)
     club_c: ClubEntity = ClubEntity(id=3, name="CSSG", description="A student-led org that works with local nonprofits to give them technology for volunteer work.")
     session.add(club_c)
-    club_d: ClubEntity = ClubEntity(id=4, name="HackNC", description="The HackNC Association organizes UNC’s annual co-ed hackathon!")
+    club_d: ClubEntity = ClubEntity(id=4, club_code="19B44T50", name="HackNC", description="The HackNC Association organizes UNC’s annual co-ed hackathon!")
     session.add(club_d)
-    club_e: ClubEntity = ClubEntity(id=5, name="WiCS", description="A social, professional, and academic organization to empower and enable women in computer science. ")
+    club_e: ClubEntity = ClubEntity(id=5, club_code="11B45ZX0", name="WiCS", description="A social, professional, and academic organization to empower and enable women in computer science. ")
     session.add(club_e)
 
     #Fake Events

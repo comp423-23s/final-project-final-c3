@@ -8,7 +8,7 @@ __copyright__ = "Copyright 2023"
 __license__ = "MIT"
 
 pairs = [
-    (users.root, roles.sudoer),
-    (users.merritt_manager, roles.staff),
-    (users.arden_ambassador, roles.ambassador)
+    (users.root, roles.student),
+    (users.merritt_manager, roles.leader),
+    (users.arden_ambassador, roles.administrator)
 ]
