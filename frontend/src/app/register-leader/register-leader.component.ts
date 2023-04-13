@@ -35,7 +35,7 @@ export class RegisterLeaderComponent {
   public newClubName: String | undefined
   public newClubDescription: String | undefined
   
-  constructor(route: ActivatedRoute, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar) {
+  constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.clubs$ = clubService.getAllClubs()
@@ -64,5 +64,9 @@ export class RegisterLeaderComponent {
       founder_id: this.profile.id || 0
     }
     this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub)
+  }
+
+  onSubmit(): void {
+
   }
 }
