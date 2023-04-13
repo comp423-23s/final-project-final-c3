@@ -63,6 +63,6 @@ export class ClubsService {
    * @returns Club that was left
    */
   leaveClub(club: Club): Observable<String> {
-    return this.http.delete<String>(`api/club/remove/${club.id}`)
+    return this.http.delete<String>(`api/club/remove/from/${club.id}`)
   }
 }
