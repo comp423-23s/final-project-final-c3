@@ -72,15 +72,16 @@ def check_membership(
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
     
-@api.post("/add/leader/to/club", tags=['Club'])
-def potential_club_request(
+@api.get("/add/leader/to/club/{club_id}/{given_club_code}", tags=['Club'])
+def leader_register_request(
     club_id: int, 
-    given_club_code: int,
+    given_club_code: str,
     subject: User = Depends(registered_user),
     club_svc: ClubService = Depends()
 ) -> str:
     """Adding a leader to a club."""
     try:
+        print("👨‍🚀 backend leader_register_request api called")
         club_svc.add_leader(subject, club_id, given_club_code)
         return "OK"
     except Exception as e:

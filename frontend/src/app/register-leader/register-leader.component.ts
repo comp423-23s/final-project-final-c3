@@ -9,6 +9,8 @@ import { Club, ClubsService } from '../clubs.service';
 import { PotentialClub, RegisterLeaderService } from '../register-leader.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
+import { NavigationComponent } from '../navigation/navigation.component';
+import { RoleAdminService } from '../admin/roles/role-admin.service';
 
 @Component({
   selector: 'app-register-leader',
@@ -27,7 +29,8 @@ export class RegisterLeaderComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  public selectedClubId: number = -1
+  public selectedClub: Club = {id: 0, name: "Dummy Club", description: "dummy description", show_short_description: true, members: []}
+  public selectedClubId: number = 0
   public enteredClubCode: String = ""
 
   public leaderForm = this.formBuilder.group({
@@ -35,7 +38,7 @@ export class RegisterLeaderComponent {
     clud_code: 0
   });
   
-  constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar) {
+  constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar, private navigationComponent: NavigationComponent, private roleAdminService: RoleAdminService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.clubs$ = clubService.getAllClubs()
@@ -49,8 +52,19 @@ export class RegisterLeaderComponent {
   //   this.clubExists = false
   // }
 
-  selectionChange(clubId: number) {
-    this.selectedClubId = clubId
+  selectionChange(clubName: string) {
+    if (clubName == "Pearl Hacks") {
+      this.selectedClubId = 1
+    } else if (clubName == "App Team") {
+      this.selectedClubId = 2
+    } else if (clubName == "CSSG") {
+      this.selectedClubId = 3
+    } else if (clubName == "HackNC") {
+      this.selectedClubId = 4
+    } else if (clubName == "WiCS") {
+      this.selectedClubId = 5
+    }
+    console.log("selected club id is " + this.selectedClubId)
   }
 
   leadereRegistrationRequestForExistingClub() {
@@ -70,7 +84,20 @@ export class RegisterLeaderComponent {
   // }
 
   onSubmit(clubCode: String): void {
+    console.log("frontend onSubmit() called")
     this.enteredClubCode = clubCode
-    this.registerLeaderService.leadereRegistrationRequestForExistingClub(this.selectedClubId, this.enteredClubCode)
+    this.registerLeaderService.leadereRegistrationRequestForExistingClub(this.selectedClubId, this.enteredClubCode).subscribe({
+      next: () => this.onSuccess(),
+      error: (err) => this.onError(err)
+    })
+  }
+
+  onSuccess(): void {
+    // this.navigationComponent.roles$ = this.roleAdminService.list_my_roles();
+  }
+
+  onError(err: Error): void{
+    console.log(err)
+    window.alert("Wrong club code. Leader registration request denied.");
   }
 }

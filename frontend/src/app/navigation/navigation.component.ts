@@ -30,21 +30,20 @@ export class NavigationComponent implements OnInit, OnDestroy {
   public adminPermission$: Observable<boolean>;
 
   public roles$: Observable<Role[]>;
-  // public isNotLeader$: Observable<boolean>
 
   currentRoute: string = "/"
 
   role_routes$: Observable<RoleRoute[]>
-  // role_routes = [
-  //   {
-  //     value: 'profile',
-  //     display: 'Student'
-  //   },
-  //   {
-  //     value: 'register_leader',
-  //     display: 'Leader'
-  //   }
-  // ]
+  role_routes = [
+    {
+      value: 'student',
+      display: 'Student'
+    },
+    {
+      value: 'leader',
+      display: 'Leader'
+    }
+  ]
 
   club_routes = [
     {

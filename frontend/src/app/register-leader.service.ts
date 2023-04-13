@@ -26,7 +26,9 @@ export class RegisterLeaderService {
    * @returns String
    */
   leadereRegistrationRequestForExistingClub(clubId: number, givenClubCode: String): Observable<String> {
-    return this.http.get<String>(`/api/club/add/leader/${clubId}/${givenClubCode}`)
+    console.log("frontend service called")
+    return this.http.get<String>(`/api/club/add/leader/to/club/${clubId}/${givenClubCode}`)
+    // return this.http.get<String>(`/api/club/add/leader/to/club/${clubId}/${givenClubCode}`)
   }
 
   /**

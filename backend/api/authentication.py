@@ -38,7 +38,7 @@ def registered_user(
                 return user
         except:
             ...
-    raise HTTPException(status_code=401, detail='Unauthorized')
+    raise HTTPException(status_code=401, detail='Unauthorizeddddddd')
 
 
 def authenticated_pid(

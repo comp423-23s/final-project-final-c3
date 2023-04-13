@@ -39,6 +39,7 @@ import { JoinedClubsComponent } from './joined-clubs/joined-clubs.component';
 import { ClubsComponent } from './clubs/clubs.component';
 import { RegisterLeaderComponent } from './register-leader/register-leader.component';
 import { RegisterEventComponent } from './register-event/register-event.component';
+import { RoleSelectionComponent } from './role-selection/role-selection.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { RegisterEventComponent } from './register-event/register-event.componen
     ClubsComponent,
     JoinedClubsComponent,
     RegisterLeaderComponent,
-    RegisterEventComponent
+    RegisterEventComponent,
+    RoleSelectionComponent
   ],
   imports: [
     BrowserModule,

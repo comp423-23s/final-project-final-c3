@@ -93,6 +93,7 @@ class ClubService:
             club_entity.leaders.append(leader_as_user_entity)
             role_entity = self._session.get(RoleEntity, 2)
             leader_as_user_entity.roles.append(role_entity)
+            print("🌶️ Leader successfully addede in backend service")
         else:
             raise Exception("Club code does not match. Request denied.")
         

@@ -31,10 +31,12 @@ def get_user_roles(
     role_service: RoleService = Depends()
 ):
     try:
-        print("🚗 backed get_user_roles api called")
         user_roles = role_service.get_users_roles(subject)
+        for user_role in user_roles:
+            print("🚗" + user_role.name)
         return user_roles
     except Exception as e:
+        print("❌" + str(e))
         raise HTTPException(status_code=403, detail=str(e))
 
 @api.get("/{id}", tags=["Roles"])
