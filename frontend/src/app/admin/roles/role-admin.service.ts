@@ -14,6 +14,10 @@ export class RoleAdminService {
         return this.http.get<Role[]>("/api/admin/roles");
     }
 
+    list_my_roles() {
+        return this.http.get<Role[]>("/api/admin/roles/get/users/roles");
+    }
+
     details(id: number) {
         return this.http.get<RoleDetails>(`/api/admin/roles/${id}`);
     }

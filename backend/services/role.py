@@ -15,7 +15,7 @@ class RoleService:
         self._permission = permission
 
     def my_list(self, subject: User) -> list[Role]:
-        self._permission.enforce(subject, 'role.list', 'role/')
+        # self._permission.enforce(subject, 'role.list', 'role/')
         stmt = select(RoleEntity).order_by(RoleEntity.name)
         role_entities = self._session.execute(stmt).scalars()
         return [role_entity.to_model() for role_entity in role_entities]
