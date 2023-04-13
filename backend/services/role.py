@@ -15,6 +15,7 @@ class RoleService:
         self._permission = permission
 
     def my_list(self, subject: User) -> list[Role]:
+        """Only returns a list of all the roles, nothing further."""
         self._permission.enforce(subject, 'role.list', 'role/')
         stmt = select(RoleEntity).order_by(RoleEntity.name)
         role_entities = self._session.execute(stmt).scalars()
