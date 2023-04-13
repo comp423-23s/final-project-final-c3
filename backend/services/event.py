@@ -68,7 +68,7 @@ class EventService:
         event_entity = self._session.get(EventEntity, event_id)
         event = event_entity.to_model()
         for attendee in event.attendees:
-            if attendee.pid == subject.pid:
+            if attendee.pid == subject.id:
                 return True
             return False
         
