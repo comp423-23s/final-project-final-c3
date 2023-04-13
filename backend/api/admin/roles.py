@@ -101,4 +101,4 @@ def remove_member(
         return role_service.remove(subject, id, userId)
     except UserPermissionError as e:
         raise HTTPException(status_code=403, detail=str(e))
-    
+        
