@@ -9,6 +9,7 @@ api = APIRouter(prefix="/api/club")
 def get_all_clubs(club_svc: ClubService = Depends()):
     """Gets all registered clubs."""
     try: 
+        print("🥝 backend get all clubs called")
         return club_svc.get_all_clubs()
     except Exception as e:
         print("❌" + str(e))
@@ -71,16 +72,17 @@ def check_membership(
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
     
-
-@api.post("/add/leader/to/club/", tags=['Club'])
-def add_leader_to_club(
+    
+@api.get("/add/leader/to/club/{club_id}/{given_club_code}", tags=['Club'])
+def leader_register_request(
     club_id: int, 
-    given_club_code: int,
+    given_club_code: str,
     subject: User = Depends(registered_user),
     club_svc: ClubService = Depends()
 ) -> str:
     """Registers a User as a Leader for a specific club."""
     try:
+        print("👨‍🚀 backend leader_register_request api called")
         club_svc.add_leader(subject, club_id, given_club_code)
         return "OK"
     except Exception as e:
