@@ -15,7 +15,6 @@ class ClubService:
         self._session = session
 
 
-
     def get_all_clubs(self) -> list[Club]:
         """Returns all registered clubs in the database."""
         query = select(ClubEntity)
@@ -47,6 +46,7 @@ class ClubService:
 
    
     def is_user_in_club(self, subject: User, club_id: int) -> bool:
+        """States whether or not a user is in a club."""
         club_entity = self._session.get(ClubEntity, club_id)
         club = club_entity.to_model()
         for member in club.members:
@@ -80,6 +80,7 @@ class ClubService:
     
 
     def delete_club(self, club_id: int) -> None:
+        """Deletes a club from the database."""
         club_entity = self._session.get(ClubEntity, club_id)
         self._session.delete(club_entity)
         self._session.commit()
@@ -105,6 +106,12 @@ class ClubService:
             club_entity = self._session.get(ClubEntity, entity)
             clubs.append(club_entity.to_model())
         return clubs
+
+    def delete_leader(self, leader: User, club_id) -> None:
+        club_entity = self._session.get(ClubEntity, club_id)
+        leader_as_user_entity = self._session.get(UserEntity, leader.id)
+        club_entity.leaders.remove(leader_as_user_entity)
+
 
 
         
