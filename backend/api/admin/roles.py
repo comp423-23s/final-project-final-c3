@@ -98,4 +98,5 @@ def get_user_roles(
         user_roles = role_service.get_users_roles(subject)
         return user_roles
     except Exception as e:
+        print("❌" + str(e))
         raise HTTPException(status_code=403, detail=str(e))
