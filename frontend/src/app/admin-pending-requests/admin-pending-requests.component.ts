@@ -21,7 +21,7 @@ export class AdminPendingRequestsComponent {
   public static Route: Route = {
     path: 'admin_pending_requests',
     component: AdminPendingRequestsComponent, 
-    title: 'Pneding Requests', 
+    title: 'Pending Requests', 
     canActivate: [isAuthenticated], 
     resolve: { profile: profileResolver }
   };
