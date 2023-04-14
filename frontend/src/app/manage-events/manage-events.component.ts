@@ -34,4 +34,8 @@ export class ManageEventsComponent {
     return event.description.substring(0, 25) + "..."
   }
 
+  alterText(event: Event) {
+    event.show_short_description = !event.show_short_description
+  }
+
 }
