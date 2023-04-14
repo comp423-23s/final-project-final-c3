@@ -37,7 +37,9 @@ import { EventsComponent } from './events/events.component';
 import { MyEventsComponent } from './my-events/my-events.component';
 import { JoinedClubsComponent } from './joined-clubs/joined-clubs.component';
 import { ClubsComponent } from './clubs/clubs.component';
+import { RegisterLeaderComponent } from './register-leader/register-leader.component';
 import { RegisterEventComponent } from './register-event/register-event.component';
+import { RoleSelectionComponent } from './role-selection/role-selection.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { RegisterEventComponent } from './register-event/register-event.componen
     MyEventsComponent,
     ClubsComponent,
     JoinedClubsComponent,
-    RegisterEventComponent
+    RegisterLeaderComponent,
+    RegisterEventComponent,
+    RoleSelectionComponent
   ],
   imports: [
     BrowserModule,

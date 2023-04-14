@@ -35,7 +35,7 @@ export class ClubsComponent {
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
     this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
       return clubs.map(a_club => {
-        const user_club : User_Club = {
+        const user_club: User_Club = {
           club: a_club, 
           is_joined: a_club.members.map(member => member.id).includes(this.profile.id)
         }

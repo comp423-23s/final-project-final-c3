@@ -3,7 +3,7 @@ from sqlalchemy import select, or_, func
 from sqlalchemy.orm import Session
 from ..database import db_session
 from ..models import User, Paginated, PaginationParams
-from ..entities import UserEntity
+from ..entities import UserEntity, RoleEntity
 from .permission import PermissionService
 
 
@@ -74,6 +74,14 @@ class UserService:
             entity.update(user)
         else:
             entity = UserEntity.from_model(user)
+            role_entity = self._session.get(RoleEntity, 1)
+            entity.roles.append(role_entity)
+            self._session.add(entity)
+            role_entity = self._session.get(RoleEntity, 2)
+            entity.roles.append(role_entity)
             self._session.add(entity)
         self._session.commit()
+        for rolee in entity.roles:
+            role = rolee.to_model()
+            print("🍈"+role.name)
         return entity.to_model()

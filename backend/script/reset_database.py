@@ -73,7 +73,7 @@ with Session(engine) as session:
     session.add(club_a)
     club_b: ClubEntity = ClubEntity(id=2, club_code="1NB457Y9", name="App Team", description="App Team Carolina provides a collaborative environment for UNC students to learn iOS development.")
     session.add(club_b)
-    club_c: ClubEntity = ClubEntity(id=3, name="CSSG", description="A student-led org that works with local nonprofits to give them technology for volunteer work.")
+    club_c: ClubEntity = ClubEntity(id=3, club_code="1RB65TY0", name="CSSG", description="A student-led org that works with local nonprofits to give them technology for volunteer work.")
     session.add(club_c)
     club_d: ClubEntity = ClubEntity(id=4, club_code="19B44T50", name="HackNC", description="The HackNC Association organizes UNC’s annual co-ed hackathon!")
     session.add(club_d)
