@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NavigationService as NavigationTitleService } from './navigation.service';
+import { RoleRoute, NavigationService as NavigationTitleService } from './navigation.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -10,6 +10,8 @@ import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { Profile, ProfileService } from '../profile/profile.service';
 import { PermissionService } from '../permission.service';
+import { Role } from '../role';
+import { RoleAdminService } from '../admin/roles/role-admin.service';
 
 @Component({
   selector: 'app-navigation',
@@ -27,15 +29,21 @@ export class NavigationComponent implements OnInit, OnDestroy {
   public checkinPermission$: Observable<boolean>;
   public adminPermission$: Observable<boolean>;
 
+  public roles$: Observable<Role[]>;
+
+  public roleName = "Student"
+
   currentRoute: string = "/"
-  event_routes = [
+
+  role_routes$: Observable<RoleRoute[]>
+  role_routes = [
     {
-      value: 'events',
-      display: 'All Events'
+      value: 'student',
+      display: 'Student'
     },
     {
-      value: 'my-events',
-      display: 'My Events'
+      value: 'leader',
+      display: 'Leader'
     }
   ]
 
@@ -50,11 +58,23 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
   ]
 
+  event_routes = [
+    {
+      value: 'events',
+      display: 'All Events'
+    },
+    {
+      value: 'my-events',
+      display: 'My Events'
+    }
+  ]
+
   constructor(
     public auth: AuthenticationService,
     public router: Router,
     private permission: PermissionService,
     private profileService: ProfileService,
+    private roleAdminService: RoleAdminService,
     private breakpointObserver: BreakpointObserver,
     protected navigationService: NavigationTitleService,
     protected errorDialog: MatDialog
@@ -62,6 +82,16 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.profile$ = profileService.profile$;
     this.checkinPermission$ = this.permission.check('checkin.create', 'checkin/');
     this.adminPermission$ = this.permission.check('admin.view', 'admin/')
+    this.roles$ = this.roleAdminService.list_my_roles();
+    this.role_routes$ = this.roles$.pipe(map((roles: Role[]) => {
+      return roles.map(a_role => {
+        const role_route: RoleRoute = {
+          value: 'register_'+a_role.name.toLowerCase(),
+          display: a_role.name
+        }
+        return role_route
+      })
+    }))
   }
 
   routeTo(e: Object) {
@@ -101,4 +131,18 @@ export class NavigationComponent implements OnInit, OnDestroy {
         .pipe(map(result => result.matches))
         .subscribe(isHandset => this.isHandset = isHandset);
   }
+
+  // checkIsNotLeader(): Observable<boolean> {
+  //   this.roles$.pipe(
+  //       map(roles => {
+  //       if(roles.find(role => role.name=="Student")) {
+  //           console.log("find student")
+  //           return of(false)
+  //       } else {
+  //           return of(true)
+  //       }
+  //       })
+  //   )
+  //   return of(true)
+  // }
 }

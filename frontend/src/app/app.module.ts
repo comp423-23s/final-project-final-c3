@@ -25,6 +25,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 /* Application Specific */
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +38,11 @@ import { EventsComponent } from './events/events.component';
 import { MyEventsComponent } from './my-events/my-events.component';
 import { JoinedClubsComponent } from './joined-clubs/joined-clubs.component';
 import { ClubsComponent } from './clubs/clubs.component';
+import { RegisterLeaderComponent } from './register-leader/register-leader.component';
+import { RegisterEventComponent } from './register-event/register-event.component';
+import { RoleSelectionComponent } from './role-selection/role-selection.component';
+import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
+import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +55,12 @@ import { ClubsComponent } from './clubs/clubs.component';
     EventsComponent,
     MyEventsComponent,
     ClubsComponent,
-    JoinedClubsComponent
+    JoinedClubsComponent,
+    RegisterLeaderComponent,
+    RegisterEventComponent,
+    RoleSelectionComponent,
+    LeaderClubsComponent,
+    AdminPendingRequestsComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +83,7 @@ import { ClubsComponent } from './clubs/clubs.component';
     MatSnackBarModule,
     MatTabsModule,
     MatToolbarModule,
+    MatCheckboxModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {

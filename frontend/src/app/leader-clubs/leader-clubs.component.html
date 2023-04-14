@@ -1,0 +1,29 @@
+<tr *ngFor="let club of clubs$ | async">
+    <div style="position: relative">
+        <mat-card style="width:1600px;">
+            <mat-card-header>
+                <div class="'event-name-join-button">
+                    <mat-card-title>{{ club.name }}</mat-card-title>
+                </div>
+            </mat-card-header>
+            <mat-card-content>
+                <div class='description'>
+                    Club Code: {{ club.club_code }}               
+                </div>
+                <div class='description'>
+                    {{ club.show_short_description ? getShortDescription(club) : club.description }}                  
+                </div>
+                <div class="side-buttons">
+                    <mat-card-actions>
+                        <button mat-raised-button (click)='alterText(club)' type="submit">
+                            {{ club.show_short_description ? "Read More" : "Read Less" }}
+                        </button>
+                    </mat-card-actions>
+                </div>
+                <div class='description'>
+                    Members:&nbsp;<p *ngFor="let member of club.members">{{member.first_name}} {{member.last_name}}</p>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</tr>

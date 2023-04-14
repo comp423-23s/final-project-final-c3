@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, map } from 'rxjs';
 import { Profile } from './profile/profile.service';
 
 export interface Club {
   id: number;
-  name: string;                    // club name
+  club_code: string;
+  name: string;                   
   description: string; 
   show_short_description: boolean;
-  members: number[];               // array of club members
+  members: Profile[];               
+}
+
+export interface User_Club {
+  club: Club,
+  is_joined: boolean
 }
 
 /**
@@ -47,8 +53,8 @@ export class ClubsService {
    * @param Club club object
    * @returns Club that was joined
    */ 
-  joinClub(club: Club): Observable<Club> {
-    return this.http.get<Club>(`api/club/add/${club.id}`)
+  joinClub(club: Club): Observable<String> {
+    return this.http.get<String>(`api/club/add/${club.id}`)
   }
 
 
@@ -57,18 +63,7 @@ export class ClubsService {
    * @param Club club object
    * @returns Club that was left
    */
-  leaveClub(club: Club): Observable<Club> {
-    return this.http.delete<Club>(`api/club/remove/${club.id}`)
-  }
-
-  /**
-   * Determines whether a user is in a club
-   * @param Club club object
-   * @returns boolean
-   */
-  isUserInClub(club: Club): boolean {
-    // TODO: implement
-    // return this.http.get<Club>(`api/club/is_user_in_club/${club.id}`)
-    return false
+  leaveClub(club: Club): Observable<String> {
+    return this.http.delete<String>(`api/club/remove/from/${club.id}`)
   }
 }

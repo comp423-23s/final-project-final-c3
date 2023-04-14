@@ -10,6 +10,8 @@ from .. import entities
 from backend.entities.club_entity import ClubEntity
 from backend.entities.event_entity import EventEntity
 
+# python3 -m backend.script.reset_database
+
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"
 __license__ = "MIT"
@@ -20,6 +22,7 @@ if getenv("MODE") != "development":
     print("Add MODE=development to your .env file in workspace's `backend/` directory")
     exit(1)
 
+# python3 -m backend.script.reset_database
 
 # Reset Tables
 entities.EntityBase.metadata.drop_all(engine)
@@ -36,6 +39,14 @@ with Session(engine) as session:
     session.execute(text(f'ALTER SEQUENCE {entities.UserEntity.__table__}_id_seq RESTART WITH {len(users.models) + 1}'))
     session.commit()
 
+# Add Clubs
+with Session(engine) as session:
+    from .dev_data import clubs
+    to_entity = entities.ClubEntity.from_model
+    session.add_all([to_entity(model) for model in clubs.models])
+    session.execute(text(f'ALTER SEQUENCE {entities.ClubEntity.__table__}_id_seq RESTART WITH {len(clubs.models) + 1}'))
+    session.commit()
+
 # Add Roles
 with Session(engine) as session:
     from .dev_data import roles
@@ -43,6 +54,7 @@ with Session(engine) as session:
     session.add_all([to_entity(model) for model in roles.models])
     session.execute(text(f'ALTER SEQUENCE {entities.RoleEntity.__table__}_id_seq RESTART WITH {len(roles.models) + 1}'))
     session.commit()
+    
 
 # Add Users to Roles
 with Session(engine) as session:
@@ -65,23 +77,25 @@ with Session(engine) as session:
     session.execute(text(f'ALTER SEQUENCE permission_id_seq RESTART WITH {len(permissions.pairs) + 1}'))
     session.commit()
 
+
+
 # Add Fake Data to Display
 with Session(engine) as session:
     # Fake Clubs.
-    club_a: ClubEntity = ClubEntity(id=1, name="Pearl Hacks", description="Pearl Hacks is a weekend-long hackathon targeting women and non-binary students.")
-    session.add(club_a)
-    club_b: ClubEntity = ClubEntity(id=2, name="App Team", description="App Team Carolina provides a collaborative environment for UNC students to learn iOS development.")
-    session.add(club_b)
-    club_c: ClubEntity = ClubEntity(id=3, name="CSSG", description="A student-led org that works with local nonprofits to give them technology for volunteer work.")
-    session.add(club_c)
-    club_d: ClubEntity = ClubEntity(id=4, name="HackNC", description="The HackNC Association organizes UNC’s annual co-ed hackathon!")
-    session.add(club_d)
-    club_e: ClubEntity = ClubEntity(id=5, name="WiCS", description="A social, professional, and academic organization to empower and enable women in computer science. ")
-    session.add(club_e)
+    # club_a: ClubEntity = ClubEntity(id=1, club_code="1AB45TY0", name="Pearl Hacks", description="Pearl Hacks is a weekend-long hackathon targeting women and non-binary students.")
+    # session.add(club_a)
+    # club_b: ClubEntity = ClubEntity(id=2, club_code="1NB457Y9", name="App Team", description="App Team Carolina provides a collaborative environment for UNC students to learn iOS development.")
+    # session.add(club_b)
+    # club_c: ClubEntity = ClubEntity(id=3, club_code="1RB65TY0", name="CSSG", description="A student-led org that works with local nonprofits to give them technology for volunteer work.")
+    # session.add(club_c)
+    # club_d: ClubEntity = ClubEntity(id=4, club_code="19B44T50", name="HackNC", description="The HackNC Association organizes UNC’s annual co-ed hackathon!")
+    # session.add(club_d)
+    # club_e: ClubEntity = ClubEntity(id=5, club_code="11B45ZX0", name="WiCS", description="A social, professional, and academic organization to empower and enable women in computer science. ")
+    # session.add(club_e)
 
     #Fake Events
     event_a_date = datetime.datetime(year=2023, month=4, day=3, hour=5, minute=0)
-    event_a: EventEntity = EventEntity(id=1, name="Event101", club_id=1, date=event_a_date, location="123 Main Street, Chapel Hill NC", description="An event that is scheduled", attendees=[])
+    event_a: EventEntity = EventEntity(id=1, name="Event101", club_id=1, date=event_a_date, location="123 Main Street, Chapel Hill NC", description="An event that is scheduled at 123 Main Street, Chapel Hill NC.", attendees=[])
     session.add(event_a)
     event_b_date = datetime.datetime(year=2023, month=4, day=6, hour=3, minute=30)
     event_b: EventEntity = EventEntity(id=2, name="Event102", club_id=2, date=event_b_date, location="123 Short Street, Chapel Hill NC", description="An event that is schedules.", attendees=[])

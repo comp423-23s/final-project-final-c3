@@ -21,10 +21,23 @@ def list_roles(
     role_service: RoleService = Depends(),
 ) -> list[Role]:
     try:
-        return role_service.list(subject)
+        return role_service.my_list(subject)
     except UserPermissionError as e:
         raise HTTPException(status_code=403, detail=str(e))
 
+@api.get("/get/users/roles", response_model=list[Role], tags=["Roles"])
+def get_user_roles(
+    subject: User = Depends(registered_user),
+    role_service: RoleService = Depends()
+):
+    try:
+        user_roles = role_service.get_users_roles(subject)
+        for user_role in user_roles:
+            print("🚗" + user_role.name)
+        return user_roles
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=403, detail=str(e))
 
 @api.get("/{id}", tags=["Roles"])
 def role_details(
@@ -88,3 +101,4 @@ def remove_member(
         return role_service.remove(subject, id, userId)
     except UserPermissionError as e:
         raise HTTPException(status_code=403, detail=str(e))
+        
