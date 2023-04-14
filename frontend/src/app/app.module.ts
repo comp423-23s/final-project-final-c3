@@ -25,6 +25,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 /* Application Specific */
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,6 +41,7 @@ import { ClubsComponent } from './clubs/clubs.component';
 import { RegisterLeaderComponent } from './register-leader/register-leader.component';
 import { RegisterEventComponent } from './register-event/register-event.component';
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
+import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { RoleSelectionComponent } from './role-selection/role-selection.componen
     JoinedClubsComponent,
     RegisterLeaderComponent,
     RegisterEventComponent,
-    RoleSelectionComponent
+    RoleSelectionComponent,
+    LeaderClubsComponent
   ],
   imports: [
     BrowserModule,
@@ -78,6 +81,7 @@ import { RoleSelectionComponent } from './role-selection/role-selection.componen
     MatSnackBarModule,
     MatTabsModule,
     MatToolbarModule,
+    MatCheckboxModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {

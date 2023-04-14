@@ -5,6 +5,7 @@ import { Profile } from './profile/profile.service';
 
 export interface Club {
   id: number;
+  club_code: string;
   name: string;                   
   description: string; 
   show_short_description: boolean;

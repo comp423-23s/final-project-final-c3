@@ -45,6 +45,7 @@ class PotentialClubService:
         self._session.commit()
     
     def add_potential_club(self, potential_club: PotentialClub) -> None:
+        print("⛳️ services/potential_club.py backend add_potential_club called")
         potential_club_entity = PotentialClubEntity.from_model(potential_club)
         self._session.add(potential_club_entity)
         self._session.commit()

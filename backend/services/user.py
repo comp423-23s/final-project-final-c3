@@ -77,9 +77,6 @@ class UserService:
             role_entity = self._session.get(RoleEntity, 1)
             entity.roles.append(role_entity)
             self._session.add(entity)
-            role_entity = self._session.get(RoleEntity, 2)
-            entity.roles.append(role_entity)
-            self._session.add(entity)
         self._session.commit()
         for rolee in entity.roles:
             role = rolee.to_model()
