@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from .user import User
 
 class PotentialClub(BaseModel):
-    id: int
+    id: int | None = None
     name: str
     description: str
     founder_id: int

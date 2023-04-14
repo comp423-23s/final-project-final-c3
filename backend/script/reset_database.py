@@ -10,6 +10,8 @@ from .. import entities
 from backend.entities.club_entity import ClubEntity
 from backend.entities.event_entity import EventEntity
 
+#`python3 -m backend.script.reset_database`
+
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"
 __license__ = "MIT"
