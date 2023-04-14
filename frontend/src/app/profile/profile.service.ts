@@ -51,4 +51,7 @@ export class ProfileService {
     return this.http.get<Profile[]>(`/api/user?q=${encodedQuery}`);
   }
 
+  get(): Observable<Profile> {
+    return this.http.get<Profile>('/api/profile');
+  }
 }
