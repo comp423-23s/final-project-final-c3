@@ -3,7 +3,7 @@ from sqlalchemy import select
 
 from ..database import Session, db_session
 from ..models import Event, User
-from ..entities import EventEntity, UserEntity
+from ..entities import EventEntity, UserEntity, ClubEntity
 from ..services import UserService
 from backend.entities.user_event_entity import user_event_table
 
@@ -95,22 +95,31 @@ class EventService:
         event_entity: EventEntity = self._session.scalar(query)
         if event_entity is None:
             raise Exception("Event does not exist.")
-        self._session.delete(event_entity.to_model())
+        self._session.delete(event_entity)
         self._session.commit()
         
     def get_users_in_event(self, event_id: int) -> list[User]:
         """Returns a list of all students registered for an event."""
         students: list[User] = []
-        query = select(EventEntity).where(EventEntity.id == event_id)
-        event_entity: EventEntity = self._session.scalar(query)
-        if event_entity is None:
+        query = select(user_event_table.c.user_id).where(user_event_table.c.event_id == event_id)
+        users = self._session.scalar(query).all()
+        if users is None:
             raise Exception("Event does not exist.")
-        for attendee in event_entity.attendees:
-            students.append(attendee.to_model())
+        for user in users:
+            user_entity = self._session.get(UserEntity, user)
+            students.append(user_entity.to_model())
         return students
     
-    def create_event_for_club(self, event: Event) -> None:
+    def create_event_for_club(self, event: Event, club_code: str) -> None:
         """Creates an event for a club."""
+        club_id = self.get_club_id_by_code(club_code)
+        event.club_id = club_id
         event_entity = EventEntity.from_model(event)
         self._session.add(event_entity)
         self._session.commit()
+        
+    def get_club_id_by_code(self, club_code: str) -> int:
+        """Returns the club id of the club with the given code."""
+        query = select(ClubEntity).where(ClubEntity.club_code == club_code)
+        club_entity = self._session.scalar(query)
+        return club_entity.id
