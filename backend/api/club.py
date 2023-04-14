@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
-from ..services import ClubService
-from ..models import User, Club
+from ..services import ClubService, PotentialClubService
+from ..models import User, Club, PotentialClub
 from .authentication import registered_user
+
 
 api = APIRouter(prefix="/api/club")
 
@@ -91,7 +92,7 @@ def leader_register_request(
     
 
 @api.get("/get/members/", tags=['Club'])
-def add_leader_to_club(
+def get_members(
     club_id: int, 
     club_svc: ClubService = Depends()
 ):
@@ -131,14 +132,70 @@ def delete_leader(
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
-@api.get("/leaders/clubs/", tags=['Club'])
-def add_user_to_club(
+
+@api.get("/leaders/clubs", tags=['Club'])
+def get_leading_clubs(
     subject: User = Depends(registered_user), 
     club_svc: ClubService = Depends()
 ):
     """Gets a list of all the clubs a user leads."""
     try:
+        print("🥨 backend get_leading_clubs called")
         return club_svc.get_clubs_led_by_user(subject)
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
+
+# Potential club APIs
+@api.post("/potential/club/request", tags=['Club'])
+def potential_club_request(
+    potential_club: PotentialClub, 
+    potential_club_svc: PotentialClubService = Depends()
+) -> str:
+    """Submitting a potential club request."""
+    try:
+        print("🥎 backend potential_club_request called")
+        potential_club_svc.add_potential_club(potential_club)
+        return "OK"
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
+
+@api.post("/create/club", tags=['Club'])
+def create_club(
+    potential_club: PotentialClub, 
+    potential_club_svc: PotentialClubService = Depends()
+) -> str:
+    """Creates a new club and adds it to the database."""
+    try:
+        potential_club_svc.create_club(potential_club)
+        return "OK"
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@api.post("/reject/club", tags=['Club'])
+def delete_club(
+    potential_club: PotentialClub, 
+    potential_club_svc: PotentialClubService = Depends()
+) -> str:
+    """Rejects a club's request to be a club."""
+    try:
+        potential_club_svc.reject_potential_club(potential_club)
+        return "OK"
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
+
+@api.get("/all/potential/clubs", response_model=list[PotentialClub], tags=['Club'])
+def get_all_potential_clubs(potential_club_svc: PotentialClubService = Depends()):
+    """Gets all potential clubs."""
+    try: 
+        return potential_club_svc.get_all_requests()
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
