@@ -1,8 +1,8 @@
 """Health check routes are used by the production system to monitor whether the system is live and running."""
 
 from fastapi import APIRouter, Depends, HTTPException
-from ...services import UserService, UserPermissionError
-from ...models import User, Paginated, PaginationParams
+from ...services import UserService, UserPermissionError, ClubService
+from ...models import User, Paginated, PaginationParams, Club
 from ..authentication import registered_user
 
 
