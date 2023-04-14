@@ -8,6 +8,7 @@ import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { Router } from '@angular/router';
 import { NavigationComponent } from '../navigation/navigation.component';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-role-selection',
@@ -19,7 +20,7 @@ export class RoleSelectionComponent {
   public static Route: Route = {
     path: 'role_selection',
     component: RoleSelectionComponent,
-    title: 'Select Role',
+    title: 'Select Your Role',
     canActivate: [isAuthenticated],
     resolve: { profile: profileResolver }
   };
@@ -46,9 +47,11 @@ export class RoleSelectionComponent {
 
   selectionChange(roleName: string) {
     if (roleName == "Student") {
-      this.navigationComponent.isStudent = true
+      this.navigationComponent.roleName = "Student"
+    } else if (roleName === "Leader") {
+      this.navigationComponent.roleName = "Leader"
     } else {
-      this.navigationComponent.isStudent = false
+      this.navigationComponent.roleName = "Administrator"
     }
   }
 }

@@ -11,20 +11,16 @@
         <a *ngIf="(profile$ | async) === undefined; else authenticated" mat-list-item href="/auth?continue_to={{router.url}}">Sign in</a>
     
         <ng-template #authenticated mat-list-item>
-          <div *ngIf="isStudent">
-            <!-- <a mat-list-item *ngIf="adminPermission$ | async" routerLink="/admin">Admin</a> -->
+          <div *ngIf="roleName === 'Student'">
             <mat-divider></mat-divider>
             <a mat-list-item routerLink="/profile">Profile</a> 
-  
             <a mat-list-item routerLink="/role_selection">Change Role</a>
-  
             <a mat-list-item for="website">
               Clubs: 
               <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
                 <option *ngFor="let r of club_routes" [ngValue]="r.value">{{r.display}}</option>
               </select> 
             </a>
-  
             <a mat-list-item for="website">
               Events: 
               <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
@@ -35,13 +31,19 @@
             <a mat-list-item (click)="auth.signOut()">Sign out</a>
           </div>
 
-          <div *ngIf="!isStudent">
-            <!-- <a mat-list-item *ngIf="adminPermission$ | async" routerLink="/admin">Admin</a> -->
+          <div *ngIf="roleName === 'Leader'">
             <mat-divider></mat-divider>
             <a mat-list-item routerLink="/profile">Profile</a> 
             <a mat-list-item routerLink="/role_selection">Change Role</a>
             <a mat-list-item routerLink="/registerevents">Register Events</a>
-            <a mat-list-item routerLink="/leader_clubs">Leader Clubs</a>
+            <a mat-list-item routerLink="/leader_clubs">Leading Clubs</a>
+            <a mat-list-item (click)="auth.signOut()">Sign out</a>
+          </div>
+
+          <div *ngIf="roleName === 'Administrator'">
+            <mat-divider></mat-divider>
+            <a mat-list-item routerLink="/profile">Profile</a> 
+            <a mat-list-item routerLink="/role_selection">Change Role</a>
             <a mat-list-item routerLink="/admin_pending_requests">Pending Requests</a>
             <a mat-list-item (click)="auth.signOut()">Sign out</a>
           </div>
