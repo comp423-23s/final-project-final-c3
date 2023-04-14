@@ -79,7 +79,6 @@ export class RegisterLeaderComponent {
 
   onSubmitNewClub(clubName: string, clubDescription: string): void {
     if (clubName.length != 0 && clubDescription.length != 0) {
-      console.log("profile id is " + this.profile.id)
       var potentialClub: PotentialClub = {
         id: undefined,
         name: clubName,

@@ -31,7 +31,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   public roles$: Observable<Role[]>;
 
-  public isStudent = true
+  public roleName = "Student"
 
   currentRoute: string = "/"
 
