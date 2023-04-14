@@ -8,14 +8,14 @@ __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"
 __license__ = "MIT"
 
-sudoer = Role(id=1, name="Sudoers")
+student = Role(id=1, name="Student")
 
-staff = Role(id=2, name="Staff")
+leader = Role(id=2, name="Leader")
 
-ambassador = Role(id=3, name="Ambassador")
+administrator = Role(id=3, name="Administrator")
 
 models = [
-    sudoer,
-    staff,
-    ambassador
+    student,
+    leader,
+    administrator
 ]

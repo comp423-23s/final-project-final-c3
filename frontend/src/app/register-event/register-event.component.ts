@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './register-event.component.html',
   styleUrls: ['./register-event.component.css']
 })
-export class RegisterEventComponent implements OnInit{
+export class RegisterEventComponent implements OnInit {
   public static Route: Route = {
     path: 'registerevents',
     component: RegisterEventComponent, 
@@ -29,7 +29,7 @@ export class RegisterEventComponent implements OnInit{
     clud_id: 0,
   });
 
-  constructor(route: ActivatedRoute, protected formBuilder: FormBuilder, protected snackBar: MatSnackBar, private eventService: EventService) {
+  constructor(route: ActivatedRoute, private formBuilder: FormBuilder, protected snackBar: MatSnackBar, private eventService: EventService) {
     const form = this.eventForm
     form.get('name')?.addValidators(Validators.required);
     form.get('description')?.addValidators(Validators.required);

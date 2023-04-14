@@ -1,6 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, switchMap, Observable, map, of } from 'rxjs';
+import { Role } from '../role';
+import { RoleAdminService } from '../admin/roles/role-admin.service';
+
+export interface RoleRoute {
+  value: string;
+  display: string
+}
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +26,8 @@ export class NavigationService {
   private _error: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   public error$ = this._error.asObservable();
 
-  constructor() {}
+  constructor() {
+  }
 
   setTitle(title: string) {
     this.title.next(title);
@@ -36,5 +44,4 @@ export class NavigationService {
   error(e: HttpErrorResponse) {
     this._error.next(`Response: ${e.status} ${e.statusText}\nEndpoint: ${e.url}`);
   }
-
 }

@@ -10,6 +10,7 @@ ONYEN = 1
 
 @api.get("", response_model=User | NewUser, tags=['profile'])
 def read_profile(pid_onyen: tuple[int, str] = Depends(authenticated_pid), user_svc: UserService = Depends()):
+    print("🌸 backend get profile called")
     pid, onyen = pid_onyen
     user = user_svc.get(pid)
     if user:
