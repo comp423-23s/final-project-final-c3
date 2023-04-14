@@ -11,6 +11,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { RoleAdminService } from '../admin/roles/role-admin.service';
+import { AriaDescriber } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-register-leader',
@@ -29,14 +30,10 @@ export class RegisterLeaderComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  public selectedClub: Club = {id: 0, name: "Dummy Club", description: "dummy description", show_short_description: true, members: []}
+  public selectedClub: Club = {id: 0, club_code: "ABCD1234", name: "Dummy Club", description: "dummy description", show_short_description: true, members: []}
   public selectedClubId: number = 0
-  public enteredClubCode: String = ""
-
-  public leaderForm = this.formBuilder.group({
-    club: '',
-    clud_code: 0
-  });
+  public clubExists = true
+  public potentialClubId = 0
   
   constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar, private navigationComponent: NavigationComponent, private roleAdminService: RoleAdminService) {
     const data = route.snapshot.data as { profile: Profile }
@@ -44,13 +41,9 @@ export class RegisterLeaderComponent {
     this.clubs$ = clubService.getAllClubs()
   }
 
-  // setClubExist() {
-  //   this.clubExists = true
-  // }
-
-  // setClubNotExist() {
-  //   this.clubExists = false
-  // }
+  changeClubExistStatus() {
+    this.clubExists = !this.clubExists
+  }
 
   selectionChange(clubName: string) {
     if (clubName == "Pearl Hacks") {
@@ -67,37 +60,48 @@ export class RegisterLeaderComponent {
     console.log("selected club id is " + this.selectedClubId)
   }
 
-  leadereRegistrationRequestForExistingClub() {
-    if (this.selectedClubId != -1 && this.enteredClubCode.length != 0) {
-      this.registerLeaderService.leadereRegistrationRequestForExistingClub(this.selectedClubId, this.enteredClubCode)
-    }
-  }
-
-  // leaderRegistrationRequestForNonExistingClub() {
-  //   const potentialClub: PotentialClub = {
-  //     id: 1,
-  //     name: this.newClubName ?? "",
-  //     description: this.newClubDescription ?? "",
-  //     founder_id: this.profile.id || 0
-  //   }
-  //   this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub)
-  // }
-
-  onSubmit(clubCode: String): void {
-    console.log("frontend onSubmit() called")
-    this.enteredClubCode = clubCode
-    this.registerLeaderService.leadereRegistrationRequestForExistingClub(this.selectedClubId, this.enteredClubCode).subscribe({
-      next: () => this.onSuccess(),
-      error: (err) => this.onError(err)
+  onSubmitExistingClub(clubCode: String): void {
+    this.registerLeaderService.leaderRegistrationRequestForExistingClub(this.selectedClubId, clubCode).subscribe({
+      next: () => this.existingClubOnSuccess(),
+      error: (err) => this.existingClubOnError(err)
     })
   }
 
-  onSuccess(): void {
+  existingClubOnSuccess(): void {
     // this.navigationComponent.roles$ = this.roleAdminService.list_my_roles();
+    window.alert("Leader registration was successful.")
   }
 
-  onError(err: Error): void{
+  existingClubOnError(err: Error): void{
     console.log(err)
     window.alert("Wrong club code. Leader registration request denied.");
+  }
+
+  onSubmitNewClub(clubName: string, clubDescription: string): void {
+    if (clubName.length != 0 && clubDescription.length != 0) {
+      this.potentialClubId++
+      var potentialClub: PotentialClub = {
+        id: this.potentialClubId,
+        name: clubName,
+        description: clubDescription,
+        founder_id: this.profile.id ?? 1
+      }
+      this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub).subscribe({
+        next: () => this.newClubOnSuccess(),
+        error: (err) => this.newClubOnError(err)
+      })
+    } else {
+      window.alert("Please enter club name and description.")
+    }
+  }
+
+  newClubOnSuccess(): void {
+    // this.navigationComponent.roles$ = this.roleAdminService.list_my_roles();
+    window.alert("Request was submitted.")
+  }
+
+  newClubOnError(err: Error): void{
+    console.log(err)
+    window.alert("Request can't be submitted.")
   }
 }

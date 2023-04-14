@@ -7,6 +7,7 @@ import { Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { Router } from '@angular/router';
+import { NavigationComponent } from '../navigation/navigation.component';
 
 @Component({
   selector: 'app-role-selection',
@@ -26,7 +27,7 @@ export class RoleSelectionComponent {
   public roles$: Observable<Role[]>
   public role_routes$: Observable<RoleRoute[]>
 
-  constructor(public router: Router, private roleAdminService: RoleAdminService) {
+  constructor(public router: Router, private roleAdminService: RoleAdminService, private navigationComponent: NavigationComponent) {
     this.roles$ = this.roleAdminService.list_my_roles();
     this.role_routes$ = this.roles$.pipe(map((roles: Role[]) => {
       return roles.map(a_role => {
@@ -43,13 +44,11 @@ export class RoleSelectionComponent {
     this.router.navigate(['/' + e]);
   }
 
-  selectStudentView() {
-
+  selectionChange(roleName: string) {
+    if (roleName == "Student") {
+      this.navigationComponent.isStudent = true
+    } else {
+      this.navigationComponent.isStudent = false
+    }
   }
-
-  selectLeaderView() {
-
-  }
-
-  selectionChange() {}
 }

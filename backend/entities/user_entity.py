@@ -30,6 +30,7 @@ class UserEntity(EntityBase):
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
     clubs: Mapped[list['ClubEntity']] = relationship(secondary='user_club', back_populates='members')
+    leading_clubs: Mapped[list['ClubEntity']] = relationship(secondary='leader_club', back_populates='leaders')
 
     @classmethod
     def from_model(cls, model: User) -> Self:

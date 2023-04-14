@@ -94,6 +94,7 @@ class ClubService:
             club_entity.leaders.append(leader_as_user_entity)
             role_entity = self._session.get(RoleEntity, 2)
             leader_as_user_entity.roles.append(role_entity)
+            self._session.commit()
             print("🌶️ Leader successfully addede in backend service")
         else:
             raise Exception("Club code does not match. Request denied.")
@@ -101,11 +102,15 @@ class ClubService:
     def get_clubs_led_by_user(self, leader: User) -> list[Club]:
         """Returns a list of all the clubs a user is leading."""
         clubs: list[Club] = []
-        query = select(leader_club_table.c.club_id).where(leader_club_table.c.user_id== leader.id)
+        query = select(leader_club_table.c.club_id).where(leader_club_table.c.user_id == leader.id)
         club_entities = self._session.scalars(query).all()
-        for entity in club_entities:
-            club_entity = self._session.get(ClubEntity, entity)
+        for club_id in club_entities:
+            club_entity = self._session.get(ClubEntity, club_id)
             clubs.append(club_entity.to_model())
+        print("⚽️ LEADING")
+        for club in clubs: 
+            print("🏓 I am leading" + club.name)
+        print("🏓" + str(len(clubs)))
         return clubs
 
     def delete_leader(self, leader: User, club_id) -> None:
