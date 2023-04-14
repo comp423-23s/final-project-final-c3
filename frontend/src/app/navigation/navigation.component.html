@@ -11,44 +11,41 @@
         <a *ngIf="(profile$ | async) === undefined; else authenticated" mat-list-item href="/auth?continue_to={{router.url}}">Sign in</a>
     
         <ng-template #authenticated mat-list-item>
-          <a mat-list-item *ngIf="adminPermission$ | async" routerLink="/admin">Admin</a>
-          <mat-divider></mat-divider>
-          <a mat-list-item routerLink="/profile">Profile</a> 
+          <div *ngIf="isStudent">
+            <!-- <a mat-list-item *ngIf="adminPermission$ | async" routerLink="/admin">Admin</a> -->
+            <mat-divider></mat-divider>
+            <a mat-list-item routerLink="/profile">Profile</a> 
+  
+            <a mat-list-item routerLink="/role_selection">Change Role</a>
+  
+            <a mat-list-item for="website">
+              Clubs: 
+              <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
+                <option *ngFor="let r of club_routes" [ngValue]="r.value">{{r.display}}</option>
+              </select> 
+            </a>
+  
+            <a mat-list-item for="website">
+              Events: 
+              <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
+                <option *ngFor="let r of event_routes" [ngValue]="r.value">{{r.display}}</option>
+              </select> 
+            </a>
+            <a mat-list-item routerLink="/register_leader">Become a Leader</a>
+            <a mat-list-item (click)="auth.signOut()">Sign out</a>
+          </div>
 
-          <a mat-list-item routerLink="/role_selection">Change Role</a>
-
-          <!-- <a mat-list-item for="website">
-            Roles: 
-            <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
-              <option *ngFor="let r of role_routes$ | async" [ngValue]="r.value">{{r.display}}</option>
-            </select>
-          </a> -->
-
-          <!-- <a mat-list-item for="website">
-            Roles: 
-            <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
-              <option *ngFor="let r of role_routes" [ngValue]="r.value">{{r.display}}</option>
-            </select>
-          </a> -->
-
-          <a mat-list-item for="website">
-            Clubs: 
-            <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
-              <option *ngFor="let r of club_routes" [ngValue]="r.value">{{r.display}}</option>
-            </select> 
-          </a>
-
-          <a mat-list-item for="website">
-            Events: 
-            <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
-              <option *ngFor="let r of event_routes" [ngValue]="r.value">{{r.display}}</option>
-            </select> 
-          </a>
-          <a mat-list-item routerLink="/register_leader">Become a Leader</a>
-          <a mat-list-item routerLink="/registerevents">Register Events</a>
-          <a mat-list-item (click)="auth.signOut()">Sign out</a>
-
+          <div *ngIf="!isStudent">
+            <!-- <a mat-list-item *ngIf="adminPermission$ | async" routerLink="/admin">Admin</a> -->
+            <mat-divider></mat-divider>
+            <a mat-list-item routerLink="/profile">Profile</a> 
+            <a mat-list-item routerLink="/role_selection">Change Role</a>
+            <a mat-list-item routerLink="/registerevents">Register Events</a>
+            <a mat-list-item routerLink="/leader_clubs">Leader Clubs</a>
+            <a mat-list-item (click)="auth.signOut()">Sign out</a>
+          </div>
         </ng-template>
+
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

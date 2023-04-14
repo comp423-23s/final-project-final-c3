@@ -11,6 +11,7 @@ import { JoinedClubsComponent } from './joined-clubs/joined-clubs.component';
 import { RegisterLeaderComponent } from './register-leader/register-leader.component';
 import { RegisterEventComponent } from './register-event/register-event.component';
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
+import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
 
 const routes: Routes = [
   HomeComponent.Route,
@@ -23,6 +24,7 @@ const routes: Routes = [
   RegisterLeaderComponent.Route,
   RegisterEventComponent.Route,
   RoleSelectionComponent.Route,
+  LeaderClubsComponent.Route,
   { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
 ];
 

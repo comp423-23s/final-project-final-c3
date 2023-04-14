@@ -1,25 +1,54 @@
 <form>
-    <mat-form-field appearance="fill">
-        <mat-label>Select Club</mat-label>
-        <mat-select (selectionChange)="selectionChange($event.value)">
-            <mat-option *ngFor="let club of clubs$ | async" [value]="club.name">
-                {{ club.name }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
- 
-    <br>
+    <mat-checkbox (change)="changeClubExistStatus()">
+        Create a New Club
+    </mat-checkbox>
 
-    <mat-form-field appearance="fill">
-        <mat-label>Enter Club Code: </mat-label>
-        <input matInput #input>
-    </mat-form-field>
+    <div *ngIf="clubExists"> 
+        <mat-form-field appearance="fill">
+            <mat-label>Select Club</mat-label>
+            <mat-select (selectionChange)="selectionChange($event.value)">
+                <mat-option *ngFor="let club of clubs$ | async" [value]="club.name">
+                    {{ club.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-    <br>
+        <br>
 
-    <mat-card-actions>
-        <button mat-raised-button (click)='onSubmit(input.value)' type="submit">
-            Submit
-        </button>
-    </mat-card-actions>
+        <mat-form-field appearance="fill">
+            <mat-label>Enter Club Code: </mat-label>
+            <input matInput #input>
+        </mat-form-field>
+
+        <br>
+
+        <mat-card-actions>
+            <button mat-raised-button (click)='onSubmitExistingClub(input.value)' type="submit">
+                Submit
+            </button>
+        </mat-card-actions>
+    </div>
+
+
+    <div *ngIf="!clubExists"> 
+        <mat-form-field appearance="fill">
+            <mat-label>Club Name: </mat-label>
+            <input matInput #clubName>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Club Description: </mat-label>
+            <input matInput #clubDescription>
+        </mat-form-field>
+
+        <br>
+
+        <mat-card-actions>
+            <button mat-raised-button (click)='onSubmitNewClub(clubName.value, clubDescription.value)' type="submit">
+                Submit
+            </button>
+        </mat-card-actions>
+    </div>
 </form>
