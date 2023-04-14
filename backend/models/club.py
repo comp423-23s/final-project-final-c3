@@ -9,8 +9,8 @@ class Club(BaseModel):
     club_code: str
     name: str
     description: str
-    members: list['User']
-    leaders: list['User']
+    members: list['User'] = []
+    leaders: list['User'] = []
 
 class NewClub(BaseModel):
     name: str
