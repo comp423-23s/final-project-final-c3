@@ -22,7 +22,7 @@ export class ManageEventsComponent {
 
   public club_events$: Observable<Event[]>
 
-  constructor(private eventService: EventService, protected snackbar: MatSnackBar) {
+  constructor(private eventService: EventService, protected snackBar: MatSnackBar) {
     // TODO: get events by club not just all events
     this.club_events$ = eventService.getAllEvents()
   }
@@ -36,6 +36,27 @@ export class ManageEventsComponent {
 
   alterText(event: Event) {
     event.show_short_description = !event.show_short_description
+  }
+
+  onDelete(event: Event) {
+    this.eventService.deleteEvent(event).subscribe({
+      next: () => this.onSuccess(),
+      error: (err) => this.onError(err)
+    })
+    this.snackBar.open("Successfully deleted " + event.name, "", { duration: 2000 })
+  }
+
+  onSuccess(): void {
+    this.club_events$ = this.eventService.getAllEvents()
+  }
+
+  onError(err: Error) : void{
+    if (err.message) {
+      console.log(err)
+      window.alert("The error is: " + err.message);
+    } else {
+      window.alert("Unknown error: " + JSON.stringify(err));
+    }
   }
 
 }

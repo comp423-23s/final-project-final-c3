@@ -13,6 +13,11 @@
                 </div>
                 <div class="side-buttons">
                     <mat-card-actions>
+                        <button mat-raised-button (click)='onDelete(event)' type="submit">
+                            {{ "Delete Event" }}
+                        </button>
+                    </mat-card-actions>
+                    <mat-card-actions>
                         <button mat-raised-button (click)='alterText(event)' type="submit">
                             {{ event.show_short_description ? "Read More" : "Read Less" }}
                         </button>
