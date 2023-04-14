@@ -35,8 +35,8 @@ class ClubEntity(EntityBase):
             club_code=model.club_code,
             name=model.name,
             description=model.description,
-            members=model.members,
-            leaders=model.leaders
+            members = [UserEntity.from_model(member) for member in model.members],
+            leaders = [UserEntity.from_model(leader) for leader in model.leaders]
         )
 
     def to_model(self) -> Club:

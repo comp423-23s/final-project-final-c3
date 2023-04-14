@@ -79,12 +79,12 @@ export class RegisterLeaderComponent {
 
   onSubmitNewClub(clubName: string, clubDescription: string): void {
     if (clubName.length != 0 && clubDescription.length != 0) {
-      this.potentialClubId++
+      console.log("profile id is " + this.profile.id)
       var potentialClub: PotentialClub = {
-        id: this.potentialClubId,
+        id: undefined,
         name: clubName,
         description: clubDescription,
-        founder_id: this.profile.id ?? 1
+        founder_id: this.profile.id ?? undefined
       }
       this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub).subscribe({
         next: () => this.newClubOnSuccess(),

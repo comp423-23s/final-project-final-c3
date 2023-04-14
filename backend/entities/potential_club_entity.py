@@ -1,5 +1,4 @@
-'''Club accounts for all registered clubs in the application.'''
-
+'''PotentialClub accounts for all registered clubs in the application.'''
 
 from sqlalchemy import Integer, String, insert, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship

@@ -4,10 +4,10 @@ import { Observable, throwError } from 'rxjs';
 import { Club, ClubsService } from './clubs.service';
 
 export interface PotentialClub {
-  id: number;
+  id: number | undefined
   name: String;
   description: String;
-  founder_id: number;
+  founder_id: number | undefined
 }
 
 @Injectable({
