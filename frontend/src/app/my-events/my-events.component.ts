@@ -64,10 +64,9 @@ export class MyEventsComponent {
 
   // Function that returns the shortened version of an event's description
   getShortDescription(event: Event): String {
-    if (event.description.length <= 25) {
+    if (event.description.length <= 67) {
       return event.description
     }
-    return event.description.substring(0, 25) + "..."
+    return event.description.substring(0, 67) + "..."
   }
-
 }
