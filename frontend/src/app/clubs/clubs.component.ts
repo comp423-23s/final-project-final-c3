@@ -29,15 +29,12 @@ export class ClubsComponent {
   };
 
   public profile: Profile
-  public profile$: Observable<Profile | undefined>
   public clubs$: Observable<Club[]>
   public user_clubs$: Observable<User_Club[]>
-  // static profile: Profile;
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar, private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
-    this.profile$ = profileService.profile$
     this.clubs$ = clubsService.getAllClubs()
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
     this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
@@ -49,11 +46,6 @@ export class ClubsComponent {
         return user_club
       })
     }))
-  }
-
-  // Controls which description is rendered on screen (short or long)
-  alterText(club: Club) {
-    club.show_short_description = !club.show_short_description
   }
 
   changeStatus(user_club: User_Club): void {
@@ -113,6 +105,13 @@ export class ClubsComponent {
     }
   }
 
+  // Controls which description is rendered on screen (short or long)
+  alterText(club: Club) {
+    club.show_short_description = !club.show_short_description
+  }
+
+
+  // Returns a shortened description for a club
   getShortDescription(club: Club): String {
     if (club.description.length <= 67) {
       return club.description

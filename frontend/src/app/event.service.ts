@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Profile } from './profile/profile.service';
 
 export interface Event {
   id: number,
@@ -10,7 +11,12 @@ export interface Event {
   location: string, 
   description: string,
   show_short_description: boolean,
-  members: number[]
+  attendees: Profile[]
+}
+
+export interface User_Event {
+  event: Event,
+  is_joined: boolean
 }
 
 /**
@@ -32,8 +38,7 @@ export class EventService {
   * @returns Observale array of Event objects.
   */
   getAllEvents(): Observable<Event[]> {
-    let allEvents$ = this.http.get<Event[]>('/api/event/all')
-    return allEvents$
+    return this.http.get<Event[]>('/api/event/all')
   }
 
   /**
@@ -45,33 +50,15 @@ export class EventService {
     return this.http.get<Event[]>('/api/event/user_events')
   }
 
-  addUserToEvent(event: Event): Observable<Event> {
-    return this.http.get<Event>(`api/event/add_to_event/${event.id}`)
+  addUserToEvent(event: Event): Observable<String> {
+    return this.http.get<String>(`api/event/add_to_event/${event.id}`)
   }
 
-  removeUserFromEvent(event: Event): Observable<Event> {
-    return this.http.delete<Event>(`api/event/delete_from_event/${event.id}`)
-  }
-
-  // Call to backend to see if user is a registered attendee for an event
-  isUserInEvent(event: Event): boolean {
-    // TODO: Some HTTP method
-    // For now, return true
-    return false
+  removeUserFromEvent(event: Event): Observable<String> {
+    return this.http.delete<String>(`api/event/delete_from_event/${event.id}`)
   }
 
   put(club_id: number) {
     // TODO: implement HTTPClient route to add an event by club
   }
-
-  /**
-   * Enable a student to leave an event
-   * @param Event event object
-   * @param pid student PID
-   * @returns void
-   */
-  // deleteMyEvent(event: Event, pid: number): {
-  //   //need to pass in event object once route is fixed
-  //   this.http.delete('/api/event/delete_from_event/' + pid)
-  // }
 }

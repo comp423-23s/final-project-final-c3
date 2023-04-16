@@ -29,6 +29,7 @@ export class MyEventsComponent {
     this.my_events$ = eventService.getMyEvents()
   }
 
+  // A function to cancel a user's attendance from an event, delegates to service
   onCancel(event: Event) {
     this.eventService.removeUserFromEvent(event).subscribe({
       next: () => this.onSuccess(),
@@ -56,36 +57,16 @@ export class MyEventsComponent {
     return this.eventService.isUserInEvent(event)
   }
 
-  // onDelete(event1: Event) {
-  //   let event = event1;
-  //   // how to pass in event1
-  //   this.http.delete<Event>('/api/event/delete').subscribe( {
-  //     next: (x) => this.reload(),
-  //     error: (err) => this.onError(err)
-  //   })
-  // }
-
-  // reload(): void {
-  //   this.my_events$ = this.eventService.getMyEvents(this.profile.pid)
-  // }
-
-  // private onError(err: HttpErrorResponse) {
-  //   if (err.error.detail) {
-  //     window.alert(err.error.detail);
-  //   } else {
-  //     window.alert("Unknown error: " + JSON.stringify(err));
-  //   }
-  // }
-
+  // Function to determine whether use sees short or long description for event
   alterText(event: Event) {
     event.show_short_description = !event.show_short_description
   }
 
+  // Function that returns the shortened version of an event's description
   getShortDescription(event: Event): String {
-    if (event.description.length <= 25) {
+    if (event.description.length <= 67) {
       return event.description
     }
-    return event.description.substring(0, 25) + "..."
+    return event.description.substring(0, 67) + "..."
   }
-
 }
