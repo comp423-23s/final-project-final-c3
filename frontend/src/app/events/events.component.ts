@@ -23,6 +23,7 @@ export class EventsComponent {
     resolve: { profile: profileResolver }
   };
 
+  // Observable to keep track of all events
   public events$: Observable<Event[]>
 
   constructor(private eventService: EventService, private http: HttpClient, protected snackBar: MatSnackBar) {
@@ -31,7 +32,6 @@ export class EventsComponent {
 
   // Function to either add or remove a member from an event's attendance
   changeStatus(event: Event) {
-    // TODO: implement
     if (this.isUserInEvent(event)) {
       this.onCancel(event)
     }
@@ -40,6 +40,7 @@ export class EventsComponent {
     }
   }
 
+  // Function to register a user for an event, delegates to service
   onRegister(event: Event) {
     this.eventService.addUserToEvent(event).subscribe({
       next: () => this.onSuccess(),
@@ -48,6 +49,7 @@ export class EventsComponent {
     this.snackBar.open("Successfully registered for " + event.name, "", { duration: 2000 })
   }
 
+  // Function to remove user from an event's attendance, delegates to the service
   onCancel(event: Event) {
     this.eventService.removeUserFromEvent(event).subscribe({
       next: () => this.onSuccess(),
@@ -75,10 +77,12 @@ export class EventsComponent {
     return this.eventService.isUserInEvent(event)
   }
 
+  // Change whether or not the user sees the short descripton
   alterText(event: Event) {
     event.show_short_description = !event.show_short_description
   }
 
+  // A function to get a shortened version of an event's description
   getShortDescription(event: Event): String {
     if (event.description.length <= 25) {
       return event.description

@@ -113,6 +113,7 @@ export class ClubsComponent {
     }
   }
 
+  // Returns a shortened description for a club
   getShortDescription(club: Club): String {
     if (club.description.length <= 67) {
       return club.description
