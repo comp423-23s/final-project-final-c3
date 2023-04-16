@@ -1,3 +1,5 @@
+"""The following tests are for the PermissionService."""
+
 import pytest
 
 from sqlalchemy.orm import Session

@@ -1,3 +1,5 @@
+"""The following tests are for the ClubService and EventService."""
+
 import pytest
 
 from sqlalchemy.orm import Session
