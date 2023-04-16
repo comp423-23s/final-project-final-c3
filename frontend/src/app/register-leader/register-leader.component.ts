@@ -47,18 +47,20 @@ export class RegisterLeaderComponent {
   }
 
   selectionChange(clubName: string) {
-    if (clubName == "Pearl Hacks") {
-      this.selectedClubId = 1
-    } else if (clubName == "App Team") {
-      this.selectedClubId = 2
-    } else if (clubName == "CSSG") {
-      this.selectedClubId = 3
-    } else if (clubName == "HackNC") {
-      this.selectedClubId = 4
-    } else if (clubName == "WiCS") {
-      this.selectedClubId = 5
+    this.clubs$.subscribe({
+      next: (clubs) => this.selectionChangeOnSuccess(clubs, clubName),
+      error: (err) => console.log(err)
+    })
+  }
+
+  selectionChangeOnSuccess(clubs: Club[], clubName: string) {
+    for (var club of clubs) {
+      if (club.name === clubName) {
+        this.selectedClubId = club.id
+        break
+      }
     }
-    console.log("selected club id is " + this.selectedClubId)
+    console.log("Selected club id is " + this.selectedClubId)
   }
 
   onSubmitExistingClub(clubCode: String): void {
