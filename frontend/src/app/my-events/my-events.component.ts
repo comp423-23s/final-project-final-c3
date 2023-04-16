@@ -50,42 +50,14 @@ export class MyEventsComponent {
     }
   }
 
-  // Function to determine whether or not a student is part of an event
-  isUserInEvent(event: Event) {
-    // Delegate to the service. 
-    return this.eventService.isUserInEvent(event)
-  }
-
-  // onDelete(event1: Event) {
-  //   let event = event1;
-  //   // how to pass in event1
-  //   this.http.delete<Event>('/api/event/delete').subscribe( {
-  //     next: (x) => this.reload(),
-  //     error: (err) => this.onError(err)
-  //   })
-  // }
-
-  // reload(): void {
-  //   this.my_events$ = this.eventService.getMyEvents(this.profile.pid)
-  // }
-
-  // private onError(err: HttpErrorResponse) {
-  //   if (err.error.detail) {
-  //     window.alert(err.error.detail);
-  //   } else {
-  //     window.alert("Unknown error: " + JSON.stringify(err));
-  //   }
-  // }
-
   alterText(event: Event) {
     event.show_short_description = !event.show_short_description
   }
 
   getShortDescription(event: Event): String {
-    if (event.description.length <= 25) {
+    if (event.description.length <= 67) {
       return event.description
     }
-    return event.description.substring(0, 25) + "..."
+    return event.description.substring(0, 67) + "..."
   }
-
 }
