@@ -81,6 +81,7 @@ def test_revoke_role_permission(permission: PermissionService):
 
 
 def test_root_resource_access(permission: PermissionService):
+    """Checking that the root user can grant access control and delete users."""
     assert permission.check(root, 'access_control.grant', 'access_control')
     assert permission.check(root, 'user.delete', 'user/1')
 
