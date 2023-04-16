@@ -52,16 +52,19 @@ def setup_teardown(test_session: Session):
 
 @pytest.fixture()
 def permission(test_session: Session):
+    """Returning the session for permissions."""
     return PermissionService(test_session)
 
 
 def test_no_permission(permission: PermissionService):
+    """Checking that our default user has no permissions."""
     assert permission.check(user, 'permission.grant',
                             'permission') is False
     assert permission.check(user, 'user.delete', 'user/1') is False
 
 
 def test_grant_role_permission(permission: PermissionService):
+    """Checking that out ambassador does not have the checkin permission until we grant it."""
     assert permission.check(ambassador, 'checkin.delete', 'checkin') is False
     p = Permission(action='checkin.delete', resource='*')
     permission.grant(root, ambassador_role, p)
@@ -69,6 +72,7 @@ def test_grant_role_permission(permission: PermissionService):
 
 
 def test_revoke_role_permission(permission: PermissionService):
+    """Checking that we are able to successfully revoke a permission."""
     assert permission.check(ambassador, 'checkin.create', 'checkin')
     permission.revoke(root, ambassador_permission)
     assert permission.check(ambassador, 'checkin.create', 'checkin') is False

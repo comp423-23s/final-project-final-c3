@@ -26,16 +26,20 @@ def setup_teardown(test_session: Session):
     
 @pytest.fixture()
 def club_service(test_session: Session):
+    """Returning the session for clubs."""
     return ClubService(test_session)
 
 def test_get_all_clubs(club_service: ClubService):
+    """Checking that the list of all clubs is not empty."""
     assert club_service.get_all_clubs() is not None
 
 @pytest.fixture()    
 def event_service(test_session: Session):
+    """Returning the session for events."""
     return EventService(test_session)
 
 def test_get_all_events(event_service: EventService):
+    """Checking that the list of all events is not empty."""
     assert event_service.get_all_events() is not None
     
 
