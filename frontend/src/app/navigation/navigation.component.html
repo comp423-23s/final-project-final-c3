@@ -16,30 +16,26 @@
             <a mat-list-item routerLink="/profile">Profile</a> 
             <a mat-list-item routerLink="/role_selection">Change Role</a>
             <div>
-              <a mat-list-item for="website">
-                <button mat-button [matMenuTriggerFor]="menu1">Clubs</button>
-                  <mat-menu #menu1="matMenu">
-                    <button mat-menu-item>
-                      <a mat-list-item routerLink="/all_clubs">All Clubs</a>
-                    </button>
-                    <button mat-menu-item>
-                      <a mat-list-item routerLink="/joined_clubs">My Clubs</a>
-                    </button>
-                  </mat-menu>
-              </a>
-            </div>
+              <a mat-list-item [matMenuTriggerFor]="menu1">Clubs</a> 
+              <mat-menu #menu1="matMenu">
+                <button mat-menu-item>
+                  <a mat-list-item routerLink="/all_clubs">All Clubs</a>
+                </button>
+                <button mat-menu-item>
+                  <a mat-list-item routerLink="/joined_clubs">My Clubs</a>
+                </button>
+              </mat-menu>
+            </div> 
             <div>
-              <a mat-list-item for="website">
-                <button mat-button [matMenuTriggerFor]="menu2">Events</button>
-                  <mat-menu #menu2="matMenu">
-                    <button mat-menu-item>
-                      <a mat-list-item routerLink="/events">All Events</a>
-                    </button>
-                    <button mat-menu-item>
-                      <a mat-list-item routerLink="/my-events">My Events</a>
-                    </button>
-                  </mat-menu>
-              </a> 
+              <a mat-list-item [matMenuTriggerFor]="menu2">Events</a> 
+              <mat-menu #menu2="matMenu">
+                <button mat-menu-item>
+                  <a mat-list-item routerLink="/events">All Events</a>
+                </button>
+                <button mat-menu-item>
+                  <a mat-list-item routerLink="/my-events">My Events</a>
+                </button>
+              </mat-menu>
             </div>           
             <a mat-list-item routerLink="/register_leader">Become a Leader</a>
             <a mat-list-item (click)="auth.signOut()">Sign out</a>
