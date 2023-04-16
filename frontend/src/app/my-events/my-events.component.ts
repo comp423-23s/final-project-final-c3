@@ -51,12 +51,6 @@ export class MyEventsComponent {
     }
   }
 
-  // Function to determine whether or not a student is part of an event
-  isUserInEvent(event: Event) {
-    // Delegate to the service. 
-    return this.eventService.isUserInEvent(event)
-  }
-
   // Function to determine whether use sees short or long description for event
   alterText(event: Event) {
     event.show_short_description = !event.show_short_description
