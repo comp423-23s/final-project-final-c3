@@ -72,9 +72,9 @@ class ClubService:
         """Returns a list of members for a club."""
         members: list[User] = []
         query = select(user_club_table.c.user_id).where(user_club_table.c.club_id== club_id)
-        user_entites = self._session.scalars(query).all()
-        for entity in user_entites:
-            user_entity = self._session.get(UserEntity, entity)
+        user_ids = self._session.scalars(query).all()
+        for an_id in user_ids:
+            user_entity = self._session.get(UserEntity, an_id)
             members.append(user_entity.to_model())
         return members
     
