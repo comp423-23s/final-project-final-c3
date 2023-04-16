@@ -9,6 +9,7 @@ As a student, one may:
 * Register or Cancel Registration for an event
 * View the clubs of which they are currently members 
 * View the events for which they are currently registered
+* Become a leader of a club
 
 As a leader of a club (e.g. President), one may:
 * Request to add a club to the website
