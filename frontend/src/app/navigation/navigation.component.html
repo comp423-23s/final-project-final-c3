@@ -15,18 +15,28 @@
             <mat-divider></mat-divider>
             <a mat-list-item routerLink="/profile">Profile</a> 
             <a mat-list-item routerLink="/role_selection">Change Role</a>
-            <a mat-list-item for="website">
-              Clubs: 
-              <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
-                <option *ngFor="let r of club_routes" [ngValue]="r.value">{{r.display}}</option>
-              </select> 
-            </a>
-            <a mat-list-item for="website">
-              Events: 
-              <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
-                <option *ngFor="let r of event_routes" [ngValue]="r.value">{{r.display}}</option>
-              </select> 
-            </a>
+            <div>
+              <a mat-list-item [matMenuTriggerFor]="menu1">Clubs</a> 
+              <mat-menu #menu1="matMenu">
+                <button mat-menu-item>
+                  <a mat-list-item routerLink="/all_clubs">All Clubs</a>
+                </button>
+                <button mat-menu-item>
+                  <a mat-list-item routerLink="/joined_clubs">My Clubs</a>
+                </button>
+              </mat-menu>
+            </div> 
+            <div>
+              <a mat-list-item [matMenuTriggerFor]="menu2">Events</a> 
+              <mat-menu #menu2="matMenu">
+                <button mat-menu-item>
+                  <a mat-list-item routerLink="/events">All Events</a>
+                </button>
+                <button mat-menu-item>
+                  <a mat-list-item routerLink="/my-events">My Events</a>
+                </button>
+              </mat-menu>
+            </div>           
             <a mat-list-item routerLink="/register_leader">Become a Leader</a>
             <a mat-list-item (click)="auth.signOut()">Sign out</a>
           </div>
