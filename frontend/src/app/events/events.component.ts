@@ -105,10 +105,10 @@ export class EventsComponent {
   }
 
   // Function to determine whether or not a student is part of an event
-  isUserInEvent(event: Event) {
-    // Delegate to the service. 
-    return this.eventService.isUserInEvent(event)
-  }
+  // isUserInEvent(event: Event) {
+  //   // Delegate to the service. 
+  //   return this.eventService.isUserInEvent(event)
+  // }
 
   // Change whether or not the user sees the short descripton
   alterText(event: Event) {
