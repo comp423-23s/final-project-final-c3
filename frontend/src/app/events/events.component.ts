@@ -24,7 +24,10 @@ export class EventsComponent {
     resolve: { profile: profileResolver }
   };
 
+
   public profile: Profile
+  
+  // Observable to keep track of all events
   public events$: Observable<Event[]>
   public user_events$: Observable<User_Event[]>
 
@@ -45,6 +48,7 @@ export class EventsComponent {
   }
 
   // Function to either add or remove a member from an event's attendance
+
   changeStatus(user_event: User_Event): void {
     if (user_event.is_joined) {
       this.onCancel(user_event.event)
@@ -53,13 +57,9 @@ export class EventsComponent {
     }
   }
 
-  onRegister(event: Event): void {
-    this.profileService.http.get<Profile>('/api/profile').subscribe(
-      {
-        next: (data) => {this.onSuccessUpdateProfile(data)},
-        error: (err) => console.log(err)
-      }
-    )
+  // Function to register a user for an event, delegates to service
+  onRegister(event: Event) {
+
     this.eventService.addUserToEvent(event).subscribe({
       next: () => this.onSuccess(),
       error: (err) => this.onError(err)
@@ -70,6 +70,8 @@ export class EventsComponent {
   private onSuccessUpdateProfile(profile: Profile): void {
     this.profile = profile
   }
+
+  // Function to remove user from an event's attendance, delegates to the service
 
   onCancel(event: Event) {
     this.eventService.removeUserFromEvent(event).subscribe({
@@ -102,10 +104,18 @@ export class EventsComponent {
     }
   }
 
+  // Function to determine whether or not a student is part of an event
+  isUserInEvent(event: Event) {
+    // Delegate to the service. 
+    return this.eventService.isUserInEvent(event)
+  }
+
+  // Change whether or not the user sees the short descripton
   alterText(event: Event) {
     event.show_short_description = !event.show_short_description
   }
 
+  // A function to get a shortened version of an event's description
   getShortDescription(event: Event): String {
     if (event.description.length <= 67) {
       return event.description

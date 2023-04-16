@@ -34,10 +34,12 @@ export class LeaderClubsComponent {
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
   }
 
+  // A function to change whether or not a user sees the short description for a club
   alterText(club: Club) {
     club.show_short_description = !club.show_short_description
   }
 
+  // A function to get the shortened version of a club's description
   getShortDescription(club: Club): String {
     if (club.description.length <= 67) {
       return club.description
