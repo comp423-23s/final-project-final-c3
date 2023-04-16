@@ -42,10 +42,12 @@ export class RegisterLeaderComponent {
     this.clubs$ = clubService.getAllClubs()
   }
 
+  // A function that changes whether or not a clubs exists
   changeClubExistStatus() {
     this.clubExists = !this.clubExists
   }
 
+  // A function that chooses the correct club
   selectionChange(clubName: string) {
     this.clubs$.subscribe({
       next: (clubs) => this.selectionChangeOnSuccess(clubs, clubName),
@@ -70,11 +72,13 @@ export class RegisterLeaderComponent {
     })
   }
 
+  // Function that displays message is leader regstration was successful
   existingClubOnSuccess(): void {
     // this.navigationComponent.roles$ = this.roleAdminService.list_my_roles();
     window.alert("Leader registration was successful.")
   }
 
+  //Function that displays error message if the club code was incorrect
   existingClubOnError(err: Error): void{
     console.log(err)
     window.alert("Wrong club code. Leader registration request denied.");
