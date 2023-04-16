@@ -29,7 +29,7 @@ export class ProfileService {
 
   public profile$: Observable<Profile | undefined>;
 
-  constructor(protected http: HttpClient, protected auth: AuthenticationService) {
+  constructor(public http: HttpClient, protected auth: AuthenticationService) {
     this.profile$ = this.auth.isAuthenticated$.pipe(
       mergeMap(isAuthenticated => {
         if (isAuthenticated) {
@@ -50,5 +50,4 @@ export class ProfileService {
     let encodedQuery = encodeURIComponent(query);
     return this.http.get<Profile[]>(`/api/user?q=${encodedQuery}`);
   }
-
 }

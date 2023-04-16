@@ -91,6 +91,7 @@ def get_users_in_event(
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
+
 # Determine if user is registered for event
 @api.get("/is_user_registered/{event_id}", tags=['Event'])
 def is_user_registered(
