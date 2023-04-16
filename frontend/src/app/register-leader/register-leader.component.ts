@@ -12,6 +12,7 @@ import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { RoleAdminService } from '../admin/roles/role-admin.service';
 import { AriaDescriber } from '@angular/cdk/a11y';
+import { ProfileService } from '../profile/profile.service';
 
 @Component({
   selector: 'app-register-leader',
@@ -35,7 +36,7 @@ export class RegisterLeaderComponent {
   public clubExists = true
   public potentialClubId = 0
   
-  constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar, private navigationComponent: NavigationComponent, private roleAdminService: RoleAdminService) {
+  constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar, private navigationComponent: NavigationComponent, private roleAdminService: RoleAdminService, private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.clubs$ = clubService.getAllClubs()
@@ -46,18 +47,20 @@ export class RegisterLeaderComponent {
   }
 
   selectionChange(clubName: string) {
-    if (clubName == "Pearl Hacks") {
-      this.selectedClubId = 1
-    } else if (clubName == "App Team") {
-      this.selectedClubId = 2
-    } else if (clubName == "CSSG") {
-      this.selectedClubId = 3
-    } else if (clubName == "HackNC") {
-      this.selectedClubId = 4
-    } else if (clubName == "WiCS") {
-      this.selectedClubId = 5
+    this.clubs$.subscribe({
+      next: (clubs) => this.selectionChangeOnSuccess(clubs, clubName),
+      error: (err) => console.log(err)
+    })
+  }
+
+  selectionChangeOnSuccess(clubs: Club[], clubName: string) {
+    for (var club of clubs) {
+      if (club.name === clubName) {
+        this.selectedClubId = club.id
+        break
+      }
     }
-    console.log("selected club id is " + this.selectedClubId)
+    console.log("Selected club id is " + this.selectedClubId)
   }
 
   onSubmitExistingClub(clubCode: String): void {
@@ -79,24 +82,31 @@ export class RegisterLeaderComponent {
 
   onSubmitNewClub(clubName: string, clubDescription: string): void {
     if (clubName.length != 0 && clubDescription.length != 0) {
-      console.log("profile id is " + this.profile.id)
-      var potentialClub: PotentialClub = {
-        id: undefined,
-        name: clubName,
-        description: clubDescription,
-        founder_id: this.profile.id ?? undefined
-      }
-      this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub).subscribe({
-        next: () => this.newClubOnSuccess(),
-        error: (err) => this.newClubOnError(err)
-      })
+      this.profileService.http.get<Profile>('/api/profile').subscribe(
+        {
+          next: (data) => {this.onSuccessUpdateProfile(data, clubName, clubDescription)},
+          error: (err) => console.log(err)
+        }
+      )
     } else {
       window.alert("Please enter club name and description.")
     }
   }
 
+  private onSuccessUpdateProfile(profile: Profile, clubName: String, clubDescription: string): void {
+    var potentialClub: PotentialClub = {
+      id: undefined,
+      name: clubName,
+      description: clubDescription,
+      founder_id: profile.id ?? undefined
+    }
+    this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub).subscribe({
+      next: () => this.newClubOnSuccess(),
+      error: (err) => this.newClubOnError(err)
+    })
+  }
+
   newClubOnSuccess(): void {
-    // this.navigationComponent.roles$ = this.roleAdminService.list_my_roles();
     window.alert("Request was submitted.")
   }
 

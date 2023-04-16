@@ -85,12 +85,14 @@ class ClubService:
         self._session.delete(club_entity)
         self._session.commit()
 
+
     def add_leader(self, potential_leader: User, club_id: int, given_club_code: str) -> None:
         """Adds a leader to an existing club."""
         club_entity = self._session.get(ClubEntity, club_id)
         actual_club_code = club_entity.club_code
         if (given_club_code == actual_club_code):
             leader_as_user_entity = self._session.get(UserEntity, potential_leader.id)
+            club_entity.members.append(leader_as_user_entity)
             club_entity.leaders.append(leader_as_user_entity)
             role_entity = self._session.get(RoleEntity, 2)
             leader_as_user_entity.roles.append(role_entity)
