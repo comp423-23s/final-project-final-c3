@@ -61,4 +61,19 @@ export class EventService {
   put(club_id: number) {
     // TODO: implement HTTPClient route to add an event by club
   }
+
+  deleteEvent(event: Event): Observable<String> {
+    return this.http.delete<String>(`api/event/delete/${event.id}`)
+  }
+
+  /**
+   * Enable a student to leave an event
+   * @param Event event object
+   * @param pid student PID
+   * @returns void
+   */
+  // deleteMyEvent(event: Event, pid: number): {
+  //   //need to pass in event object once route is fixed
+  //   this.http.delete('/api/event/delete_from_event/' + pid)
+  // }
 }

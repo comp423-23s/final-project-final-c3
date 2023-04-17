@@ -9,16 +9,22 @@ As a student, one may:
 * Register or Cancel Registration for an event
 * View the clubs of which they are currently members 
 * View the events for which they are currently registered
-* Become a leader of a club
+* Become a leader of a club:
+    - Either: become a leader of an existing club: student needs to select the club from a dropdown box, and submit a 8-digit Club Code
+        - If the Club Code is correct, then the student becomes the leader of this club
+        - If the Club Code is incorrect, then the student can't become the leader of the club
+    - Or: become a leader of a new club: student needs to submit the club name and description, and the request will be submitted for Administrator Arden to review (accessed by: https://team-c3-comp423-23s.apps.cloudapps.unc.edu/auth/as/arden/100000001) 
+        - If the request is approved by Administrator, then the club is founded and assigned with a Club Code, and the student becomes the leader of the club
+        - If the request is denied by Administrator, then the club is not founded and the student is not the leader of the club
+    * If the student successfully becomes a leader, the student will be able to switch to Leader view in "Change Role" tab in the navigation bar
 
 As a leader of a club (e.g. President), one may:
-* Request to add a club to the website
-* Add an upcoming event to be hosted
-* Delete an upcoming event
 * View a list of the clubs they lead
+* View the 8-digit Club Code of the clubs they lead
+* View the members in the clubs they lead
 
 As an administrator, one may:
-* Approve or deny a leader’s request to add a club
+* Approve or deny a student's request to create a new club
 
 
 # Implementation Notes
