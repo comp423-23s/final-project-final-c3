@@ -24,10 +24,7 @@ export class EventsComponent {
     resolve: { profile: profileResolver }
   };
 
-
   public profile: Profile
-  
-  // Observable to keep track of all events
   public events$: Observable<Event[]>
   public user_events$: Observable<User_Event[]>
 
@@ -45,10 +42,19 @@ export class EventsComponent {
         return user_event
       })
     }))
+    this.events$ = this.events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
+    this.user_events$ = this.events$.pipe(map((events: Event[]) => {
+      return events.map(a_event => {
+        const user_event: User_Event = {
+          event: a_event, 
+          is_joined: a_event.attendees.map(attendee => attendee.id).includes(this.profile.id)
+        }
+        return user_event
+      })
+    }))
   }
 
   // Function to either add or remove a member from an event's attendance
-
   changeStatus(user_event: User_Event): void {
     if (user_event.is_joined) {
       this.onCancel(user_event.event)
@@ -57,9 +63,13 @@ export class EventsComponent {
     }
   }
 
-  // Function to register a user for an event, delegates to service
-  onRegister(event: Event) {
-
+  onRegister(event: Event): void {
+    this.profileService.http.get<Profile>('/api/profile').subscribe(
+      {
+        next: (data) => {this.onSuccessUpdateProfile(data)},
+        error: (err) => console.log(err)
+      }
+    )
     this.eventService.addUserToEvent(event).subscribe({
       next: () => this.onSuccess(),
       error: (err) => this.onError(err)
@@ -70,8 +80,6 @@ export class EventsComponent {
   private onSuccessUpdateProfile(profile: Profile): void {
     this.profile = profile
   }
-
-  // Function to remove user from an event's attendance, delegates to the service
 
   onCancel(event: Event) {
     this.eventService.removeUserFromEvent(event).subscribe({
@@ -93,6 +101,16 @@ export class EventsComponent {
         return user_event
       })
     }))
+    this.events$ = this.events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
+    this.user_events$ = this.events$.pipe(map((events: Event[]) => {
+      return events.map(a_event => {
+        const user_event : User_Event = {
+          event: a_event, 
+          is_joined: a_event.attendees?.map(attendee => attendee.id).includes(this.profile.id)
+        }
+        return user_event
+      })
+    }))
   }
 
   onError(err: Error) : void{
@@ -104,13 +122,6 @@ export class EventsComponent {
     }
   }
 
-  // Function to determine whether or not a student is part of an event
-  // isUserInEvent(event: Event) {
-  //   // Delegate to the service. 
-  //   return this.eventService.isUserInEvent(event)
-  // }
-
-  // Change whether or not the user sees the short descripton
   alterText(event: Event) {
     event.show_short_description = !event.show_short_description
   }
