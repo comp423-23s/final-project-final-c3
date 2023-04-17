@@ -46,6 +46,17 @@
             <a mat-list-item routerLink="/profile">Profile</a> 
             <a mat-list-item routerLink="/role_selection">Change Role</a>
             <a mat-list-item routerLink="/leader_clubs">Leading Clubs</a>
+            <div>
+              <a mat-list-item [matMenuTriggerFor]="menu3">Events</a> 
+              <mat-menu #menu3="matMenu">
+                <button mat-menu-item>
+                  <a mat-list-item routerLink="/manageevents">Manage Events</a>
+                </button>
+                <button mat-menu-item>
+                  <a mat-list-item routerLink="/registerevents">Register Events</a>
+                </button>
+              </mat-menu>
+            </div> 
             <a mat-list-item (click)="auth.signOut()">Sign out</a>
           </div>
 
@@ -53,16 +64,6 @@
             <mat-divider></mat-divider>
             <a mat-list-item routerLink="/profile">Profile</a> 
             <a mat-list-item routerLink="/role_selection">Change Role</a>
-<<<<<<< HEAD
-            <a mat-list-item for="website">
-              Events: 
-              <select [(ngModel)]="currentRoute" (change)="routeTo(currentRoute)">
-                <option *ngFor="let r of leader_event_routes" [ngValue]="r.value">{{r.display}}</option>
-              </select> 
-            </a>
-            <a mat-list-item routerLink="/leader_clubs">Leader Clubs</a>
-=======
->>>>>>> stage
             <a mat-list-item routerLink="/admin_pending_requests">Pending Requests</a>
             <a mat-list-item (click)="auth.signOut()">Sign out</a>
           </div>
@@ -73,7 +74,7 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary">
         <button
-          type="button"
+          type="button"s
           aria-label="Toggle sidenav"
           mat-icon-button
           (click)="drawer.toggle()"

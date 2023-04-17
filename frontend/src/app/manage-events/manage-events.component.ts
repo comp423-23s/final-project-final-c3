@@ -40,14 +40,14 @@ export class ManageEventsComponent {
 
   onDelete(event: Event) {
     this.eventService.deleteEvent(event).subscribe({
-      next: () => this.onSuccess(),
+      next: () => this.onSuccess(event),
       error: (err) => this.onError(err)
     })
-    this.snackBar.open("Successfully deleted " + event.name, "", { duration: 2000 })
   }
 
-  onSuccess(): void {
+  onSuccess(event: Event): void {
     this.club_events$ = this.eventService.getAllEvents()
+    this.snackBar.open("Successfully deleted " + event.name, "", { duration: 2000 })
   }
 
   onError(err: Error) : void{

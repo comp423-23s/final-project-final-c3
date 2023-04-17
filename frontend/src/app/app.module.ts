@@ -42,14 +42,9 @@ import { ClubsComponent } from './clubs/clubs.component';
 import { RegisterLeaderComponent } from './register-leader/register-leader.component';
 import { RegisterEventComponent } from './register-event/register-event.component';
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
-<<<<<<< HEAD
 import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
 import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
-=======
-import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
-import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
->>>>>>> stage
 
 @NgModule({
   declarations: [
