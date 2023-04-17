@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import {MatMenuModule} from '@angular/material/menu';
 
 /* HTTP and Auth */
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -84,6 +85,7 @@ import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pe
     MatTabsModule,
     MatToolbarModule,
     MatCheckboxModule,
+    MatMenuModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {

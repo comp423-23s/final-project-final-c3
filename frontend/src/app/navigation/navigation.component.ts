@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import {MatMenuModule} from '@angular/material/menu';
 import { Observable, Subscription, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RoleRoute, NavigationService as NavigationTitleService } from './navigation.service';
@@ -68,6 +69,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       display: 'My Events'
     }
   ]
+menu: any;
 
   constructor(
     public auth: AuthenticationService,

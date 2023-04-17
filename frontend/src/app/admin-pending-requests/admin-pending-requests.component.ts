@@ -35,6 +35,7 @@ export class AdminPendingRequestsComponent {
     this.potential_clubs$ = adminPendingRequestsService.getPotentialClubs()
   }
 
+  // A function to approve a potential club request that delegates to the service
   approve(potentialClub: PotentialClub) {
     this.adminPendingRequestsService.approve(potentialClub).subscribe({
       next: () => this.approveOnSuccess(),
@@ -42,15 +43,18 @@ export class AdminPendingRequestsComponent {
     })
   }
 
+  // When a club is approved, show the user an alert
   approveOnSuccess() {
     this.potential_clubs$ = this.adminPendingRequestsService.getPotentialClubs()
     window.alert("Request was approved by you.")
   }
 
+  // If there is an error, show the following alert:
   approveOnError() {
     window.alert("Request can't be approved.")
   }
 
+  // A function to deny a club request, delegates to the service
   deny(potentialClub: PotentialClub) {
     this.adminPendingRequestsService.deny(potentialClub).subscribe({
       next: () => this.denyOnSuccess(),
@@ -58,11 +62,13 @@ export class AdminPendingRequestsComponent {
     })
   }
 
+  // If the club was successfully denied, display message
   denyOnSuccess() {
     this.potential_clubs$ = this.adminPendingRequestsService.getPotentialClubs()
     window.alert("Request was denied by you.")
   }
 
+  // If the club could not be denied, display alert message
   denyOnError() {
     window.alert("Request can't be denied.")
   }

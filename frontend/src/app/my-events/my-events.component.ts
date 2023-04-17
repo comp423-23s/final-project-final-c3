@@ -29,6 +29,7 @@ export class MyEventsComponent {
     this.my_events$ = eventService.getMyEvents()
   }
 
+  // A function to cancel a user's attendance from an event, delegates to service
   onCancel(event: Event) {
     this.eventService.removeUserFromEvent(event).subscribe({
       next: () => this.onSuccess(),
@@ -54,6 +55,7 @@ export class MyEventsComponent {
     event.show_short_description = !event.show_short_description
   }
 
+  // Function that returns the shortened version of an event's description
   getShortDescription(event: Event): String {
     if (event.description.length <= 67) {
       return event.description

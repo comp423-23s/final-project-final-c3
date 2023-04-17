@@ -42,6 +42,16 @@ export class EventsComponent {
         return user_event
       })
     }))
+    this.events$ = this.events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
+    this.user_events$ = this.events$.pipe(map((events: Event[]) => {
+      return events.map(a_event => {
+        const user_event: User_Event = {
+          event: a_event, 
+          is_joined: a_event.attendees.map(attendee => attendee.id).includes(this.profile.id)
+        }
+        return user_event
+      })
+    }))
   }
 
   // Function to either add or remove a member from an event's attendance
@@ -91,6 +101,16 @@ export class EventsComponent {
         return user_event
       })
     }))
+    this.events$ = this.events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
+    this.user_events$ = this.events$.pipe(map((events: Event[]) => {
+      return events.map(a_event => {
+        const user_event : User_Event = {
+          event: a_event, 
+          is_joined: a_event.attendees?.map(attendee => attendee.id).includes(this.profile.id)
+        }
+        return user_event
+      })
+    }))
   }
 
   onError(err: Error) : void{
@@ -106,6 +126,7 @@ export class EventsComponent {
     event.show_short_description = !event.show_short_description
   }
 
+  // A function to get a shortened version of an event's description
   getShortDescription(event: Event): String {
     if (event.description.length <= 67) {
       return event.description
