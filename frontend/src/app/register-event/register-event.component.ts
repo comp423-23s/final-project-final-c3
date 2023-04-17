@@ -22,6 +22,7 @@ export class RegisterEventComponent implements OnInit {
 
   public event: Event
 
+  // A form that takes in input for a new event
   public eventForm = this.formBuilder.group({
     name: '',
     description: '',

@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
-import { Profile } from '../profile/profile.service'
+import { Profile, ProfileService } from '../profile/profile.service'
 import { Club, ClubsService, User_Club } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
+import { ProfileEditorComponent } from '../profile/profile-editor/profile-editor.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-clubs',
   templateUrl: './clubs.component.html',
@@ -28,7 +32,7 @@ export class ClubsComponent {
   public clubs$: Observable<Club[]>
   public user_clubs$: Observable<User_Club[]>
 
-  constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar) {
+  constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar, private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.clubs$ = clubsService.getAllClubs()
@@ -44,11 +48,6 @@ export class ClubsComponent {
     }))
   }
 
-  // Controls which description is rendered on screen (short or long)
-  alterText(club: Club) {
-    club.show_short_description = !club.show_short_description
-  }
-
   changeStatus(user_club: User_Club): void {
     if (user_club.is_joined) {
       this.onLeave(user_club.club)
@@ -59,10 +58,20 @@ export class ClubsComponent {
 
   // Enables a student to join a club
   onJoin(club: Club): void {
+    this.profileService.http.get<Profile>('/api/profile').subscribe(
+      {
+        next: (data) => {this.onSuccessUpdateProfile(data)},
+        error: (err) => console.log(err)
+      }
+    )
     this.clubsService.joinClub(club).subscribe({
       next: () => this.onSuccess(),
       error: (err) => this.onError(err)
     })
+  }
+
+  private onSuccessUpdateProfile(profile: Profile): void {
+    this.profile = profile
   }
 
   // Enables a student to leave a club
@@ -96,6 +105,13 @@ export class ClubsComponent {
     }
   }
 
+  // Controls which description is rendered on screen (short or long)
+  alterText(club: Club) {
+    club.show_short_description = !club.show_short_description
+  }
+
+
+  // Returns a shortened description for a club
   getShortDescription(club: Club): String {
     if (club.description.length <= 67) {
       return club.description

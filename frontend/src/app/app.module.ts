@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import {MatMenuModule} from '@angular/material/menu';
 
 /* HTTP and Auth */
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -41,9 +42,14 @@ import { ClubsComponent } from './clubs/clubs.component';
 import { RegisterLeaderComponent } from './register-leader/register-leader.component';
 import { RegisterEventComponent } from './register-event/register-event.component';
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
+<<<<<<< HEAD
 import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
 import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
+=======
+import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
+import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
+>>>>>>> stage
 
 @NgModule({
   declarations: [
@@ -86,6 +92,7 @@ import { ManageEventsComponent } from './manage-events/manage-events.component';
     MatTabsModule,
     MatToolbarModule,
     MatCheckboxModule,
+    MatMenuModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {

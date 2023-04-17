@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Route } from '@angular/router';
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { profileResolver } from '../profile.resolver';
 import { Profile, ProfileService } from '../profile.service';
+import { Observable, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ClubsComponent } from 'src/app/clubs/clubs.component';
 
 @Component({
   selector: 'app-profile-editor',
@@ -30,7 +33,7 @@ export class ProfileEditorComponent implements OnInit {
     pronouns: ''
   });
 
-  constructor(route: ActivatedRoute, protected formBuilder: FormBuilder, protected profileService: ProfileService, protected snackBar: MatSnackBar) {
+  constructor(route: ActivatedRoute, protected formBuilder: FormBuilder, protected profileService: ProfileService, protected snackBar: MatSnackBar, private clubsComponent: ClubsComponent) {
     const form = this.profileForm;
     form.get('first_name')?.addValidators(Validators.required);
     form.get('lastname')?.addValidators(Validators.required);
