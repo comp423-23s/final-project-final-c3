@@ -11,3 +11,9 @@
 .content {
     margin-bottom: 10px;
 }
+
+.user-input {
+    display: flex;
+    flex-direction: row;
+    margin: 15px;
+}
