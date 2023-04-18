@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Route } from '@angular/router';
+import { Observable, map } from 'rxjs';
+import { ActivatedRoute, Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
-import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminService, User } from '../admin.service';
 
 @Component({
@@ -19,7 +20,7 @@ export class ChangeAdminComponent {
     resolve: { profile: profileResolver }
   };
 
-  public admins$ = Observable<User[]>
+  public admins$: Observable<User[]>
 
   constructor(adminService: AdminService) {
     this.admins$ = adminService.getAllAdmin();
