@@ -58,10 +58,6 @@ export class EventService {
     return this.http.delete<String>(`api/event/delete_from_event/${event.id}`)
   }
 
-  put(club_id: number) {
-    // TODO: implement HTTPClient route to add an event by club
-  }
-
   deleteEvent(event: Event): Observable<String> {
     return this.http.delete<String>(`api/event/delete/${event.id}`)
   }

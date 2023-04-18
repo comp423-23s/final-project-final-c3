@@ -120,7 +120,7 @@ def is_user_registered(
 @api.get("/get_club_id/{club_code}", tags=['Event'])
 def get_club_id_by_code(
     club_code: str, 
-    event_svc: EventService = Depends()) -> str:
+    event_svc: EventService = Depends()) -> int:
     try: 
         club_id = event_svc.get_club_id_by_code(club_code)
         return club_id
