@@ -66,6 +66,9 @@ export class EventService {
     return this.http.get<String>(`api/event/get_club_id/${club_code}`)
   }
 
+  createNewEvent(event: Event): Observable<String> {
+    return this.http.post<String>(`api/event/create_event/`, event)
+  }
   /**
    * Enable a student to leave an event
    * @param Event event object
