@@ -51,7 +51,7 @@
             </mat-card-content>
             <div class="side-buttons">
                 <mat-card-actions>
-                    <button mat-raised-button>Delete</button>
+                    <button mat-raised-button  type="submit" (click)='removeAdmin(user.pid.toString())'>Delete</button>
                 </mat-card-actions>
             </div>
         </mat-card>

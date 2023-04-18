@@ -22,16 +22,17 @@ export class ChangeAdminComponent {
 
   public admins$: Observable<User[]>
 
-  constructor(adminService: AdminService) {
+  constructor(private adminService: AdminService) {
     this.admins$ = adminService.getAllAdmin();
   }
 
-  addNewAdmin(pid: String) {
-    // TODO: delegate to service to give user admin role
+  addNewAdmin(pid: string) {
+    this.adminService.removeAdmin(parseInt(pid))
   }
 
-  removeAdmin(pid: String) {
+  removeAdmin(pid: string) {
     // TODO: delegate to srevice to take admin role away from user
+    this.adminService.addAdmin(parseInt(pid))
   }
 
 }
