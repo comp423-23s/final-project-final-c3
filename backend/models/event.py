@@ -12,7 +12,8 @@ class Event(BaseModel):
     id: int | None = None
     name: str
     club_id: int
-    date: datetime
+    start_time: datetime
+    end_time: datetime
     location: str
     description: str
     attendees: list[User] = []
@@ -20,7 +21,8 @@ class Event(BaseModel):
 class NewEvent(BaseModel):
     name: str
     club_id: int
-    date: datetime
+    start_time: datetime
+    end_time: datetime
     location: str
     description: str
     attendees: list[User] = []
