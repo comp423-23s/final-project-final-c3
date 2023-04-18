@@ -2,10 +2,10 @@
     <div class="user-input">
         <mat-form-field appearance="fill">
             <mat-label>Enter User PID </mat-label>
-            <input matInput #input>
+            <input matInput #input #pid>
         </mat-form-field>
         <mat-card-actions>
-            <button mat-raised-button type="submit" style="height: 55px; margin-top: -15px">
+            <button mat-raised-button type="submit" (click)='addNewAdmin(pid.value)' style="height: 55px; margin-top: -15px">
                 Add Administrator
             </button>
         </mat-card-actions>
