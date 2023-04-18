@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './register-event.component.html',
   styleUrls: ['./register-event.component.css']
 })
-export class RegisterEventComponent implements OnInit {
+export class RegisterEventComponent {
   public static Route: Route = {
     path: 'registerevents',
     component: RegisterEventComponent, 
@@ -20,50 +20,14 @@ export class RegisterEventComponent implements OnInit {
     resolve: { profile: profileResolver }
   };
 
-  public event: Event
-
-  // A form that takes in input for a new event
-  public eventForm = this.formBuilder.group({
-    name: '',
-    description: '',
-    location: '',
-    clud_id: 0,
-  });
-
-  constructor(route: ActivatedRoute, private formBuilder: FormBuilder, protected snackBar: MatSnackBar, private eventService: EventService) {
-    const form = this.eventForm
-    form.get('name')?.addValidators(Validators.required);
-    form.get('description')?.addValidators(Validators.required);
-    form.get('location')?.addValidators(Validators.required);
-    form.get('club_id')?.addValidators(Validators.required);
-
-    const data = route.snapshot.data as { event: Event };
-    console.log(route.snapshot)
-    this.event = data.event;
+  constructor(protected snackBar: MatSnackBar, private eventService: EventService) {
+  
   }
 
-  ngOnInit(): void {
-    let event = this.event;
+  onSubmitEvent(club_code: string, name: string, description: string, location: string, date: string): void {
+    // TODO: change parameters to right types
 
-    this.eventForm.setValue({
-      name: event.name,
-      description: event.description,
-      location: event.location,
-      clud_id: event.club_id,
-    });
-  }
-
-  onSubmit(): void {
-    // TODO: add put method to event service
-    // if (this.eventForm.valid) {
-    //   Object.assign(this.event, this.eventForm.value)
-    //   this.eventService.put(this.event).subscribe(
-    //     {
-    //       next: (user) => this.onSuccess(user),
-    //       error: (err) => this.onError(err)
-    //     } 
-    //   );
-    // }
+    // TODO: get club id by club code
   }
 
   private onSuccess(event: Event) {
