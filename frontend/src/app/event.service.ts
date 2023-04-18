@@ -62,6 +62,10 @@ export class EventService {
     return this.http.delete<String>(`api/event/delete/${event.id}`)
   }
 
+  getClubID(club_code: string): Observable<String> {
+    return this.http.get<String>(`api/event/get_club_id/${club_code}`)
+  }
+
   /**
    * Enable a student to leave an event
    * @param Event event object
