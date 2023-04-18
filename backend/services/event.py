@@ -2,11 +2,11 @@ from fastapi import Depends
 from sqlalchemy import select
 
 from ..database import Session, db_session
-from ..models import Event, User
+from ..models import Event, User, Club
 from ..entities import EventEntity, UserEntity
 from ..services import UserService
 from backend.entities.user_event_entity import user_event_table
-
+from backend.entities.user_club_entity import user_club_table
 
 class EventService:
     _session: Session
@@ -108,3 +108,14 @@ class EventService:
         for attendee in event_entity.attendees:
             students.append(attendee.to_model())
         return students
+    
+    def events_by_user(self, subject: User) -> list[Event]:
+        """Get events user has registered for that are in their clubs"""
+        events: list[Event] = []
+        clubs_query = select(user_club_table.c.club_id).where(user_club_table.c.user_id == subject.id)
+        club_entities : list[Club] = self._session.scalars(clubs_query)
+        for club in club_entities:
+            club_events = self.get_events_by_club_id(club.id)
+            for event in club_events:
+                events.append(event)
+        return events

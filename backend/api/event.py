@@ -104,3 +104,14 @@ def is_user_registered(
     except Exception as e:
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
+    
+
+# Get events user has registered for that are in their clubs
+@api.get("/user_club_events", response_model=list[Event], tags=['Event'])
+def events_by_user(subject: User = Depends(registered_user), event_svc: EventService = Depends()):
+    try:
+        user_events = event_svc.events_by_user(subject)
+        return user_events
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
