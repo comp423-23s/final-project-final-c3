@@ -7,7 +7,7 @@ from backend.entities.entity_base import EntityBase
 from backend.entities.club_entity import ClubEntity
 from backend.entities.user_entity import UserEntity
 from backend.entities.user_event_entity import user_event_table
-from backend.models.event import Event
+from backend.models import Event
 from datetime import datetime
 
 
