@@ -22,12 +22,15 @@ export class ChangeAdminComponent {
 
   public admins$: Observable<User[]>
 
-  constructor(private adminService: AdminService) {
+  constructor(private adminService: AdminService, protected snackBar: MatSnackBar) {
     this.admins$ = adminService.getAllAdmin();
   }
 
   addNewAdmin(pid: string) {
-    this.adminService.removeAdmin(parseInt(pid))
+    this.adminService.removeAdmin(parseInt(pid)).subscribe({
+      next: () => this.onSuccess(),
+      error: (err) => this.onError(err)
+    })
   }
 
   removeAdmin(pid: string) {
@@ -35,4 +38,17 @@ export class ChangeAdminComponent {
     this.adminService.addAdmin(parseInt(pid))
   }
 
+  onSuccess(): void {
+    this.admins$ = this.adminService.getAllAdmin()
+    this.snackBar.open("Successfully Added Administrator "," ", { duration: 2000 })
+  }
+
+  onError(err: Error) : void{
+    if (err.message) {
+      console.log(err)
+      window.alert("The error is: " + err.message);
+    } else {
+      window.alert("Unknown error: " + JSON.stringify(err));
+    }
+  }
 }

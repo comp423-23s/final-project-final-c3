@@ -24,11 +24,13 @@ export class AdminService {
     return this.http.get<User[]>('/api/user/admin')
   }
 
-  addAdmin(pid: number): Observable<Profile[]> {
+  addAdmin(pid: number): Observable<String> {
     // TODO: call a HTTP method to add an admin
+    return this.http.get<String>(`api/user/${pid}`)
   }
 
-  removeAdmin(pid: number): Observable<Profile[]> {
+  removeAdmin(pid: number): Observable<String> {
     // TODO: call a HTTP method to remove an admin
+    return this.http.delete<String>(`api/user/${pid}`)
   }
 }
