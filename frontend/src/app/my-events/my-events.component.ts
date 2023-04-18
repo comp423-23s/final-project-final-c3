@@ -51,7 +51,6 @@ export class MyEventsComponent {
     }
   }
 
-  // Function to determine whether use sees short or long description for event
   alterText(event: Event) {
     event.show_short_description = !event.show_short_description
   }

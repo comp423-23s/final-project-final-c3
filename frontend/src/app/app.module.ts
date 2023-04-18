@@ -43,8 +43,13 @@ import { RegisterLeaderComponent } from './register-leader/register-leader.compo
 import { RegisterEventComponent } from './register-event/register-event.component';
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
 import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
+<<<<<<< HEAD
 import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
 import { ChangeAdminComponent } from './change-admin/change-admin.component';
+=======
+import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
+import { ManageEventsComponent } from './manage-events/manage-events.component';
+>>>>>>> stage
 
 @NgModule({
   declarations: [
@@ -63,7 +68,11 @@ import { ChangeAdminComponent } from './change-admin/change-admin.component';
     RoleSelectionComponent,
     LeaderClubsComponent,
     AdminPendingRequestsComponent,
+<<<<<<< HEAD
     ChangeAdminComponent
+=======
+    ManageEventsComponent
+>>>>>>> stage
   ],
   imports: [
     BrowserModule,

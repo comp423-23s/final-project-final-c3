@@ -72,6 +72,17 @@ export class NavigationComponent implements OnInit, OnDestroy {
   ]
 menu: any;
 
+  leader_event_routes =[
+    {
+      value: 'registerevents',
+      display: 'Register Events'
+    },
+    {
+      value: 'manageevents',
+      display: 'Manage Events'
+    }
+  ]
+
   constructor(
     public auth: AuthenticationService,
     public router: Router,
