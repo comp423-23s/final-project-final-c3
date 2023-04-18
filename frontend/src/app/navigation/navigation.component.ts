@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthenticationService } from '../authentication.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Profile, ProfileService } from '../profile/profile.service';
 import { PermissionService } from '../permission.service';
 import { Role } from '../role';
@@ -27,6 +27,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   private isHandsetSubscription!: Subscription;
 
   public profile$: Observable<Profile | undefined>;
+  public profile: Profile
   public checkinPermission$: Observable<boolean>;
   public adminPermission$: Observable<boolean>;
 
@@ -79,8 +80,11 @@ menu: any;
     private roleAdminService: RoleAdminService,
     private breakpointObserver: BreakpointObserver,
     protected navigationService: NavigationTitleService,
-    protected errorDialog: MatDialog
+    protected errorDialog: MatDialog,
+    protected route: ActivatedRoute
   ) {
+    const data = route.snapshot.data as { profile: Profile }
+    this.profile = data.profile
     this.profile$ = profileService.profile$;
     this.checkinPermission$ = this.permission.check('checkin.create', 'checkin/');
     this.adminPermission$ = this.permission.check('admin.view', 'admin/')
