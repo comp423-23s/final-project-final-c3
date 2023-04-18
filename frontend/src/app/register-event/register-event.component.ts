@@ -27,13 +27,15 @@ export class RegisterEventComponent {
   onSubmitEvent(club_code: string, name: string, description: string, location: string): void {
     // TODO: change parameters to right types
     let club_id = this.getClubID(club_code)
+    let date_number: number = Date.now()
+    let date: Date = new Date(date_number)
     var potentialEvent: Event = {
       id: undefined,
       club_id: club_id,
       name: name,
       description: description,
       location: location,
-      date: undefined,
+      date: date,
       show_short_description: true,
       attendees: []
     }

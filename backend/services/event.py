@@ -115,7 +115,7 @@ class EventService:
         """Returns a club id when given a club_code"""
         query = select(ClubEntity).where(ClubEntity.club_code == club_code)
         club_entity: ClubEntity = self._session.scalar(query)
-        query2 = select(EventEntity).where(EventEntity.club_id == club_entity.club_id)
+        query2 = select(EventEntity).where(EventEntity.club_id == club_entity.id)
         event_entity: EventEntity = self._session.scalar(query2)
         if event_entity is None:
             raise Exception("Event does not exist.")

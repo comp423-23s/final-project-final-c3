@@ -7,7 +7,7 @@ export interface Event {
   id: number | undefined,
   name: string,
   club_id: number,
-  date: Date | undefined,
+  date: Date,
   location: string, 
   description: string,
   show_short_description: boolean,
