@@ -13,11 +13,8 @@ import { RegisterEventComponent } from './register-event/register-event.componen
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
 import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
 import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
-<<<<<<< HEAD
 import { ChangeAdminComponent } from './change-admin/change-admin.component';
-=======
 import { ManageEventsComponent } from './manage-events/manage-events.component';
->>>>>>> stage
 
 const routes: Routes = [
   HomeComponent.Route,
@@ -32,11 +29,8 @@ const routes: Routes = [
   RoleSelectionComponent.Route,
   LeaderClubsComponent.Route,
   AdminPendingRequestsComponent.Route,
-<<<<<<< HEAD
   ChangeAdminComponent.Route,
-=======
   ManageEventsComponent.Route,
->>>>>>> stage
   { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
 ];
 
