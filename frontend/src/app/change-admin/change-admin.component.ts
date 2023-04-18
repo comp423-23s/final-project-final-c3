@@ -4,7 +4,7 @@ import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { Observable } from 'rxjs';
 import { Profile } from '../profile/profile.service';
-import { AdminService } from '../admin.service';
+import { AdminService, User } from '../admin.service';
 
 @Component({
   selector: 'app-change-admin',
@@ -20,10 +20,10 @@ export class ChangeAdminComponent {
     resolve: { profile: profileResolver }
   };
 
-  public admins$ = Observable<Profile[]>
+  public admins$ = Observable<User[]>
 
   constructor(adminService: AdminService) {
-    this.admins$ = adminService.getAllAdmin();
+    //this.admins$ = adminService.getAllAdmin();
   }
 
   addNewAdmin(pid: String) {

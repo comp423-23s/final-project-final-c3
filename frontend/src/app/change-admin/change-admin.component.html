@@ -35,3 +35,31 @@
         </mat-card-actions>
     </div>
 </mat-card>
+
+<tr *ngFor="let user of admins$ | async">
+    <div style="position: relative">
+        <mat-card style="width:1600px; height: auto;">
+            <mat-card-header>
+                <mat-card-title></mat-card-title>
+            </mat-card-header>
+            <br>
+            <mat-card-content>
+                <div class="content">
+                    PID: 100000003
+                </div>
+                <div class="content">
+                    Email: allyadmin@unc.edu
+                </div>
+                <div class="content">
+                    Pronouns: they/them
+                </div>
+                <br>
+            </mat-card-content>
+            <div class="side-buttons">
+                <mat-card-actions>
+                    <button mat-raised-button>Delete</button>
+                </mat-card-actions>
+            </div>
+        </mat-card>
+    </div>
+</tr>
