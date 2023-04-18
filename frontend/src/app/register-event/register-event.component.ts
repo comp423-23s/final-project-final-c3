@@ -28,6 +28,22 @@ export class RegisterEventComponent {
     // TODO: change parameters to right types
 
     // TODO: get club id by club code
+    
+  }
+
+  getClubID(club_code: string): number {
+    this.eventService.getClubID(club_code).subscribe(
+      {
+        next: (data) => {return this.onSuccessGetClubID(data)},
+        error: (err) => console.log(err)
+      }
+    )
+    return 0
+  }
+
+  onSuccessGetClubID(club_id: string): number {
+    let id = club_id
+    return parseInt(id)
   }
 
   private onSuccess(event: Event) {
