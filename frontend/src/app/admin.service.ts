@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Profile } from './profile/profile.service';
 
 export interface User {
   id: number,
@@ -20,9 +19,10 @@ export class AdminService {
 
   constructor(private http: HttpClient) {  }
 
-  // getAllAdmin(): Observable<Profile[]> {
-  //   // TODO: call a HTTP method to get all administrators
-  // }
+  getAllAdmin(): Observable<User[]> {
+    // TODO: call a HTTP method to get all administrators
+    return this.http.get<User[]>('/api/')
+  }
 
   // addAdmin(pid: number): Observable<Profile[]> {
   //   // TODO: call a HTTP method to add an admin

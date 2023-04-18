@@ -3,7 +3,6 @@ import { Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { Observable } from 'rxjs';
-import { Profile } from '../profile/profile.service';
 import { AdminService, User } from '../admin.service';
 
 @Component({
@@ -23,7 +22,7 @@ export class ChangeAdminComponent {
   public admins$ = Observable<User[]>
 
   constructor(adminService: AdminService) {
-    //this.admins$ = adminService.getAllAdmin();
+    this.admins$ = adminService.getAllAdmin();
   }
 
   addNewAdmin(pid: String) {
