@@ -3,7 +3,7 @@ from sqlalchemy import select
 
 from ..database import Session, db_session
 from ..models import Event, User
-from ..entities import EventEntity, UserEntity
+from ..entities import EventEntity, UserEntity, ClubEntity
 from ..services import UserService
 from backend.entities.user_event_entity import user_event_table
 
@@ -111,10 +111,12 @@ class EventService:
             students.append(attendee.to_model())
         return students
     
-    def get_club_id_from_code(self, club_code: str) -> int:
+    def get_club_id_by_code(self, club_code: str) -> int:
         """Returns a club id when given a club_code"""
-        query = select(EventEntity).where(EventEntity.club_code == club_code)
-        event_entity: EventEntity = self._session.scalar(query)
+        query = select(ClubEntity).where(ClubEntity.club_code == club_code)
+        club_entity: ClubEntity = self._session.scalar(query)
+        query2 = select(EventEntity).where(EventEntity.club_id == club_entity.club_id)
+        event_entity: EventEntity = self._session.scalar(query2)
         if event_entity is None:
             raise Exception("Event does not exist.")
         return event_entity.club_id

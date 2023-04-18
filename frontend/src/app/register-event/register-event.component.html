@@ -20,13 +20,9 @@
                 <mat-label>Event Location</mat-label>
                 <input matInput placeholder="Sitterson 156" #location required>
             </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Event Date/Time</mat-label>
-                <input matInput placeholder="April 19th @ 12:00PM" #date required>
-            </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button type="submit" (click)="onSubmitEvent(code.value, name.value, description.value, location.value, date.value)">SAVE</button>
+            <button mat-raised-button type="submit" (click)="onSubmitEvent(code.value, name.value, description.value, location.value)">Create Event</button>
         </mat-card-actions>
     </mat-card>
 </form>

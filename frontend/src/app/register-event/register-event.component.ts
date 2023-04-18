@@ -24,11 +24,20 @@ export class RegisterEventComponent {
   
   }
 
-  onSubmitEvent(club_code: string, name: string, description: string, location: string, date: string): void {
+  onSubmitEvent(club_code: string, name: string, description: string, location: string): void {
     // TODO: change parameters to right types
-
-    // TODO: get club id by club code
-    
+    let club_id = this.getClubID(club_code)
+    var potentialEvent: Event = {
+      id: undefined,
+      club_id: club_id,
+      name: name,
+      description: description,
+      location: location,
+      date: undefined,
+      show_short_description: true,
+      attendees: []
+    }
+    this.eventService.createNewEvent(potentialEvent)
   }
 
   getClubID(club_code: string): number {
@@ -41,9 +50,8 @@ export class RegisterEventComponent {
     return 0
   }
 
-  onSuccessGetClubID(club_id: string): number {
-    let id = club_id
-    return parseInt(id)
+  onSuccessGetClubID(club_id: number): number {
+    return club_id
   }
 
   private onSuccess(event: Event) {

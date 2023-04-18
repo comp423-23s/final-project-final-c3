@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { Profile } from './profile/profile.service';
 
 export interface Event {
-  id: number,
+  id: number | undefined,
   name: string,
   club_id: number,
-  date: Date,
+  date: Date | undefined,
   location: string, 
   description: string,
   show_short_description: boolean,
@@ -62,8 +62,8 @@ export class EventService {
     return this.http.delete<String>(`api/event/delete/${event.id}`)
   }
 
-  getClubID(club_code: string): Observable<String> {
-    return this.http.get<String>(`api/event/get_club_id/${club_code}`)
+  getClubID(club_code: string): Observable<number> {
+    return this.http.get<number>(`api/event/get_club_id/${club_code}`)
   }
 
   createNewEvent(event: Event): Observable<String> {
