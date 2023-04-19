@@ -91,11 +91,8 @@ class EventService:
 
     def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
-        query = select(EventEntity).where(EventEntity.id == event_id)
-        event_entity: EventEntity = self._session.scalar(query)
-        if event_entity is None:
-            raise Exception("Event does not exist.")
-        self._session.delete(event_entity.to_model())
+        event_entity = self._session.get(EventEntity, event_id)
+        self._session.delete(event_entity)
         self._session.commit()
         
     def get_users_in_event(self, event_id: int) -> list[User]:
