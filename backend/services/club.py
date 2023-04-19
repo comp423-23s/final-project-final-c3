@@ -9,7 +9,8 @@ from ..models import Club, User
 from ..entities import ClubEntity, UserEntity, RoleEntity, WeekDayTimeEntity
 from backend.entities.club_category_entity import club_category_table
 from backend.entities.category_entity import CategoryEntity
-from datetime import time
+from datetime import time, datetime
+
 
 class ClubService:
     _session: Session
@@ -128,17 +129,17 @@ class ClubService:
         """Returns a list of clubs that meet at the times specificed by the user."""
         final_club_ids: list[int] = []
         week_day_time_ids: list[int] = []
-        morning: time = time(hour=12, minute=0)
-        afternoon: time = time(hour=17, minute=0)
+        morning: datetime = datetime(hour=12, minute=0)
+        afternoon: datetime = datetime(hour=17, minute=0)
         for availability in availabilities:
             if availability[1] == "Morning":
-                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time < morning,
+                query = select(WeekDayTimeEntity).where(datetime.strptime(WeekDayTimeEntity.start_time, '%H:%M') < morning,
                          WeekDayTimeEntity.day == availability[0])
             if availability[1] == "Afternoon":
-                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time < afternoon, WeekDayTimeEntity.start_time >= morning,
+                query = select(WeekDayTimeEntity).where(datetime.strptime(WeekDayTimeEntity.start_time, '%H:%M') < afternoon, WeekDayTimeEntity.start_time >= morning,
                          WeekDayTimeEntity.day == availability[0])
             if availability[1] == "Evening":
-                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= afternoon,
+                query = select(WeekDayTimeEntity).where(datetime.strptime(WeekDayTimeEntity.start_time, '%H:%M') >= afternoon,
                          WeekDayTimeEntity.day == availability[0])
             week_day_time_entities = self._session.scalars(query).all()
             # Get WeekDayTimeEntity's id

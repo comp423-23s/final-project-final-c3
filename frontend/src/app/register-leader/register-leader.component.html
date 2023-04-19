@@ -47,14 +47,50 @@
 
         <mat-label>Enter Meeting Times: </mat-label>
         <br>
-        <span *ngFor="let weekday of weekdays">
-            <mat-checkbox class="example-margin" (change)='selectDay(weekday)'>{{ weekday }}</mat-checkbox>
-            <span *ngIf="hasWeekday(weekday)">
-                <input matInput>
-            </span>
-            <br>
-        </span>
 
+        <mat-checkbox (change)="selectDay('Monday')">
+            Monday&nbsp;
+        </mat-checkbox>
+        <span *ngIf="hasWeekday('Monday')">
+            <input type="time" [(ngModel)]="mondayStartTime"><br>
+            <input type="time" [(ngModel)]="mondayEndTime"><br>
+        </span>
+        <br>
+
+        <mat-checkbox (change)="selectDay('Tuesday')">
+            Tuesday&nbsp;
+        </mat-checkbox>
+        <span *ngIf="hasWeekday('Tuesday')">
+            <input type="time" [(ngModel)]="tuesdayStartTime">
+            <input type="time" [(ngModel)]="tuesdayEndTime">
+        </span>
+        <br>
+
+        <mat-checkbox (change)="selectDay('Wednesday')">
+            Wednesday&nbsp;
+        </mat-checkbox>
+        <span *ngIf="hasWeekday('Wednesday')">
+            <input type="time" [(ngModel)]="wednesdayStartTime">
+            <input type="time" [(ngModel)]="wednesdayEndTime">
+        </span>
+        <br>
+
+        <mat-checkbox (change)="selectDay('Thursday')">
+            Thursday&nbsp;
+        </mat-checkbox>
+        <span *ngIf="hasWeekday('Thursday')">
+            <input type="time" [(ngModel)]="thursdayStartTime">
+            <input type="time" [(ngModel)]="thursdayEndTime">
+        </span>
+        <br>
+
+        <mat-checkbox (change)="selectDay('Friday')">
+            Friday&nbsp;
+        </mat-checkbox>
+        <span *ngIf="hasWeekday('Friday')">
+            <input type="time" [(ngModel)]="fridayStartTime">
+            <input type="time" [(ngModel)]="fridayEndTime">
+        </span>
         <br>
 
         <mat-label>Select Categories: </mat-label>

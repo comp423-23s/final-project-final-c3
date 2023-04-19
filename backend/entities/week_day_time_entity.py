@@ -19,8 +19,8 @@ class WeekDayTimeEntity(EntityBase):
     __tablename__ = 'week_day_time'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     day: Mapped[str] = mapped_column(String(100), nullable=False, default='')
-    start_time: Mapped[time] = mapped_column(nullable=False)
-    end_time: Mapped[time] = mapped_column(nullable=False)
+    start_time: Mapped[str] = mapped_column(String(100), nullable=False)
+    end_time: Mapped[str] = mapped_column(String(100), nullable=False)
     club_id: Mapped[int] = mapped_column(ForeignKey('club.id'), nullable=True)
     club: Mapped['ClubEntity'] = relationship(back_populates='meeting_times')
     potential_club_id: Mapped[int] = mapped_column(ForeignKey('potential_club.id'), nullable=True)

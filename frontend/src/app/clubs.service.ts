@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Observable} from 'rxjs';
 import { Profile } from './profile/profile.service';
 import { Time } from '@angular/common';
+import { Category } from './register-leader.service';
 
 export interface Club {
   id: number;
@@ -12,7 +13,7 @@ export interface Club {
   show_short_description: boolean;
   members: Profile[];            
   club_meeting_times: Time[];
-  categories: String[];
+  categories: Category[];
 }
 
 export interface User_Club {
