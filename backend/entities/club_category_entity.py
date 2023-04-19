@@ -6,6 +6,6 @@ from backend.entities.entity_base import EntityBase
 club_category_table = Table(
     "club_category",
     EntityBase.metadata,
-    Column('club_id', ForeignKey('club.id'), primary_key=True),
+    Column('club_id', ForeignKey('club.id', ondelete='CASCADE'), primary_key=True),
     Column('category', String)
 )
