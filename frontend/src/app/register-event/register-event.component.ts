@@ -30,7 +30,7 @@ export class RegisterEventComponent {
     let date_number: number = Date.now()
     let date: Date = new Date(date_number)
     var potentialEvent: Event = {
-      id: undefined,
+      id: null,
       club_id: club_id,
       name: name,
       description: description,

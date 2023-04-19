@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Profile } from './profile/profile.service';
 
 export interface Event {
-  id: number | undefined,
+  id: number | null,
   name: string,
   club_id: number,
   start_date: Date,
