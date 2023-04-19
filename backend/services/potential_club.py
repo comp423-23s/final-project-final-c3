@@ -25,7 +25,7 @@ class PotentialClubService:
         club_code = ''.join(random.choice(characters) for i in range(8))
 
         # Creating the new Club
-        new_club: Club = Club(club_code= club_code, name=potential_club.name, description=potential_club.description)
+        new_club: Club = Club(club_code= club_code, name=potential_club.name, description=potential_club.description, meeting_times=potential_club.meeting_times, categories=potential_club.categories)
 
         #Adding the new role to the user's list of roles
         role_entity = self._session.get(RoleEntity, 2)

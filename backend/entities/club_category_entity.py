@@ -7,5 +7,5 @@ club_category_table = Table(
     "club_category",
     EntityBase.metadata,
     Column('club_id', ForeignKey('club.id'), primary_key=True),
-    Column('category', String)
+    Column('category_id', ForeignKey('category.id'), primary_key=True)
 )
