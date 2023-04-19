@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Observable, throwError, map } from 'rxjs';
+import { Observable} from 'rxjs';
 import { Profile } from './profile/profile.service';
+import { Time } from '@angular/common';
 
 export interface Club {
   id: number;
-  club_code: string;
-  name: string;                   
-  description: string; 
+  club_code: String;
+  name: String;                   
+  description: String; 
   show_short_description: boolean;
-  members: Profile[];               
+  members: Profile[];            
+  club_meeting_times: Time[];
+  categories: String[];
 }
 
 export interface User_Club {
