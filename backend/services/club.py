@@ -57,16 +57,32 @@ class ClubService:
                 return True
         return False
     
+    def add_leader(self, potential_leader: User, club_id: int, given_club_code: str) -> None:
+        """Adds a leader to an existing club."""
+        club_entity = self._session.get(ClubEntity, club_id)
+        actual_club_code = club_entity.club_code
+        if (given_club_code == actual_club_code):
+            leader_as_user_entity = self._session.get(UserEntity, potential_leader.id)
+            club_entity.members.append(leader_as_user_entity)
+            club_entity.leaders.append(leader_as_user_entity)
+            role_entity = self._session.get(RoleEntity, 2)
+            leader_as_user_entity.roles.append(role_entity)
+            self._session.commit()
+            print("🌶️ Leader successfully addeded in backend service")
+        else:
+            raise Exception("Club code does not match. Request denied.")
    
     def delete_user_from_club(self, subject: User, club_id: int) -> None:
         """"Deletes a user from a club."""
         club_entity = self._session.get(ClubEntity, club_id)
         user_entity = self._session.get(UserEntity, subject.id)
-        if club_entity is None:
-            raise Exception("Club does not exist.")
-        if not self.is_user_in_club(subject=subject, club_id=club_id):
-            raise Exception("User is not in club, cannot be removed.")
         club_entity.members.remove(user_entity)
+        try: 
+            club_entity.leaders.remove(user_entity)
+            role_entity = self._session.get(RoleEntity, 2)
+            user_entity.roles.remove(role_entity)
+        except:
+            print("User was not a leader.")
         self._session.commit()
 
 
@@ -80,29 +96,7 @@ class ClubService:
             user_entity = self._session.get(UserEntity, an_id)
             members.append(user_entity.to_model())
         return members
-    
 
-    def delete_club(self, club_id: int) -> None:
-        """Deletes a club from the database."""
-        club_entity = self._session.get(ClubEntity, club_id)
-        self._session.delete(club_entity)
-        self._session.commit()
-
-
-    def add_leader(self, potential_leader: User, club_id: int, given_club_code: str) -> None:
-        """Adds a leader to an existing club."""
-        club_entity = self._session.get(ClubEntity, club_id)
-        actual_club_code = club_entity.club_code
-        if (given_club_code == actual_club_code):
-            leader_as_user_entity = self._session.get(UserEntity, potential_leader.id)
-            club_entity.members.append(leader_as_user_entity)
-            club_entity.leaders.append(leader_as_user_entity)
-            role_entity = self._session.get(RoleEntity, 2)
-            leader_as_user_entity.roles.append(role_entity)
-            self._session.commit()
-            print("🌶️ Leader successfully addede in backend service")
-        else:
-            raise Exception("Club code does not match. Request denied.")
         
     def get_clubs_led_by_user(self, leader: User) -> list[Club]:
         """Returns a list of all the clubs a user is leading."""
@@ -118,11 +112,6 @@ class ClubService:
         print("🏓" + str(len(clubs)))
         return clubs
 
-    def delete_leader(self, leader: User, club_id) -> None:
-        """Deletes a leader."""
-        club_entity = self._session.get(ClubEntity, club_id)
-        leader_as_user_entity = self._session.get(UserEntity, leader.id)
-        club_entity.leaders.remove(leader_as_user_entity)
 
     def filter_by_availability(self, availabilities: list[Tuple[str, str]]) -> list[int]:
         """Returns a list of clubs that meet at the times specificed by the user."""
