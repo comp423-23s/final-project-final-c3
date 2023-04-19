@@ -50,7 +50,7 @@
         <span *ngFor="let weekday of weekdays">
             <mat-checkbox class="example-margin" (change)='selectDay(weekday)'>{{ weekday }}</mat-checkbox>
             <span *ngIf="hasWeekday(weekday)">
-                <input matInput #>
+                <input matInput>
             </span>
             <br>
         </span>

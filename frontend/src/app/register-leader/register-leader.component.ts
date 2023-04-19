@@ -6,7 +6,7 @@ import { Profile } from '../profile/profile.service'
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Club, ClubsService } from '../clubs.service';
-import { PotentialClub, RegisterLeaderService } from '../register-leader.service';
+import { PotentialClub, WeekDayTime, RegisterLeaderService } from '../register-leader.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { NavigationComponent } from '../navigation/navigation.component';
@@ -107,7 +107,7 @@ export class RegisterLeaderComponent {
       name: clubName,
       description: clubDescription,
       founder_id: profile.id ?? undefined,
-      club_meeting_times: [],
+      meeting_times: [],
       categories: []
     }
     this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub).subscribe({
