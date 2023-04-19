@@ -27,8 +27,8 @@ class PotentialClubEntity(EntityBase):
     description: Mapped[str] = mapped_column(
         String(100), nullable=False, default='')
     founder_id: Mapped[int] = mapped_column(Integer, nullable=True)
-    meeting_times: Mapped[list['WeekDayTimeEntity']] = relationship(secondary= club_meeting_table)
-    categories: Mapped[list[str]] = mapped_column(secondary=club_category_table)
+    meeting_times: Mapped[list['WeekDayTimeEntity']] = relationship(secondary= club_meeting_table, cascade="all, delete-orphan")
+    categories: Mapped[list[str]] = relationship(secondary=club_category_table, cascade="all, delete-orphan")
 
     @classmethod
     def from_model(cls, model: PotentialClub) -> Self:

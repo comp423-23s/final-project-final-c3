@@ -9,7 +9,6 @@ from backend.entities.entity_base import EntityBase
 from backend.entities.user_entity import UserEntity
 from backend.entities.user_club_entity import user_club_table
 from backend.entities.leader_club_entity import leader_club_table
-from backend.entities.week_day_time_entity import WeekDayTimeEntity
 from backend.entities.club_meeting_entity import club_meeting_table
 from backend.entities.club_category_entity import club_category_table
 
@@ -30,8 +29,8 @@ class ClubEntity(EntityBase):
         String(100), nullable=False, default='')
     members: Mapped[list['UserEntity']] = relationship(secondary=user_club_table, back_populates="clubs")
     leaders: Mapped[list['UserEntity']] = relationship(secondary=leader_club_table)
-    meeting_times: Mapped[list['WeekDayTimeEntity']] = relationship(secondary= club_meeting_table)
-    categories: Mapped[list[str]] = mapped_column(secondary=club_category_table)
+    meeting_times: Mapped[list['WeekDayTimeEntity']] = relationship(secondary= club_meeting_table, cascade="all, delete-orphan")
+    categories: Mapped[list[str]] = relationship(secondary=club_category_table, cascade="all, delete-orphan")
 
     @classmethod
     def from_model(cls, model: Club) -> Self:
@@ -64,3 +63,6 @@ class ClubEntity(EntityBase):
 
     def add_member(self, user: UserEntity) -> None:
         self.members.append(user)
+
+
+from backend.entities.week_day_time_entity import WeekDayTimeEntity

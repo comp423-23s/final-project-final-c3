@@ -6,7 +6,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
 from backend.models.week_day_time import WeekDayTime
 from backend.entities.entity_base import EntityBase
-from backend.entities.club_entity import ClubEntity
 from backend.entities.club_meeting_entity import club_meeting_table
 from datetime import time
 
@@ -40,3 +39,6 @@ class WeekDayTimeEntity(EntityBase):
             start_time=self.start_time,
             end_time=self.end_time
         )
+    
+
+from backend.entities.club_entity import ClubEntity

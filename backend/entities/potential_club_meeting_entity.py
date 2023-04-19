@@ -6,6 +6,6 @@ from backend.entities.entity_base import EntityBase
 potential_club_meeting_table = Table(
     "potential_club_meeting",
     EntityBase.metadata,
-    Column('potential_club_id', ForeignKey('potential_club.id', ondelete='CASCADE'), primary_key=True),
-    Column('week_day_time_id', ForeignKey('week_day_time.id'), ondelete='CASCADE', primary_key=True)
+    Column('potential_club_id', ForeignKey('potential_club.id'), primary_key=True),
+    Column('week_day_time_id', ForeignKey('week_day_time.id'), primary_key=True)
  )
