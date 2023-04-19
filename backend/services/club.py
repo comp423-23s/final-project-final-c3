@@ -8,7 +8,7 @@ from ..database import db_session
 from ..models import Club, User
 from ..entities import ClubEntity, UserEntity, RoleEntity, WeekDayTimeEntity
 from backend.entities.club_category_entity import club_category_table
-from backend.entities.club_meeting_entity import club_meeting_table
+from backend.entities.category_entity import CategoryEntity
 from datetime import time
 
 class ClubService:
@@ -132,14 +132,14 @@ class ClubService:
         afternoon: time = time(hour=17, minute=0)
         for availability in availabilities:
             if availability[1] == "Morning":
-                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.c.start_time < morning,
-                         WeekDayTimeEntity.c.day == availability[0])
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time < morning,
+                         WeekDayTimeEntity.day == availability[0])
             if availability[1] == "Afternoon":
-                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.c.start_time < afternoon, WeekDayTimeEntity.c.start_time >= morning,
-                         WeekDayTimeEntity.c.day == availability[0])
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time < afternoon, WeekDayTimeEntity.start_time >= morning,
+                         WeekDayTimeEntity.day == availability[0])
             if availability[1] == "Evening":
-                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.c.start_time >= afternoon,
-                         WeekDayTimeEntity.c.day == availability[0])
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= afternoon,
+                         WeekDayTimeEntity.day == availability[0])
             week_day_time_entities = self._session.scalars(query).all()
             # Get WeekDayTimeEntity's id
             for week_day_time in week_day_time_entities:
@@ -147,7 +147,7 @@ class ClubService:
 
             # Select club_id based on WDT id
         for week_day_time_id in week_day_time_ids:
-            query1 = select(club_meeting_table.c.club_id).where(club_meeting_table.c.week_day_time_id == week_day_time_id)
+            query1 = select(WeekDayTimeEntity.club_id).where(WeekDayTimeEntity.id == week_day_time_id)
             club_ids = self._session.scalars(query1).all()
             for club_id in club_ids:
                 final_club_ids.append(club_id)
@@ -157,9 +157,14 @@ class ClubService:
     def filter_by_category(self, categories: list[str]) -> list[int]:
         """Gets a list of clubs based on a user's prefered interests."""
         final_club_ids: list[int] = []
+        all_categories_ids: list[int] = []
         for category in categories:
-            query = select(club_category_table.c.club_id).where(club_category_table.c.category == category)
-            club_ids = self._session.scalars(query).all()
+            query = select(CategoryEntity.id).where(CategoryEntity.name == category)
+            category_id = self._session.scalars(query).all()
+            all_categories_ids.append(category_id)
+        for category_id in all_categories_ids:
+            query2 = select(club_category_table.c.club_id).where(club_category_table.c.category_id == category_id)
+            club_ids = self._session.scalars(query2).all()
             for club_id in club_ids:
                 final_club_ids.append(club_id)
         return final_club_ids
