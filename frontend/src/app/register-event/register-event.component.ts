@@ -29,20 +29,17 @@ export class RegisterEventComponent {
     let club_id = this.getClubID(club_code)
     let date_number: number = Date.now()
     let date: Date = new Date(date_number)
-    var potentialEvent: Event = {
+    
+    var potentialEvent: PotentialEvent = {
       id: null,
       club_id: club_id,
       name: name,
       description: description,
       location: location,
       start_date: date,
-      end_date: date,
-      show_short_description: true,
-      attendees: []
-    }
+      end_date: date
+    }    
 
-
-    
     this.eventService.createNewEvent(potentialEvent).subscribe(
       {
         next: (data) => {this.onSuccess(data)},

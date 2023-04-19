@@ -77,9 +77,9 @@ export class EventService {
     return this.http.get<number>(`/api/event/get_club_id/${club_code}`)
   }
 
-  createNewEvent(event: Event): Observable<string> {
+  createNewEvent(potentialEvent: PotentialEvent): Observable<string> {
     console.log('We got to createNewEvent in frontend services')
-    return this.http.post<string>("/api/event/create_event", event)
+    return this.http.post<string>("/api/event/create_event", potentialEvent)
   }
   /**
    * Enable a student to leave an event
