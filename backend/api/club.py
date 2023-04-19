@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from ..services import ClubService, PotentialClubService
 from ..models import User, Club, PotentialClub
 from .authentication import registered_user
+from typing import Tuple
 
 
 api = APIRouter(prefix="/api/club")
@@ -196,6 +197,20 @@ def get_all_potential_clubs(potential_club_svc: PotentialClubService = Depends()
     """Gets all potential clubs."""
     try: 
         return potential_club_svc.get_all_requests()
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
+
+@api.post("/filter", response_model=list[Club], tags=['Club'])
+def filter(
+    availabilities: list[Tuple[str, str]],
+    categories: list[str],
+    club_svc: ClubService = Depends()
+):
+    """Gets all clubs accoriding to specificied availability and categories."""
+    try:
+        return club_svc.filter_by_availability_and_category(availabilities, categories)
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
