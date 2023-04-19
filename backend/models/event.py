@@ -15,6 +15,7 @@ class Event(BaseModel):
     start_time: datetime
     end_time: datetime
     location: str
+    show_short_description: bool = False
     description: str
     attendees: list[User] = []
 
