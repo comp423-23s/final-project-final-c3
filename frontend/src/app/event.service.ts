@@ -7,7 +7,8 @@ export interface Event {
   id: number | undefined,
   name: string,
   club_id: number,
-  date: Date,
+  start_date: Date,
+  end_date: Date, 
   location: string, 
   description: string,
   show_short_description: boolean,
@@ -66,8 +67,9 @@ export class EventService {
     return this.http.get<number>(`api/event/get_club_id/${club_code}`)
   }
 
-  createNewEvent(event: Event): Observable<String> {
-    return this.http.post<String>(`api/event/create_event/`, event)
+  createNewEvent(event: Event): Observable<string> {
+    console.log('We got to createNewEvent in frontend services')
+    return this.http.post<string>("api/event/create_event", event)
   }
   /**
    * Enable a student to leave an event

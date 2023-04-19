@@ -34,7 +34,9 @@ def create_event(
     event: Event, 
     event_svc: EventService = Depends()) -> str:
     try: 
+        print("We got to backend/api/create_event")
         event_svc.create_event(event)
+        print("✔️ Event Created")
         return "OK"
     except Exception as e:
         print("❌ " + str(e))

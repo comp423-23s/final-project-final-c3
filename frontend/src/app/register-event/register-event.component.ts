@@ -35,11 +35,19 @@ export class RegisterEventComponent {
       name: name,
       description: description,
       location: location,
-      date: date,
+      start_date: date,
+      end_date: date,
       show_short_description: true,
       attendees: []
     }
-    this.eventService.createNewEvent(potentialEvent)
+    
+    this.eventService.createNewEvent(potentialEvent).subscribe(
+      {
+        next: (data) => {this.onSuccess(data)},
+        error: (err) => {this.onError(err)}
+      }
+    )
+  
   }
 
   getClubID(club_code: string): number {
@@ -56,7 +64,7 @@ export class RegisterEventComponent {
     return club_id
   }
 
-  private onSuccess(event: Event) {
+  private onSuccess(string: string) {
     this.snackBar.open("Event Created", "", { duration: 2000 })
   }
 
