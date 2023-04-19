@@ -35,8 +35,8 @@ export class RegisterEventComponent {
       name: name,
       description: description,
       location: location,
-      start_date: date,
-      end_date: date,
+      start_time: date,
+      end_time: date,
       show_short_description: true,
       attendees: []
     }
