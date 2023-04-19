@@ -45,6 +45,25 @@
 
         <br>
 
+        <mat-label>Enter Meeting Times: </mat-label>
+        <br>
+        <span *ngFor="let weekday of weekdays">
+            <mat-checkbox class="example-margin" (change)='selectDay(weekday)'>{{ weekday }}</mat-checkbox>
+            <span *ngIf="hasWeekday(weekday)">
+                <input matInput #>
+            </span>
+            <br>
+        </span>
+
+        <br>
+
+        <mat-label>Select Categories: </mat-label>
+        <span *ngFor="let category of categories">
+            <mat-checkbox class="example-margin" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
+        </span>
+        
+        <br>
+
         <mat-card-actions>
             <button mat-raised-button (click)='onSubmitNewClub(clubName.value, clubDescription.value)' type="submit">
                 Submit

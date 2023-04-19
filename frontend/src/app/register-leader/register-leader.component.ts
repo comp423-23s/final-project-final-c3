@@ -31,11 +31,15 @@ export class RegisterLeaderComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  public selectedClub: Club = {id: 0, club_code: "ABCD1234", name: "Dummy Club", description: "dummy description", show_short_description: true, members: []}
+  public selectedClub: Club = {id: 0, club_code: "ABCD1234", name: "Dummy Club", description: "dummy description", show_short_description: true, members: [], club_meeting_times: [], categories: []}
   public selectedClubId: number = 0
   public clubExists = true
   public potentialClubId = 0
-  
+  public weekdays = ["Mon", "Tue", "Wed", "Thur", "Fri"]
+  public categories = ["Women", "Hackathon", "Volunteer"]
+  public selectedWeekdays = new Set()
+  public selectedCategories = new Set()
+
   constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar, private navigationComponent: NavigationComponent, private roleAdminService: RoleAdminService, private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
@@ -102,7 +106,9 @@ export class RegisterLeaderComponent {
       id: undefined,
       name: clubName,
       description: clubDescription,
-      founder_id: profile.id ?? undefined
+      founder_id: profile.id ?? undefined,
+      club_meeting_times: [],
+      categories: []
     }
     this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub).subscribe({
       next: () => this.newClubOnSuccess(),
@@ -117,5 +123,25 @@ export class RegisterLeaderComponent {
   newClubOnError(err: Error): void{
     console.log(err)
     window.alert("Request can't be submitted.")
+  }
+
+  selectDay(weekday: String): void {
+    if (this.selectedWeekdays.has(weekday)) {
+      this.selectedWeekdays.delete(weekday)
+    } else {
+      this.selectedWeekdays.add(weekday)
+    }
+  }
+
+  selectCategory(category: String): void {
+    if (this.selectedCategories.has(category)) {
+      this.selectedCategories.delete(category)
+    } else {
+      this.selectedCategories.add(category)
+    }
+  }
+
+  hasWeekday(weekday: String): boolean {
+    return this.selectedWeekdays.has(weekday)
   }
 }
