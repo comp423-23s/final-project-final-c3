@@ -13,7 +13,7 @@ class Club(BaseModel):
     members: list['User'] = []
     leaders: list['User'] = []
     meeting_times: list['WeekDayTime'] = []
-    catagories: list[str] = []
+    categories: list[str] = []
 
 class NewClub(BaseModel):
     name: str

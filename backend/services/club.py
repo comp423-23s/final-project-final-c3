@@ -3,7 +3,6 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from backend.entities.user_club_entity import user_club_table
 from backend.entities.leader_club_entity import leader_club_table
-
 from ..database import db_session
 from ..models import Club, User
 from ..entities import ClubEntity, UserEntity, RoleEntity
@@ -116,6 +115,7 @@ class ClubService:
         return clubs
 
     def delete_leader(self, leader: User, club_id) -> None:
+        """Deletes a leader."""
         club_entity = self._session.get(ClubEntity, club_id)
         leader_as_user_entity = self._session.get(UserEntity, leader.id)
         club_entity.leaders.remove(leader_as_user_entity)

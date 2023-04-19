@@ -10,6 +10,6 @@ class PotentialClub(BaseModel):
     description: str
     founder_id: int
     meeting_times: list['WeekDayTime'] = []
-    catagories: list[str] = []
+    categories: list[str] = []
 
 PotentialClub.update_forward_refs()
