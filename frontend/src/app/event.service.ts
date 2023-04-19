@@ -52,24 +52,24 @@ export class EventService {
   }
 
   addUserToEvent(event: Event): Observable<String> {
-    return this.http.get<String>(`api/event/add_to_event/${event.id}`)
+    return this.http.get<String>(`/api/event/add_to_event/${event.id}`)
   }
 
   removeUserFromEvent(event: Event): Observable<String> {
-    return this.http.delete<String>(`api/event/delete_from_event/${event.id}`)
+    return this.http.delete<String>(`/api/event/delete_from_event/${event.id}`)
   }
 
   deleteEvent(event: Event): Observable<String> {
-    return this.http.delete<String>(`api/event/delete/${event.id}`)
+    return this.http.delete<String>(`/api/event/delete/${event.id}`)
   }
 
   getClubID(club_code: string): Observable<number> {
-    return this.http.get<number>(`api/event/get_club_id/${club_code}`)
+    return this.http.get<number>(`/api/event/get_club_id/${club_code}`)
   }
 
   createNewEvent(event: Event): Observable<string> {
     console.log('We got to createNewEvent in frontend services')
-    return this.http.post<string>("api/event/create_event", event)
+    return this.http.post<string>("/api/event/create_event", event)
   }
   /**
    * Enable a student to leave an event
