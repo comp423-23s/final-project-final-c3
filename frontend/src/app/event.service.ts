@@ -20,6 +20,16 @@ export interface User_Event {
   is_joined: boolean
 }
 
+export interface PotentialEvent {
+  id: number | null,
+  name: string,
+  club_id: number,
+  start_date: Date,
+  end_date: Date,
+  location: string,
+  description: string
+}
+
 /**
  * This class handles all student operations related to events including the ability 
  * to view all events, view joined events, join an event, and leave an event.

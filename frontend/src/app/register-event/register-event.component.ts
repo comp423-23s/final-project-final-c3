@@ -3,7 +3,7 @@ import { Route, ActivatedRoute } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Event, EventService } from '../event.service'
+import { Event, EventService, PotentialEvent } from '../event.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -40,6 +40,8 @@ export class RegisterEventComponent {
       show_short_description: true,
       attendees: []
     }
+
+
     
     this.eventService.createNewEvent(potentialEvent).subscribe(
       {
