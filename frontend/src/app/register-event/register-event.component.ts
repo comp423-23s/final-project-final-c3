@@ -3,7 +3,7 @@ import { Route, ActivatedRoute } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Event, EventService } from '../event.service'
+import { Event, EventService, PotentialEvent } from '../event.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -24,23 +24,22 @@ export class RegisterEventComponent {
   
   }
 
-  onSubmitEvent(club_code: string, name: string, description: string, location: string): void {
+  onSubmitEvent(club_code: string, name: string, description: string, location: string, start: string, end: string): void {
     // TODO: change parameters to right types
     let club_id = this.getClubID(club_code)
-    let date_number: number = Date.now()
-    let date: Date = new Date(date_number)
-    var potentialEvent: Event = {
+    let start_time: Date = new Date(start)
+    let end_time: Date = new Date(end)
+    console.log(start_time)
+    var potentialEvent: PotentialEvent = {
       id: null,
       club_id: club_id,
       name: name,
       description: description,
       location: location,
-      start_date: date,
-      end_date: date,
-      show_short_description: true,
-      attendees: []
-    }
-    
+      start_date: start_time,
+      end_date: end_time
+    }    
+
     this.eventService.createNewEvent(potentialEvent).subscribe(
       {
         next: (data) => {this.onSuccess(data)},
