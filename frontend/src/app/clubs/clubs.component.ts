@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
@@ -6,9 +6,6 @@ import { Profile, ProfileService } from '../profile/profile.service'
 import { Club, ClubsService, User_Club } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
-import { ProfileEditorComponent } from '../profile/profile-editor/profile-editor.component';
-import { WeekDayTime } from '../register-leader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +32,8 @@ export class ClubsComponent {
   public user_clubs$: Observable<User_Club[]>
   public weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
   public selectedWeekdays: Set<String> = new Set()
-  public categories = ["Womxn", "Black/African American", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-Binary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedWeekdayTimes: Set<[String, String]> = new Set()
+  public categories = ["Womxn", "Black/African American", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-Binary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedCategories: Set<String> = new Set()
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar, private profileService: ProfileService) {
@@ -129,12 +126,19 @@ export class ClubsComponent {
   selectDay(weekday: String): void {
     if (this.selectedWeekdays.has(weekday)) {
       this.selectedWeekdays.delete(weekday)
+      var newSelectedWeekdayTimes: Set<[String, String]> = new Set()
+      for (var weekdayTime of this.selectedWeekdayTimes) {
+        if (weekdayTime[0] != weekday) {
+          newSelectedWeekdayTimes.add(weekdayTime)
+        }
+      }
+      this.selectedWeekdayTimes = newSelectedWeekdayTimes
     } else {
       this.selectedWeekdays.add(weekday)
     }
   }
 
-  hasWeekday(weekday: String): boolean {
+  isWeekdaySelected(weekday: String): boolean {
     return this.selectedWeekdays.has(weekday)
   }
 
@@ -147,18 +151,32 @@ export class ClubsComponent {
     }
   }
 
+  isCategorySelected(category: String): boolean {
+    return this.selectedCategories.has(category)
+  }
+
   selectCategory(category: String): void {
     if (this.selectedCategories.has(category)) {
-      console.log("deleting category")
       this.selectedCategories.delete(category)
     } else {
-      console.log("selecting category")
       this.selectedCategories.add(category)
     }
   }
 
-
   onFilter(): void {
+    for (var weekday of this.selectedWeekdays) {
+      var thisWeekdayHasTimeSlot = false
+      for (var weekdayTime of this.selectedWeekdayTimes) {
+        if (weekdayTime[0] == weekday) {
+          thisWeekdayHasTimeSlot = true
+          break
+        }
+      }
+      if (!thisWeekdayHasTimeSlot) {
+        window.alert("Please select your time slot(s) for " + weekday)
+        return
+      }
+    }
     var availabilities: [String, String][] = []
     for (var availability of this.selectedWeekdayTimes) {
       availabilities.push(availability)
@@ -178,5 +196,21 @@ export class ClubsComponent {
         return user_club
       })
     }))
+  }
+
+  onShowAllClubs(): void {
+    this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
+      return clubs.map(a_club => {
+        const user_club : User_Club = {
+          club: a_club, 
+          is_joined: a_club.members.map(member => member.id).includes(this.profile.id)
+        }
+        return user_club
+      })
+    }))
+    this.filtered_clubs$ = this.clubs$
+    this.selectedWeekdays = new Set()
+    this.selectedWeekdayTimes = new Set()
+    this.selectedCategories = new Set()
   }
 }

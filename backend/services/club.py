@@ -193,6 +193,7 @@ class ClubService:
             club_entity = self._session.get(ClubEntity, an_id)
             clubs.append(club_entity.to_model())
 
+        print('🚩 filter result number' + str(len(clubs)))
         return clubs
 
             

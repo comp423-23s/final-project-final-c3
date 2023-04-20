@@ -33,30 +33,30 @@
 
 <mat-label>Select Availabilities: </mat-label>
 <div *ngFor="let weekday of weekdays">
-    <mat-checkbox (change)="selectDay(weekday)">
+    <mat-checkbox [checked]="isWeekdaySelected(weekday)" (change)="selectDay(weekday)">
         {{ weekday }}&nbsp;&nbsp;
     </mat-checkbox>
-    <span *ngIf="hasWeekday(weekday)">
-        <mat-checkbox (change)="selectWeekdayTime(weekday, 'Morning')">
+    <span *ngIf="isWeekdaySelected(weekday)">
+        <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Morning')">
             Morning&nbsp;
         </mat-checkbox>
-        <mat-checkbox (change)="selectWeekdayTime(weekday, 'Afternoon')">
+        <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Afternoon')">
             Afternoon&nbsp;
         </mat-checkbox>
-        <mat-checkbox (change)="selectWeekdayTime(weekday, 'Evening')">
+        <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Evening')">
             Evening&nbsp;
         </mat-checkbox>
     </span>
 </div>
 
-
 <br>
 
 <mat-label>Select Categories: </mat-label>
 <span *ngFor="let category of categories">
-    <mat-checkbox class="example-margin" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
+    <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
 </span>
 
 <br>
 
 <button mat-raised-button (click)='onFilter()'>Filter</button>
+<button mat-raised-button (click)='onShowAllClubs()'>Show All Clubs</button>
