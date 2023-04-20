@@ -20,8 +20,8 @@ class PotentialEventEntity(EntityBase):
     name: Mapped[str] = mapped_column(String(64), nullable=False, default='')
     description: Mapped[str] = mapped_column(String(100), nullable=False, default='')
     location: Mapped[str] = mapped_column(String(64), nullable=False, default='')
-    start_date: datetime = mapped_column(DateTime, nullable=False)
-    end_date: datetime = mapped_column(DateTime, nullable=False)
+    start_time: datetime = mapped_column(DateTime, nullable=False)
+    end_time: datetime = mapped_column(DateTime, nullable=False)
     show_short_description: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     
     @classmethod 
