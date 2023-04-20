@@ -73,6 +73,7 @@ def get_all_admin(
 ):
     """Returns a list of all administrators in the database."""
     try:
+        print("We got to backend api method")
         return admin_svc.get_members()
     except Exception as e:
         print("❌" + str(e))

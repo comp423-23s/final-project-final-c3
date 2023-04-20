@@ -51,6 +51,7 @@ class AdminService:
     
     def get_all_admin(self) -> list[User]:
         """Returns a list of all administrators."""
+        print("We got to backend services for admin")
         admins: list[User] = []
         query = select(user_role_table.c.user_id).where(user_role_table.c.role_id == 3)
         admin_ids = self._session.scalars(query).all()

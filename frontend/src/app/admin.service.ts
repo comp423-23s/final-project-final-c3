@@ -21,7 +21,8 @@ export class AdminService {
 
   getAllAdmin(): Observable<User[]> {
     // TODO: call a HTTP method to get all administrators
-    return this.http.get<User[]>('/api/user/admin')
+    console.log("We got to frontend service method")
+    return this.http.get<User[]>('/api/admin/actions/get/all/admin')
   }
 
   addAdmin(pid: number): Observable<String> {
