@@ -129,26 +129,24 @@ class ClubService:
         """Returns a list of clubs that meet at the times specificed by the user."""
         final_club_ids: list[int] = []
         week_day_time_ids: list[int] = []
-        morning: time = time(hour=12, minute=0)
-        afternoon: time = time(hour=17, minute=0)
+        morning_start: time = time(hour=6, minute=0)
+        morning_end: time = time(hour=12, minute=0)
+        afternoon_end: time = time(hour=17, minute=0)
+        evening_end: time = time(hour=20, minute=0)
         for availability in availabilities:
-            print("💋 availabilities length " + str(len(availabilities)))
             if availability[1] == "Morning":
-                # query = select(WeekDayTimeEntity).where(datetime.strptime(str(WeekDayTimeEntity.start_time), '%H:%M') < morning,
-                #          WeekDayTimeEntity.day == availability[0])
-                query = select(WeekDayTimeEntity).where(int(str(WeekDayTimeEntity.start_time)[0:2]) < 12,
-                                                        WeekDayTimeEntity.day == availability[0])
+                print("🏁" + "entered start")
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= morning_start, WeekDayTimeEntity.start_time < morning_end,
+                        WeekDayTimeEntity.day == availability[0])
             if availability[1] == "Afternoon":
-                # query = select(WeekDayTimeEntity).where(datetime.strptime(str(WeekDayTimeEntity.start_time), '%H:%M') < afternoon, WeekDayTimeEntity.start_time >= morning,
-                #          WeekDayTimeEntity.day == availability[0])
-                query = select(WeekDayTimeEntity).where(int(str(WeekDayTimeEntity.start_time)[0:2]) >= 12, int(str(WeekDayTimeEntity.start_time)[0:2]) < 17,
-                                                        WeekDayTimeEntity.day == availability[0])
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= morning_end, WeekDayTimeEntity.start_time < afternoon_end, 
+                          WeekDayTimeEntity.day == availability[0])
             if availability[1] == "Evening":
-                # query = select(WeekDayTimeEntity).where(datetime.strptime(str(WeekDayTimeEntity.start_time), '%H:%M') >= afternoon,
-                #          WeekDayTimeEntity.day == availability[0])
-                query = select(WeekDayTimeEntity).where(int(str(WeekDayTimeEntity.start_time)[0:2]) >= 17,
-                                                        WeekDayTimeEntity.day == availability[0])
+                print("🏁" + "entered evening")
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= afternoon_end, WeekDayTimeEntity.start_time < evening_end,
+                          WeekDayTimeEntity.day == availability[0])
             week_day_time_entities = self._session.scalars(query).all()
+
             # Get WeekDayTimeEntity's id
             for week_day_time in week_day_time_entities:
                 week_day_time_ids.append(week_day_time.id)
@@ -159,6 +157,8 @@ class ClubService:
             club_ids = self._session.scalars(query1).all()
             for club_id in club_ids:
                 final_club_ids.append(club_id)
+
+        print("💄 length is " + str(len(final_club_ids)))
         return final_club_ids
     
 

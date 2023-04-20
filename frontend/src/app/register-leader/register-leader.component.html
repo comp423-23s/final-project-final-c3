@@ -52,8 +52,8 @@
             Monday&nbsp;
         </mat-checkbox>
         <span *ngIf="hasWeekday('Monday')">
-            <input type="time" [(ngModel)]="mondayStartTime"><br>
-            <input type="time" [(ngModel)]="mondayEndTime"><br>
+            <input type="time" [(ngModel)]="mondayStartTime" [ngModelOptions]="{standalone: true}"/><br>
+            <input type="time" [(ngModel)]="mondayEndTime" [ngModelOptions]="{standalone: true}"/><br>
         </span>
         <br>
 
@@ -61,8 +61,8 @@
             Tuesday&nbsp;
         </mat-checkbox>
         <span *ngIf="hasWeekday('Tuesday')">
-            <input type="time" [(ngModel)]="tuesdayStartTime">
-            <input type="time" [(ngModel)]="tuesdayEndTime">
+            <input type="time" [(ngModel)]="tuesdayStartTime" [ngModelOptions]="{standalone: true}"/>
+            <input type="time" [(ngModel)]="tuesdayEndTime" [ngModelOptions]="{standalone: true}"/>
         </span>
         <br>
 
@@ -70,8 +70,8 @@
             Wednesday&nbsp;
         </mat-checkbox>
         <span *ngIf="hasWeekday('Wednesday')">
-            <input type="time" [(ngModel)]="wednesdayStartTime">
-            <input type="time" [(ngModel)]="wednesdayEndTime">
+            <input type="time" [(ngModel)]="wednesdayStartTime" [ngModelOptions]="{standalone: true}"/>
+            <input type="time" [(ngModel)]="wednesdayEndTime" [ngModelOptions]="{standalone: true}"/>
         </span>
         <br>
 
@@ -79,8 +79,8 @@
             Thursday&nbsp;
         </mat-checkbox>
         <span *ngIf="hasWeekday('Thursday')">
-            <input type="time" [(ngModel)]="thursdayStartTime">
-            <input type="time" [(ngModel)]="thursdayEndTime">
+            <input type="time" [(ngModel)]="thursdayStartTime" [ngModelOptions]="{standalone: true}"/>
+            <input type="time" [(ngModel)]="thursdayEndTime" [ngModelOptions]="{standalone: true}"/>
         </span>
         <br>
 
@@ -88,8 +88,8 @@
             Friday&nbsp;
         </mat-checkbox>
         <span *ngIf="hasWeekday('Friday')">
-            <input type="time" [(ngModel)]="fridayStartTime">
-            <input type="time" [(ngModel)]="fridayEndTime">
+            <input type="time" [(ngModel)]="fridayStartTime" [ngModelOptions]="{standalone: true}"/>
+            <input type="time" [(ngModel)]="fridayEndTime" [ngModelOptions]="{standalone: true}"/>
         </span>
         <br>
 

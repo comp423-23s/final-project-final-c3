@@ -25,17 +25,11 @@ class PotentialClubService:
         club_code = ''.join(random.choice(characters) for i in range(8))
 
         # Creating the new Club
-        new_club: Club = Club(club_code= club_code, name=potential_club.name, description=potential_club.description, meeting_times=potential_club.meeting_times)
+        new_club: Club = Club(club_code= club_code, name=potential_club.name, description=potential_club.description)
 
         #Adding the new role to the user's list of roles
         role_entity = self._session.get(RoleEntity, 2)
         user_entity.roles.append(role_entity)
-
-        # Delete from PotentialClub table.
-        potential_club_entity = self._session.get(PotentialClubEntity, potential_club.id)
-        stmt = delete(WeekDayTimeEntity).where(WeekDayTimeEntity.potential_club_id == potential_club.id)
-        self._session.delete(potential_club_entity)
-        self._session.commit()
 
         # Add club to club table.
         club_entity = ClubEntity.from_model(new_club)
@@ -48,7 +42,19 @@ class PotentialClubService:
             print("🦾" + str(category.id))
             category_entity = self._session.get(CategoryEntity, category.id)
             club_entity.categories.append(category_entity)
+
+        # Get PotentialClubEntity for information
+        potential_club_entity = self._session.get(PotentialClubEntity, potential_club.id)
+    
+
+        # Add the weekdaytimeentities from the potential club's list of WDT to real club's list of WDT
+        for week_day_time_entity in potential_club_entity.meeting_times:
+            club_entity.meeting_times.append(week_day_time_entity)
+
+        # Safely delete PotentialClubEntity
+        self._session.delete(potential_club_entity)
         self._session.commit()
+    
     
 
     def add_potential_club(self, potential_club: PotentialClub) -> None:

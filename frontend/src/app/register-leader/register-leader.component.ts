@@ -36,6 +36,7 @@ export class RegisterLeaderComponent {
   public categoryNames = ["Womxn", "Black/AA", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Nonbinary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedWeekdays: Set<String> = new Set()
   public selectedCategories: Set<String> = new Set()
+  // mondayStartTime = new Date()
   public mondayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
   public mondayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
   public tuesdayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
@@ -115,11 +116,13 @@ export class RegisterLeaderComponent {
   private onSuccessUpdateProfile(profile: Profile, clubName: String, clubDescription: string): void {
     var meetingTimes: WeekDayTime[] = []
     console.log(this.mondayStartTime)
+    console.log(this.mondayEndTime)
     if (this.hasWeekday("Monday")) {
       var mondayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Monday",
-        start_time: this.mondayStartTime,
+        // start_time: this.mondayStartime,
+        start_time: this.mondayEndTime,
         end_time: this.mondayEndTime
       }
       meetingTimes.push(mondayWeekdayTime)
