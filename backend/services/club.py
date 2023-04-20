@@ -129,18 +129,25 @@ class ClubService:
         """Returns a list of clubs that meet at the times specificed by the user."""
         final_club_ids: list[int] = []
         week_day_time_ids: list[int] = []
-        morning: datetime = datetime(hour=12, minute=0)
-        afternoon: datetime = datetime(hour=17, minute=0)
+        morning: time = time(hour=12, minute=0)
+        afternoon: time = time(hour=17, minute=0)
         for availability in availabilities:
+            print("💋 availabilities length " + str(len(availabilities)))
             if availability[1] == "Morning":
-                query = select(WeekDayTimeEntity).where(datetime.strptime(WeekDayTimeEntity.start_time, '%H:%M') < morning,
-                         WeekDayTimeEntity.day == availability[0])
+                # query = select(WeekDayTimeEntity).where(datetime.strptime(str(WeekDayTimeEntity.start_time), '%H:%M') < morning,
+                #          WeekDayTimeEntity.day == availability[0])
+                query = select(WeekDayTimeEntity).where(int(str(WeekDayTimeEntity.start_time)[0:2]) < 12,
+                                                        WeekDayTimeEntity.day == availability[0])
             if availability[1] == "Afternoon":
-                query = select(WeekDayTimeEntity).where(datetime.strptime(WeekDayTimeEntity.start_time, '%H:%M') < afternoon, WeekDayTimeEntity.start_time >= morning,
-                         WeekDayTimeEntity.day == availability[0])
+                # query = select(WeekDayTimeEntity).where(datetime.strptime(str(WeekDayTimeEntity.start_time), '%H:%M') < afternoon, WeekDayTimeEntity.start_time >= morning,
+                #          WeekDayTimeEntity.day == availability[0])
+                query = select(WeekDayTimeEntity).where(int(str(WeekDayTimeEntity.start_time)[0:2]) >= 12, int(str(WeekDayTimeEntity.start_time)[0:2]) < 17,
+                                                        WeekDayTimeEntity.day == availability[0])
             if availability[1] == "Evening":
-                query = select(WeekDayTimeEntity).where(datetime.strptime(WeekDayTimeEntity.start_time, '%H:%M') >= afternoon,
-                         WeekDayTimeEntity.day == availability[0])
+                # query = select(WeekDayTimeEntity).where(datetime.strptime(str(WeekDayTimeEntity.start_time), '%H:%M') >= afternoon,
+                #          WeekDayTimeEntity.day == availability[0])
+                query = select(WeekDayTimeEntity).where(int(str(WeekDayTimeEntity.start_time)[0:2]) >= 17,
+                                                        WeekDayTimeEntity.day == availability[0])
             week_day_time_entities = self._session.scalars(query).all()
             # Get WeekDayTimeEntity's id
             for week_day_time in week_day_time_entities:
@@ -161,7 +168,7 @@ class ClubService:
         all_categories_ids: list[int] = []
         for category in categories:
             query = select(CategoryEntity.id).where(CategoryEntity.name == category)
-            category_id = self._session.scalars(query).all()
+            category_id = self._session.scalar(query)
             all_categories_ids.append(category_id)
         for category_id in all_categories_ids:
             query2 = select(club_category_table.c.club_id).where(club_category_table.c.category_id == category_id)

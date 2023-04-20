@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Observable} from 'rxjs';
 import { Profile } from './profile/profile.service';
 import { Time } from '@angular/common';
-import { Category } from './register-leader.service';
+import { Category, WeekDayTime } from './register-leader.service';
 
 export interface Club {
   id: number;
@@ -12,7 +12,7 @@ export interface Club {
   description: String; 
   show_short_description: boolean;
   members: Profile[];            
-  club_meeting_times: Time[];
+  meeting_times: WeekDayTime[];
   categories: Category[];
 }
 
@@ -40,6 +40,16 @@ export class ClubsService {
    */
   getAllClubs(): Observable<Club[]> {
     return this.http.get<Club[]>("/api/club/all");
+  }
+
+  /**
+   * Retreived filtered clubs in the system.
+   * 
+   * @returns Observale array of Club objects.
+   */
+  filterClubs(availabilities: [String, String][], categories: String[]): Observable<Club[]> {
+    var body = [availabilities, categories]
+    return this.http.post<Club[]>("/api/club/filter", body);
   }
 
 

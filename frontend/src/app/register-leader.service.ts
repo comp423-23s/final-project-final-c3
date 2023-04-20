@@ -16,8 +16,8 @@ export interface PotentialClub {
 export interface WeekDayTime {
   id: number | undefined;
   day: String;
-  start_time: String;
-  end_time: String;  //hh:mmAM   hh:mmPM
+  start_time: string;
+  end_time: string;  
 }
 
 export interface Category {

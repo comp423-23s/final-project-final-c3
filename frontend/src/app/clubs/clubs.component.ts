@@ -8,6 +8,7 @@ import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { ProfileEditorComponent } from '../profile/profile-editor/profile-editor.component';
+import { WeekDayTime } from '../register-leader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,12 +31,19 @@ export class ClubsComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
+  public filtered_clubs$: Observable<Club[]>
   public user_clubs$: Observable<User_Club[]>
+  public weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+  public selectedWeekdays: Set<String> = new Set()
+  public categories = ["Womxn", "Black/African American", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-Binary", "Volunteer", "iOS Development", "Business", "Project Management"]
+  public selectedWeekdayTimes: Set<[String, String]> = new Set()
+  public selectedCategories: Set<String> = new Set()
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar, private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.clubs$ = clubsService.getAllClubs()
+    this.filtered_clubs$ = this.clubs$
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
     this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
       return clubs.map(a_club => {
@@ -116,5 +124,59 @@ export class ClubsComponent {
       return club.description
     }
     return club.description.substring(0, 67) + "..."
+  }
+
+  selectDay(weekday: String): void {
+    if (this.selectedWeekdays.has(weekday)) {
+      this.selectedWeekdays.delete(weekday)
+    } else {
+      this.selectedWeekdays.add(weekday)
+    }
+  }
+
+  hasWeekday(weekday: String): boolean {
+    return this.selectedWeekdays.has(weekday)
+  }
+
+  selectWeekdayTime(weekday: String, timeslot: String): void {
+    var curWeekdayTime: [String, String] = [weekday, timeslot]
+    if (this.selectedWeekdayTimes.has(curWeekdayTime)) {
+      this.selectedWeekdayTimes.delete(curWeekdayTime)
+    } else {
+      this.selectedWeekdayTimes.add(curWeekdayTime)
+    }
+  }
+
+  selectCategory(category: String): void {
+    if (this.selectedCategories.has(category)) {
+      console.log("deleting category")
+      this.selectedCategories.delete(category)
+    } else {
+      console.log("selecting category")
+      this.selectedCategories.add(category)
+    }
+  }
+
+
+  onFilter(): void {
+    var availabilities: [String, String][] = []
+    for (var availability of this.selectedWeekdayTimes) {
+      availabilities.push(availability)
+    }
+    var categories: String[] = []
+    for (var category of this.selectedCategories) {
+      console.log("looping")
+      categories.push(category)
+    }
+    this.filtered_clubs$ = this.clubsService.filterClubs(availabilities, categories)
+    this.user_clubs$ = this.filtered_clubs$.pipe(map((clubs: Club[]) => {
+      return clubs.map(a_club => {
+        const user_club : User_Club = {
+          club: a_club, 
+          is_joined: a_club.members.map(member => member.id).includes(this.profile.id)
+        }
+        return user_club
+      })
+    }))
   }
 }

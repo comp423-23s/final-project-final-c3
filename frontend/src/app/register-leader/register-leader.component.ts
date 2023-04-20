@@ -8,12 +8,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Club, ClubsService } from '../clubs.service';
 import { PotentialClub, WeekDayTime, Category, RegisterLeaderService } from '../register-leader.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { RoleAdminService } from '../admin/roles/role-admin.service';
-import { AriaDescriber } from '@angular/cdk/a11y';
 import { ProfileService } from '../profile/profile.service';
-import { Time, WeekDay } from '@angular/common';
 
 @Component({
   selector: 'app-register-leader',
@@ -32,11 +29,11 @@ export class RegisterLeaderComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  public selectedClub: Club = {id: 0, club_code: "ABCD1234", name: "Dummy Club", description: "dummy description", show_short_description: true, members: [], club_meeting_times: [], categories: []}
+  public selectedClub: Club = {id: 0, club_code: "ABCD1234", name: "Dummy Club", description: "dummy description", show_short_description: true, members: [], meeting_times: [], categories: []}
   public selectedClubId: number = 0
   public clubExists = true
   public potentialClubId = 0
-  public categories = ["Womxn", "Black/African American", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-Binary", "Volunteer", "iOS Development", "Business", "Project Management"]
+  public categoryNames = ["Womxn", "Black/AA", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Nonbinary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedWeekdays: Set<String> = new Set()
   public selectedCategories: Set<String> = new Set()
   public mondayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
@@ -49,11 +46,15 @@ export class RegisterLeaderComponent {
   public thursdayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
   public fridayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
   public fridayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public categoryMap = new Map<String, number>()
 
   constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar, private navigationComponent: NavigationComponent, private roleAdminService: RoleAdminService, private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.clubs$ = clubService.getAllClubs()
+    for (let i = 1; i <= this.categoryNames.length; i++) {
+      this.categoryMap.set(this.categoryNames[i - 1], i)
+    }
   }
 
   // A function that changes whether or not a clubs exists
@@ -113,15 +114,8 @@ export class RegisterLeaderComponent {
 
   private onSuccessUpdateProfile(profile: Profile, clubName: String, clubDescription: string): void {
     var meetingTimes: WeekDayTime[] = []
+    console.log(this.mondayStartTime)
     if (this.hasWeekday("Monday")) {
-      var startTimeObj: Time = {
-        hours: Number(this.mondayStartTime.slice(0, 2)),
-        minutes: Number(this.mondayStartTime.slice(3, 5))
-      }
-      var endTimeObj: Time = {
-        hours: Number(this.mondayEndTime.slice(0, 2)),
-        minutes: Number(this.mondayEndTime.slice(3, 5))
-      }
       var mondayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Monday",
@@ -131,14 +125,6 @@ export class RegisterLeaderComponent {
       meetingTimes.push(mondayWeekdayTime)
     }
     if (this.hasWeekday("Tuesday")) {
-      var startTimeObj: Time = {
-        hours: Number(this.tuesdayStartTime.slice(0, 2)),
-        minutes: Number(this.tuesdayStartTime.slice(3, 5))
-      }
-      var endTimeObj: Time = {
-        hours: Number(this.tuesdayEndTime.slice(0, 2)),
-        minutes: Number(this.tuesdayEndTime.slice(3, 5))
-      }
       var tuesdayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Tuesday",
@@ -148,14 +134,6 @@ export class RegisterLeaderComponent {
       meetingTimes.push(tuesdayWeekdayTime)
     }
     if (this.hasWeekday("Wednesday")) {
-      var startTimeObj: Time = {
-        hours: Number(this.wednesdayStartTime.slice(0, 2)),
-        minutes: Number(this.wednesdayStartTime.slice(3, 5))
-      }
-      var endTimeObj: Time = {
-        hours: Number(this.wednesdayEndTime.slice(0, 2)),
-        minutes: Number(this.wednesdayEndTime.slice(3, 5))
-      }
       var wednesdayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Wednesday",
@@ -165,14 +143,6 @@ export class RegisterLeaderComponent {
       meetingTimes.push(wednesdayWeekdayTime)
     }
     if (this.hasWeekday("Thursday")) {
-      var startTimeObj: Time = {
-        hours: Number(this.thursdayStartTime.slice(0, 2)),
-        minutes: Number(this.thursdayStartTime.slice(3, 5))
-      }
-      var endTimeObj: Time = {
-        hours: Number(this.thursdayEndTime.slice(0, 2)),
-        minutes: Number(this.thursdayEndTime.slice(3, 5))
-      }
       var thursdayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Thursday",
@@ -182,14 +152,6 @@ export class RegisterLeaderComponent {
       meetingTimes.push(thursdayWeekdayTime)
     }
     if (this.hasWeekday("Friday")) {
-      var startTimeObj: Time = {
-        hours: Number(this.fridayStartTime.slice(0, 2)),
-        minutes: Number(this.fridayStartTime.slice(3, 5))
-      }
-      var endTimeObj: Time = {
-        hours: Number(this.fridayEndTime.slice(0, 2)),
-        minutes: Number(this.fridayEndTime.slice(3, 5))
-      }
       var fridayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Friday",
@@ -203,7 +165,7 @@ export class RegisterLeaderComponent {
 
     for (var categoryName of this.selectedCategories) {
       var curCategory: Category = {
-        id: undefined,
+        id: this.categoryMap.get(categoryName),
         name: categoryName
       }
       categories.push(curCategory)
@@ -241,15 +203,15 @@ export class RegisterLeaderComponent {
     }
   }
 
+  hasWeekday(weekday: String): boolean {
+    return this.selectedWeekdays.has(weekday)
+  }
+
   selectCategory(category: String): void {
     if (this.selectedCategories.has(category)) {
       this.selectedCategories.delete(category)
     } else {
       this.selectedCategories.add(category)
     }
-  }
-
-  hasWeekday(weekday: String): boolean {
-    return this.selectedWeekdays.has(weekday)
   }
 }

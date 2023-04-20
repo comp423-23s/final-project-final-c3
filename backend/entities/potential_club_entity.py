@@ -32,8 +32,8 @@ class PotentialClubEntity(EntityBase):
             name=model.name,
             description=model.description,
             founder_id=model.founder_id,
-            meeting_times = [WeekDayTimeEntity.from_model(week_day_time) for week_day_time in model.meeting_times],
-            categories = [CategoryEntity.from_model(category) for category in model.categories]
+            meeting_times = [WeekDayTimeEntity.from_model(week_day_time) for week_day_time in model.meeting_times]
+            # categories = [CategoryEntity.from_model(category) for category in model.categories]
         )
 
     def to_model(self) -> PotentialClub:

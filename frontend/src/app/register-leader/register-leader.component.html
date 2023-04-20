@@ -94,8 +94,8 @@
         <br>
 
         <mat-label>Select Categories: </mat-label>
-        <span *ngFor="let category of categories">
-            <mat-checkbox class="example-margin" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
+        <span *ngFor="let categoryName of categoryNames">
+            <mat-checkbox class="example-margin" (change)='selectCategory(categoryName)'>{{ categoryName }}</mat-checkbox>
         </span>
         
         <br>
