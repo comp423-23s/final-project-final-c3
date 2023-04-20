@@ -2,6 +2,7 @@
 
 from pydantic import BaseModel
 from .user import User
+from .week_day_time import WeekDayTime
 
 
 class Club(BaseModel):
@@ -11,6 +12,8 @@ class Club(BaseModel):
     description: str
     members: list['User'] = []
     leaders: list['User'] = []
+    meeting_times: list['WeekDayTime'] = []
+    categories: list[str] = []
 
 class NewClub(BaseModel):
     name: str

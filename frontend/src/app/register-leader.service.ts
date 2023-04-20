@@ -1,13 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Observable, throwError } from 'rxjs';
-import { Club, ClubsService } from './clubs.service';
+import { Observable } from 'rxjs';
+import { ClubsService } from './clubs.service';
+import { Time } from '@angular/common';
 
 export interface PotentialClub {
-  id: number | undefined
+  id: number | undefined;
   name: String;
   description: String;
-  founder_id: number | undefined
+  founder_id: number | undefined;
+  meeting_times: Time[];
+  categories: String[];
+}
+
+export interface WeekDayTime {
+  id: number | undefined;
+  day: String;
+  start_time: Time;
+  end_time: Time;
 }
 
 @Injectable({
