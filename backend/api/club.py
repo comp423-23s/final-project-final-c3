@@ -92,7 +92,7 @@ def leader_register_request(
         raise HTTPException(status_code=404, detail=str(e))
     
 
-@api.get("/get/members/", tags=['Club'])
+@api.get("/get/members", tags=['Club'])
 def get_members(
     club_id: int, 
     club_svc: ClubService = Depends()
@@ -106,7 +106,7 @@ def get_members(
     
 
 @api.delete("/delete/club/{club_id}", tags=['Club'])
-def remove_user_from_club(
+def remove_leader_from_club(
     club_id: int,
     club_svc: ClubService = Depends()
 ) -> str:
