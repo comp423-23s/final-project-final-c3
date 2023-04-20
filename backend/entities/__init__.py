@@ -24,7 +24,9 @@ from .user_club_entity import user_club_table
 from .user_event_entity import user_event_table
 from .leader_club_entity import leader_club_table
 from .potential_club_entity import PotentialClubEntity
-
+from .week_day_time_entity import WeekDayTimeEntity
+from .club_category_entity import club_category_table
+from .potential_club_category_entity import potential_club_category_table
 
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"

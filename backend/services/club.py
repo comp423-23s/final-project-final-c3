@@ -1,12 +1,15 @@
+from typing import Tuple
 from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from backend.entities.user_club_entity import user_club_table
 from backend.entities.leader_club_entity import leader_club_table
-
 from ..database import db_session
 from ..models import Club, User
-from ..entities import ClubEntity, UserEntity, RoleEntity
+from ..entities import ClubEntity, UserEntity, RoleEntity, WeekDayTimeEntity
+from backend.entities.club_category_entity import club_category_table
+from backend.entities.category_entity import CategoryEntity
+from datetime import time
 
 class ClubService:
     _session: Session
@@ -116,9 +119,78 @@ class ClubService:
         return clubs
 
     def delete_leader(self, leader: User, club_id) -> None:
+        """Deletes a leader."""
         club_entity = self._session.get(ClubEntity, club_id)
         leader_as_user_entity = self._session.get(UserEntity, leader.id)
         club_entity.leaders.remove(leader_as_user_entity)
+
+    def filter_by_availability(self, availabilities: list[Tuple[str, str]]) -> list[int]:
+        """Returns a list of clubs that meet at the times specificed by the user."""
+        final_club_ids: list[int] = []
+        week_day_time_ids: list[int] = []
+        morning: time = time(hour=12, minute=0)
+        afternoon: time = time(hour=17, minute=0)
+        for availability in availabilities:
+            if availability[1] == "Morning":
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time < morning,
+                         WeekDayTimeEntity.day == availability[0])
+            if availability[1] == "Afternoon":
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time < afternoon, WeekDayTimeEntity.start_time >= morning,
+                         WeekDayTimeEntity.day == availability[0])
+            if availability[1] == "Evening":
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= afternoon,
+                         WeekDayTimeEntity.day == availability[0])
+            week_day_time_entities = self._session.scalars(query).all()
+            # Get WeekDayTimeEntity's id
+            for week_day_time in week_day_time_entities:
+                week_day_time_ids.append(week_day_time.id)
+
+            # Select club_id based on WDT id
+        for week_day_time_id in week_day_time_ids:
+            query1 = select(WeekDayTimeEntity.club_id).where(WeekDayTimeEntity.id == week_day_time_id)
+            club_ids = self._session.scalars(query1).all()
+            for club_id in club_ids:
+                final_club_ids.append(club_id)
+        return final_club_ids
+    
+
+    def filter_by_category(self, categories: list[str]) -> list[int]:
+        """Gets a list of clubs based on a user's prefered interests."""
+        final_club_ids: list[int] = []
+        all_categories_ids: list[int] = []
+        for category in categories:
+            query = select(CategoryEntity.id).where(CategoryEntity.name == category)
+            category_id = self._session.scalars(query).all()
+            all_categories_ids.append(category_id)
+        for category_id in all_categories_ids:
+            query2 = select(club_category_table.c.club_id).where(club_category_table.c.category_id == category_id)
+            club_ids = self._session.scalars(query2).all()
+            for club_id in club_ids:
+                final_club_ids.append(club_id)
+        return final_club_ids
+    
+
+    def filter_by_availability_and_category(self, availabilities: list[Tuple[str, str]], categories: list[str]) -> list[Club]:
+        """Filters by availability and category."""
+        set_club_ids = set()
+        clubs: list[Club] = []
+        filtered_by_availability: list[int] = self.filter_by_availability(availabilities)
+        filtered_by_categories: list[int] = self.filter_by_category(categories)
+        for club_id_by_availability in filtered_by_availability:
+            set_club_ids.add(club_id_by_availability)
+        for club_id_by_category in filtered_by_categories:
+            set_club_ids.add(club_id_by_category)
+        
+        for an_id in set_club_ids:
+            club_entity = self._session.get(ClubEntity, an_id)
+            clubs.append(club_entity.to_model())
+
+        return clubs
+
+            
+
+
+
 
 
 
