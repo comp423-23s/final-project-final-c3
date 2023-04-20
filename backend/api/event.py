@@ -115,3 +115,12 @@ def events_by_user(subject: User = Depends(registered_user), event_svc: EventSer
     except Exception as e:
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
+    
+@api.get("/events_by_leader", response_model=list[Event], tags=['Event'])
+def events_by_leader(subject: User = Depends(registered_user), event_svc: EventService = Depends()):
+    try:
+        leader_events = event_svc.events_by_leader(subject)
+        return leader_events
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
