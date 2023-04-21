@@ -138,7 +138,7 @@ class EventService:
         if clubs is None:
             raise Exception("User is not a leader of any clubs.")
         for club in clubs:
-            club_events = self.get_events_by_club_id(club.id)
+            club_events = self.get_events_by_club_id(subject)
             for event in club_events:
                 events.append(event)
         # clubs_query = select(leader_club_table.c.club_id).where(leader_club_table.c.user_id == subject.id)
