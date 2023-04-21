@@ -17,6 +17,7 @@ class Event(BaseModel):
     location: str
     description: str
     attendees: list[User] = []
+    show_short_description: bool = False
 
 class NewEvent(BaseModel):
     name: str

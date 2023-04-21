@@ -88,13 +88,19 @@ class EventService:
 
 
 # CLUB LEADER METHODS
+    an_id = 5
     def create_event(self, event: Event) -> None:
         """Creates a new event."""
         print("We got to backend/services/create_event")
         event_entity = EventEntity.from_model(event)
         self._session.add(event_entity)
+        event_entity.id = self.generate_id()
         self._session.commit()
-
+        
+    def generate_id(self):
+        self.an_id += 1
+        return self.an_id
+        
     def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
         event_entity = self._session.get(EventEntity, event_id)

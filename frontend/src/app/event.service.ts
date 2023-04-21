@@ -7,8 +7,8 @@ export interface Event {
   id: number | null,
   name: string,
   club_id: number,
-  start_date: Date,
-  end_date: Date, 
+  start_time: Date,
+  end_time: Date, 
   location: string, 
   description: string,
   show_short_description: boolean,
@@ -20,15 +20,6 @@ export interface User_Event {
   is_joined: boolean
 }
 
-export interface PotentialEvent {
-  id: number | null,
-  name: string,
-  club_id: number,
-  start_date: Date,
-  end_date: Date,
-  location: string,
-  description: string
-}
 
 /**
  * This class handles all student operations related to events including the ability 
@@ -77,9 +68,9 @@ export class EventService {
     return this.http.get<number>(`/api/event/get_club_id/${club_code}`)
   }
 
-  createNewEvent(potentialEvent: PotentialEvent): Observable<string> {
+  createNewEvent(event: Event): Observable<string> {
     console.log('We got to createNewEvent in frontend services')
-    return this.http.post<string>("/api/event/create_event", potentialEvent)
+    return this.http.post<string>("/api/event/create_event", event)
   }
   /**
    * Enable a student to leave an event
