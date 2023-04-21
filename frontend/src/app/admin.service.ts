@@ -6,9 +6,11 @@ export interface User {
   id: number,
   pid: number,
   onyen: string,
-  name: string,
+  first_name: string,
+  last_name: string,
   email: string,
-  pronouns: string
+  pronouns: string,
+  permission: []
 }
 
 
@@ -21,16 +23,21 @@ export class AdminService {
 
   getAllAdmin(): Observable<User[]> {
     // TODO: call a HTTP method to get all administrators
-    return this.http.get<User[]>('/api/user/admin')
+    console.log("We got to frontend service method")
+    return this.http.get<User[]>('/api/admin/actions/get/all/admin')
   }
 
   addAdmin(pid: number): Observable<String> {
     // TODO: call a HTTP method to add an admin
-    return this.http.get<String>(`api/user/${pid}`)
+    return this.http.post<String>('/api/admin/actions/add/admin', pid)
+  }
+
+  testAddAdmin(pid: number): Observable<String> {
+    return this.http.post<String>(`/api/admin/actions/add/admin/${pid}`, pid)
   }
 
   removeAdmin(pid: number): Observable<String> {
     // TODO: call a HTTP method to remove an admin
-    return this.http.delete<String>(`api/user/${pid}`)
+    return this.http.delete<String>(`api/admin/actions/delete/admin/${pid}`)
   }
 }

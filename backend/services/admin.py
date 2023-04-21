@@ -15,7 +15,7 @@ class AdminService:
     def add_admin(self, pid: int) -> None:
         """Adds the admin title to the user."""
         query = select(UserEntity).where(UserEntity.pid == pid)
-        user_entity = self._session.scalar(query).all()
+        user_entity = self._session.scalar(query)
         role_entity = self._session.get(RoleEntity, 3)
         user_entity.roles.append(role_entity)
         self._session.commit()
@@ -23,7 +23,7 @@ class AdminService:
     def delete_admin(self, pid: int) -> None:
         """Removes the admin role from a user. """
         query = select(UserEntity).where(UserEntity.pid == pid)
-        user_entity = self._session.scalar(query).all()
+        user_entity = self._session.scalar(query)
         role_entity = self._session.get(RoleEntity, 3)
         user_entity.roles.remove(role_entity)
         self._session.commit()
@@ -51,6 +51,7 @@ class AdminService:
     
     def get_all_admin(self) -> list[User]:
         """Returns a list of all administrators."""
+        print("We got to backend services for admin")
         admins: list[User] = []
         query = select(user_role_table.c.user_id).where(user_role_table.c.role_id == 3)
         admin_ids = self._session.scalars(query).all()

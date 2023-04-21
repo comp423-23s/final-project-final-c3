@@ -89,6 +89,11 @@ class EventService:
 
 
 # CLUB LEADER METHODS
+    def create_event(self, event: Event) -> None:
+        """Creates a new event."""
+        event_entity = EventEntity.from_model(event)
+        self._session.add(event_entity)
+        self._session.commit()
 
     def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
@@ -107,6 +112,14 @@ class EventService:
             students.append(attendee.to_model())
         return students
     
+    def get_club_id_from_code(self, club_code: str) -> int:
+        """Returns a club id when given a club_code"""
+        query = select(EventEntity).where(EventEntity.club_code == club_code)
+        event_entity: EventEntity = self._session.scalar(query)
+        if event_entity is None:
+            raise Exception("Event does not exist.")
+        return event_entity.club_id
+
     def events_by_user(self, subject: User) -> list[Event]:
         """Get events user has registered for that are in their clubs"""
         events: list[Event] = []
@@ -137,3 +150,4 @@ class EventService:
         #     for event in club_events:
         #         events.append(event)
         return events
+
