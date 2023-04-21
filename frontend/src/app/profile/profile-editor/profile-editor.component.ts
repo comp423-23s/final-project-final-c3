@@ -9,6 +9,7 @@ import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ClubsComponent } from 'src/app/clubs/clubs.component';
 
+
 @Component({
   selector: 'app-profile-editor',
   templateUrl: './profile-editor.component.html',

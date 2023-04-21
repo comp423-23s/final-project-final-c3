@@ -28,7 +28,18 @@ def get_events_by_club(club_id: int, event_svc: EventService = Depends()):
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
-
+# Add an event 
+@api.post("/create_event", tags=['Event'])
+def create_event(
+    event: Event, 
+    event_svc: EventService = Depends()) -> str:
+    try: 
+        event_svc.create_event(event)
+        return "OK"
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
 # Delete an event
 @api.delete("/delete/{event_id}", tags=['Event'])
 def delete_event(event_id: int, event_svc: EventService = Depends()) -> str:
@@ -105,6 +116,14 @@ def is_user_registered(
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
     
+# Get a club id when passed an club code
+@api.get("/get_club_id/{club_code}", tags=['Event'])
+def get_club_id_by_code(
+    club_code: str, 
+    event_svc: EventService = Depends()) -> str:
+    try: 
+        club_id = event_svc.get_club_id_by_code(club_code)
+        return club_id
 
 # Get events user has registered for that are in their clubs
 @api.get("/user_club_events", response_model=list[Event], tags=['Event'])
@@ -121,6 +140,7 @@ def events_by_leader(subject: User = Depends(registered_user), event_svc: EventS
     try:
         leader_events = event_svc.events_by_leader(subject)
         return leader_events
+
     except Exception as e:
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
