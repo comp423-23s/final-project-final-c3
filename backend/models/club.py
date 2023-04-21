@@ -1,6 +1,8 @@
 """Club model serves as the data object for representing a specific club."""
 
 from pydantic import BaseModel
+
+from backend.models.category import Category
 from .user import User
 from .week_day_time import WeekDayTime
 
@@ -13,7 +15,7 @@ class Club(BaseModel):
     members: list['User'] = []
     leaders: list['User'] = []
     meeting_times: list['WeekDayTime'] = []
-    categories: list[str] = []
+    categories: list['Category'] = []
 
 class NewClub(BaseModel):
     name: str

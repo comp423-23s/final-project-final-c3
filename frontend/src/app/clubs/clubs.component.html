@@ -28,3 +28,35 @@
         </mat-card>
     </div>
 </tr>
+
+<br>
+
+<mat-label>Select Availabilities: </mat-label>
+<div *ngFor="let weekday of weekdays">
+    <mat-checkbox [checked]="isWeekdaySelected(weekday)" (change)="selectDay(weekday)">
+        {{ weekday }}&nbsp;&nbsp;
+    </mat-checkbox>
+    <span *ngIf="isWeekdaySelected(weekday)">
+        <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Morning')">
+            Morning&nbsp;
+        </mat-checkbox>
+        <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Afternoon')">
+            Afternoon&nbsp;
+        </mat-checkbox>
+        <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Evening')">
+            Evening&nbsp;
+        </mat-checkbox>
+    </span>
+</div>
+
+<br>
+
+<mat-label>Select Categories: </mat-label>
+<span *ngFor="let category of categories">
+    <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
+</span>
+
+<br>
+
+<button mat-raised-button (click)='onFilter()'>Filter</button>
+<button mat-raised-button (click)='onShowAllClubs()'>Show All Clubs</button>

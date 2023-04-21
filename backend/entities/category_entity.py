@@ -22,7 +22,6 @@ class CategoryEntity(EntityBase):
         return cls(
             id=model.id,
             name=model.name
-
         )
 
     def to_model(self) -> Category:

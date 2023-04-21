@@ -62,6 +62,15 @@ with Session(engine) as session:
     session.add_all([to_entity(model) for model in roles.models])
     session.execute(text(f'ALTER SEQUENCE {entities.RoleEntity.__table__}_id_seq RESTART WITH {len(roles.models) + 1}'))
     session.commit()
+
+
+# Add Categories
+with Session(engine) as session:
+    from .dev_data import categories
+    to_entity = entities.CategoryEntity.from_model
+    session.add_all([to_entity(model) for model in categories.models])
+    session.execute(text(f'ALTER SEQUENCE {entities.CategoryEntity.__table__}_id_seq RESTART WITH {len(categories.models) + 1}'))
+    session.commit()
     
 
 # Add Users to Roles
