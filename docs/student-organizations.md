@@ -58,14 +58,6 @@ Name
    </td>
   </tr>
   <tr>
-   <td>Permission Entity
-   </td>
-   <td>Not all users for the application can access the same actions. Thus, this table relates users to their corresponding allowed actions. Each permission has an id (int), an action (str), a resource (str), a role_id in case a user has multiple roles (int), and a user_id (int) to map the right permission to the right user. 
-   </td>
-   <td>id, action, resource, role_id, user_id
-   </td>
-  </tr>
-  <tr>
    <td>Potential Club Entity
    </td>
    <td>Before a club can be declared an official club entity, it must be approved by an administrator. Thus, it remains as a ‘potential club entity’ until it is approved. These entities are composed of an id (int), a name (str), a description (str), and a founder_id (UserEntity) to represent who started the club. 
@@ -107,7 +99,7 @@ Name
   <tr>
 </table>
 
-We chose to add a “Change Role” button on the side navigation bar instead of allowing users to have only 1 role, because many students may want to be both a member of one club, and a leader of another. Thus they would have both the roles “Student” and “Leader”. Additionally, if a student were to be given the role of an administrator, they should be allowed to switch between their other roles too. If I am a student only, I cannot change my role. But if I am a student and a leader, I can choose to switch between my roles and experience the application in different ways. 
+We chose to add a “Change Role” button on the side navigation bar instead of allowing users to have only 1 role, because many students may want to be both a member of one club, and a leader of another. Thus they would have both the roles “Student” and “Leader”. Additionally, if a student were to be given the role of an administrator, they should be allowed to switch between their other roles too. If I am a student only, I cannot change my role. But if I am a student and a leader, I can choose to switch between my roles and experience the application in different ways. Our application was designed this way as we all thought it made more sense to have permissions inherently
 
 
 # Development Concerns
@@ -130,4 +122,3 @@ In order to expand upon this feature, it is vital to understand how both the fro
 In the future, we would love to see this application fully developed with abilities for the user to have a more personalized experience. Some examples might include:
 * On the page where all events are listed, the events could be filtered so that the first ones that show up are the ones hosted by a student’s clubs.  They likely have more interest in attending these events. 
 * On the page where all clubs are listed, it would be beneficial to add a search bar so that a user can easily find a club if they have one in mind already. 
-* If a student wishes to become a leader of a club, there could be functionality to send a request to a club leader or to administration so that they can be added to the list of leaders. 
