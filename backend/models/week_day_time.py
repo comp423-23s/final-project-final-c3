@@ -10,5 +10,5 @@ __license__ = "MIT"
 class WeekDayTime(BaseModel):
     id: int | None = None
     day: str
-    start_time: time
-    end_time: time
+    start_time: str
+    end_time: str

@@ -204,13 +204,14 @@ def get_all_potential_clubs(potential_club_svc: PotentialClubService = Depends()
 
 @api.post("/filter", response_model=list[Club], tags=['Club'])
 def filter(
-    availabilities: list[Tuple[str, str]],
-    categories: list[str],
+    body: list[list],
+    # availabilities: list[Tuple[str, str]],
+    # categories: list[str],
     club_svc: ClubService = Depends()
 ):
     """Gets all clubs accoriding to specificied availability and categories."""
     try:
-        return club_svc.filter_by_availability_and_category(availabilities, categories)
+        return club_svc.filter_by_availability_and_category(body[0], body[1])
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
