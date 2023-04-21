@@ -33,32 +33,32 @@
     </div>
     <br>
     <div class="filters">
-        
-            <mat-label>Select Availabilities: </mat-label>
-            <div *ngFor="let weekday of weekdays">
-            <mat-checkbox [checked]="isWeekdaySelected(weekday)" (change)="selectDay(weekday)">
-                {{ weekday }}&nbsp;&nbsp;
+        <mat-label><span style="font-weight: 300; font-size: medium;">Select Availabilities</span></mat-label>
+        <div *ngFor="let weekday of weekdays">
+        <mat-checkbox [checked]="isWeekdaySelected(weekday)" (change)="selectDay(weekday)">
+            {{ weekday }}&nbsp;&nbsp;
+        </mat-checkbox>
+        <span style= "display: flex; flex-direction: column; margin-left: 50px;" *ngIf="isWeekdaySelected(weekday)">
+            <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Morning')">
+                Morning&nbsp;
             </mat-checkbox>
-            <span style= "display: flex; flex-direction: column; margin-left: 50px;" *ngIf="isWeekdaySelected(weekday)">
-                <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Morning')">
-                    Morning&nbsp;
-                </mat-checkbox>
-                <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Afternoon')">
-                    Afternoon&nbsp;
-                </mat-checkbox>
-                <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Evening')">
-                    Evening&nbsp;
-                </mat-checkbox>
-            </span>
-            </div>
-        
-    
+            <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Afternoon')">
+                Afternoon&nbsp;
+            </mat-checkbox>
+            <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Evening')">
+                Evening&nbsp;
+            </mat-checkbox>
+        </span>
+        </div>
+
         <br>
         
-        <mat-label>Select Categories: </mat-label>
+        <button mat-raised-button><a mat-list-item [matMenuTriggerFor]="menu1">Select Categories</a> </button>
+        <mat-menu #menu1="matMenu" (click)="$event.stopPropagation()" yPosition="below">
         <span *ngFor="let category of categories">
             <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
         </span>
+        </mat-menu>
         
         <br>
         
