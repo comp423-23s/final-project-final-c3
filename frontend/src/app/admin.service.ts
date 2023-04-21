@@ -6,9 +6,11 @@ export interface User {
   id: number,
   pid: number,
   onyen: string,
-  name: string,
+  first_name: string,
+  last_name: string,
   email: string,
-  pronouns: string
+  pronouns: string,
+  permission: []
 }
 
 
@@ -28,6 +30,10 @@ export class AdminService {
   addAdmin(pid: number): Observable<String> {
     // TODO: call a HTTP method to add an admin
     return this.http.post<String>('/api/admin/actions/add/admin', pid)
+  }
+
+  testAddAdmin(pid: number): Observable<String> {
+    return this.http.post<String>(`/api/admin/actions/add/admin/${pid}`, pid)
   }
 
   removeAdmin(pid: number): Observable<String> {

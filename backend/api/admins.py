@@ -9,7 +9,7 @@ __license__ = "MIT"
 
 api = APIRouter(prefix="/api/admin/actions")
 
-@api.post("/add/admin", tags=['Admin'])
+@api.post("/add/admin/{pid}", tags=['Admin'])
 def add_admin(
     pid: int, 
     admin_svc: AdminService = Depends()
