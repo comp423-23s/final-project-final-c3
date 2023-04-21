@@ -89,6 +89,13 @@ Name
    <td>id, pid, onyen, email, first_name, last_name, pronouns, roles, permissions, clubs, leading_clubs
    </td>
   </tr>
+    <td>Category Entity
+   </td>
+   <td> Upon creation, each club has the option to be associated with certain tags or attributes. This makes the club able to be searched by a student when they search through clubs by filtering through them. The possible categories to choose from are: Black/African American, Asian American/Pacific Islander, Volunteer, Women, Hispanic/Latinx, LGBTQIA+, Video Games, Hackathon, Non-Binary, Volunteer, iOS Development, Business, and Project Management.    </td>
+   <td>id, name, clubs, potential_clubs
+   </td>
+  </tr>
+  <tr>
 </table>
 
 We chose to add a “Change Role” button on the side navigation bar instead of allowing users to have only 1 role, because many students may want to be both a member of one club, and a leader of another. Thus they would have both the roles “Student” and “Leader”. Additionally, if a student were to be given the role of an administrator, they should be allowed to switch between their other roles too. If I am a student only, I cannot change my role. But if I am a student and a leader, I can choose to switch between my roles and experience the application in different ways. 
