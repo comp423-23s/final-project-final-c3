@@ -91,8 +91,17 @@ Name
   </tr>
     <td>Category Entity
    </td>
-   <td> Upon creation, each club has the option to be associated with certain tags or attributes. This makes the club able to be searched by a student when they search through clubs by filtering through them. The possible categories to choose from are: Black/African American, Asian American/Pacific Islander, Volunteer, Women, Hispanic/Latinx, LGBTQIA+, Video Games, Hackathon, Non-Binary, Volunteer, iOS Development, Business, and Project Management.    </td>
-   <td>id, name, clubs, potential_clubs
+   <td> Upon creation, each club has the option to be associated with certain tags or attributes. This makes the club able to be searched by a student when they search through clubs by filtering through them. The possible categories to choose from are: Black/African American, Asian American/Pacific Islander, Volunteer, Women, Hispanic/Latinx, LGBTQIA+, Video Games, Hackathon, Non-Binary, Volunteer, iOS Development, Business, and Project Management. The Category Entity has a list of clubs and Potential Clubs that have a specific Category ID. This information is stored in two different secondary tables, one for potential clubs and one for real clubs.
+   </td>
+   <td>id: Mapped[int] , name: Mapped[str], clubs: Mapped[list[ClubEntity]], potential_clubs: Mapped[list[PotentialClubEntity]]
+   </td>
+  </tr>
+  <tr>
+  <td>WeekDayTime Entity
+   </td>
+   <td> A WeekDayTime Entity is keeps track of the weekday (Monday, Tuesday, etc) and the time (4:00PM, 9:30 AM, ect) that a club meets. This entity was created because a standard datetime object wasn't applicable. The start and end times of an event are converted to strings in the from model method to work around issues with backend and front end time objects. Each WeekDayTime entity is associated with one singular Potential Club Entity or Club Entity.
+   </td>
+   <td>id: Mapped[int], day: Mapped[str], start_time: Mapped[time], end_time: Mapped[time]
    </td>
   </tr>
   <tr>
