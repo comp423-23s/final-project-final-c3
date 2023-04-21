@@ -29,6 +29,7 @@ class EventEntity(EntityBase):
         String(250), nullable=False, default='')
     start_time: Mapped[datetime] = mapped_column(nullable=False)
     end_time: Mapped[datetime] = mapped_column(nullable=False)
+    show_short_description: Mapped[bool] = mapped_column(nullable=False)
     club_id: Mapped[int] = mapped_column(ForeignKey('club.id'))
     club: Mapped[ClubEntity] = relationship()
     attendees: Mapped[list['UserEntity']] = relationship(secondary=user_event_table)
@@ -43,6 +44,7 @@ class EventEntity(EntityBase):
             description=model.description,
             start_time=model.start_time,
             end_time=model.end_time,
+            show_short_description = model.show_short_description,
             club_id = model.club_id,
             attendees=model.attendees
         )

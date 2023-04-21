@@ -14,6 +14,7 @@ class Event(BaseModel):
     club_id: int
     start_time: datetime
     end_time: datetime
+    show_short_description: bool
     location: str
     description: str
     attendees: list[User] = []
@@ -24,6 +25,7 @@ class NewEvent(BaseModel):
     start_time: datetime
     end_time: datetime
     location: str
+    show_short_description: bool
     description: str
     attendees: list[User] = []
 
