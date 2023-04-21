@@ -99,7 +99,7 @@ Name
   <tr>
 </table>
 
-We chose to add a “Change Role” button on the side navigation bar instead of allowing users to have only 1 role, because many students may want to be both a member of one club, and a leader of another. Thus they would have both the roles “Student” and “Leader”. Additionally, if a student were to be given the role of an administrator, they should be allowed to switch between their other roles too. If I am a student only, I cannot change my role. But if I am a student and a leader, I can choose to switch between my roles and experience the application in different ways. Our application was designed this way as we all thought it made more sense to have permissions inherently
+We chose to add a “Change Role” button on the side navigation bar instead of allowing users to have only 1 role, because many students may want to be both a member of one club, and a leader of another. Thus they would have both the roles “Student” and “Leader”. Additionally, if a student were to be given the role of an administrator, they should be allowed to switch between their other roles too. If I am a student only, I cannot change my role. But if I am a student and a leader, I can choose to switch between my roles and experience the application in different ways. Our application was designed this way as we all thought it made more sense to have permissions inherently built into our models. This means that if you are a leader of a club, you can only see leader things for your specific club. There is also an "Administrator" view that is only viewable for administrators. Only Arden Administrator has the ability to add and delete other administrators.
 
 
 # Development Concerns
