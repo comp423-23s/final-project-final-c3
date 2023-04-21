@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 import { Profile } from './profile/profile.service';
 
 export interface Event {
-  id: number,
+  id: number | null,
   name: string,
   club_id: number,
-  date: Date,
+  start_time: Date,
+  end_time: Date, 
   location: string, 
   description: string,
   show_short_description: boolean,
@@ -18,6 +19,7 @@ export interface User_Event {
   event: Event,
   is_joined: boolean
 }
+
 
 /**
  * This class handles all student operations related to events including the ability 
@@ -51,21 +53,25 @@ export class EventService {
   }
 
   addUserToEvent(event: Event): Observable<String> {
-    return this.http.get<String>(`api/event/add_to_event/${event.id}`)
+    return this.http.get<String>(`/api/event/add_to_event/${event.id}`)
   }
 
   removeUserFromEvent(event: Event): Observable<String> {
-    return this.http.delete<String>(`api/event/delete_from_event/${event.id}`)
-  }
-
-  put(club_id: number) {
-    // TODO: implement HTTPClient route to add an event by club
+    return this.http.delete<String>(`/api/event/delete_from_event/${event.id}`)
   }
 
   deleteEvent(event: Event): Observable<String> {
-    return this.http.delete<String>(`api/event/delete/${event.id}`)
+    return this.http.delete<String>(`/api/event/delete/${event.id}`)
   }
 
+  getClubID(club_code: string): Observable<number> {
+    return this.http.get<number>(`/api/event/get_club_id/${club_code}`)
+  }
+
+  createNewEvent(event: Event): Observable<string> {
+    console.log('We got to createNewEvent in frontend services')
+    return this.http.post<string>("/api/event/create_event", event)
+  }
   /**
    * Enable a student to leave an event
    * @param Event event object

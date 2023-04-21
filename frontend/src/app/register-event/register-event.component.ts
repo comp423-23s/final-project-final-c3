@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './register-event.component.html',
   styleUrls: ['./register-event.component.css']
 })
-export class RegisterEventComponent implements OnInit {
+export class RegisterEventComponent {
   public static Route: Route = {
     path: 'registerevents',
     component: RegisterEventComponent, 
@@ -20,53 +20,52 @@ export class RegisterEventComponent implements OnInit {
     resolve: { profile: profileResolver }
   };
 
-  public event: Event
-
-  // A form that takes in input for a new event
-  public eventForm = this.formBuilder.group({
-    name: '',
-    description: '',
-    location: '',
-    clud_id: 0,
-  });
-
-  constructor(route: ActivatedRoute, private formBuilder: FormBuilder, protected snackBar: MatSnackBar, private eventService: EventService) {
-    const form = this.eventForm
-    form.get('name')?.addValidators(Validators.required);
-    form.get('description')?.addValidators(Validators.required);
-    form.get('location')?.addValidators(Validators.required);
-    form.get('club_id')?.addValidators(Validators.required);
-
-    const data = route.snapshot.data as { event: Event };
-    console.log(route.snapshot)
-    this.event = data.event;
+  constructor(protected snackBar: MatSnackBar, private eventService: EventService) {
+  
   }
 
-  ngOnInit(): void {
-    let event = this.event;
+  onSubmitEvent(club_code: string, name: string, description: string, location: string, start: string, end: string): void {
+    // TODO: change parameters to right types
+    let club_id = this.getClubID(club_code)
+    let start_time: Date = new Date(start)
+    let end_time: Date = new Date(end)
+    console.log(start_time)
+    var event: Event = {
+      id: null,
+      club_id: club_id,
+      name: name,
+      description: description,
+      location: location,
+      start_time: start_time,
+      end_time: end_time,
+      show_short_description: false,
+      attendees: []
+    }    
 
-    this.eventForm.setValue({
-      name: event.name,
-      description: event.description,
-      location: event.location,
-      clud_id: event.club_id,
-    });
+    this.eventService.createNewEvent(event).subscribe(
+      {
+        next: (data) => {this.onSuccess(data)},
+        error: (err) => {this.onError(err)}
+      }
+    )
+  
   }
 
-  onSubmit(): void {
-    // TODO: add put method to event service
-    // if (this.eventForm.valid) {
-    //   Object.assign(this.event, this.eventForm.value)
-    //   this.eventService.put(this.event).subscribe(
-    //     {
-    //       next: (user) => this.onSuccess(user),
-    //       error: (err) => this.onError(err)
-    //     } 
-    //   );
-    // }
+  getClubID(club_code: string): number {
+    this.eventService.getClubID(club_code).subscribe(
+      {
+        next: (data) => {return this.onSuccessGetClubID(data)},
+        error: (err) => console.log(err)
+      }
+    )
+    return 0
   }
 
-  private onSuccess(event: Event) {
+  onSuccessGetClubID(club_id: number): number {
+    return club_id
+  }
+
+  private onSuccess(string: string) {
     this.snackBar.open("Event Created", "", { duration: 2000 })
   }
 
