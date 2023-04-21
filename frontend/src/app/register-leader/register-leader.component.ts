@@ -6,12 +6,10 @@ import { Profile } from '../profile/profile.service'
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Club, ClubsService } from '../clubs.service';
-import { PotentialClub, RegisterLeaderService } from '../register-leader.service';
+import { PotentialClub, WeekDayTime, Category, RegisterLeaderService } from '../register-leader.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { RoleAdminService } from '../admin/roles/role-admin.service';
-import { AriaDescriber } from '@angular/cdk/a11y';
 import { ProfileService } from '../profile/profile.service';
 
 @Component({
@@ -31,15 +29,33 @@ export class RegisterLeaderComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  public selectedClub: Club = {id: 0, club_code: "ABCD1234", name: "Dummy Club", description: "dummy description", show_short_description: true, members: []}
+  public selectedClub: Club = {id: 0, club_code: "ABCD1234", name: "Dummy Club", description: "dummy description", show_short_description: true, members: [], meeting_times: [], categories: []}
   public selectedClubId: number = 0
   public clubExists = true
   public potentialClubId = 0
-  
+  public categoryNames = ["Womxn", "Black/AA", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Nonbinary", "Volunteer", "iOS Development", "Business", "Project Management"]
+  public selectedWeekdays: Set<String> = new Set()
+  public selectedCategories: Set<String> = new Set()
+  // mondayStartTime = new Date()
+  public mondayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public mondayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public tuesdayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public tuesdayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public wednesdayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public wednesdayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public thursdayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public thursdayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public fridayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public fridayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
+  public categoryMap = new Map<String, number>()
+
   constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar, private navigationComponent: NavigationComponent, private roleAdminService: RoleAdminService, private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.clubs$ = clubService.getAllClubs()
+    for (let i = 1; i <= this.categoryNames.length; i++) {
+      this.categoryMap.set(this.categoryNames[i - 1], i)
+    }
   }
 
   // A function that changes whether or not a clubs exists
@@ -98,12 +114,75 @@ export class RegisterLeaderComponent {
   }
 
   private onSuccessUpdateProfile(profile: Profile, clubName: String, clubDescription: string): void {
+    var meetingTimes: WeekDayTime[] = []
+    console.log(this.mondayStartTime)
+    console.log(this.mondayEndTime)
+    if (this.hasWeekday("Monday")) {
+      var mondayWeekdayTime: WeekDayTime = {
+        id: undefined,
+        day: "Monday",
+        // start_time: this.mondayStartime,
+        start_time: this.mondayEndTime,
+        end_time: this.mondayEndTime
+      }
+      meetingTimes.push(mondayWeekdayTime)
+    }
+    if (this.hasWeekday("Tuesday")) {
+      var tuesdayWeekdayTime: WeekDayTime = {
+        id: undefined,
+        day: "Tuesday",
+        start_time: this.tuesdayStartTime,
+        end_time: this.tuesdayEndTime
+      }
+      meetingTimes.push(tuesdayWeekdayTime)
+    }
+    if (this.hasWeekday("Wednesday")) {
+      var wednesdayWeekdayTime: WeekDayTime = {
+        id: undefined,
+        day: "Wednesday",
+        start_time: this.wednesdayStartTime,
+        end_time: this.wednesdayEndTime
+      }
+      meetingTimes.push(wednesdayWeekdayTime)
+    }
+    if (this.hasWeekday("Thursday")) {
+      var thursdayWeekdayTime: WeekDayTime = {
+        id: undefined,
+        day: "Thursday",
+        start_time: this.thursdayStartTime,
+        end_time: this.thursdayEndTime
+      }
+      meetingTimes.push(thursdayWeekdayTime)
+    }
+    if (this.hasWeekday("Friday")) {
+      var fridayWeekdayTime: WeekDayTime = {
+        id: undefined,
+        day: "Friday",
+        start_time: this.fridayStartTime,
+        end_time: this.fridayEndTime
+      }
+      meetingTimes.push(fridayWeekdayTime)
+    }
+
+    var categories: Category[] = []
+
+    for (var categoryName of this.selectedCategories) {
+      var curCategory: Category = {
+        id: this.categoryMap.get(categoryName),
+        name: categoryName
+      }
+      categories.push(curCategory)
+    }
+    
     var potentialClub: PotentialClub = {
       id: undefined,
       name: clubName,
       description: clubDescription,
-      founder_id: profile.id ?? undefined
+      founder_id: profile.id ?? undefined,
+      meeting_times: meetingTimes,
+      categories: categories
     }
+
     this.registerLeaderService.leaderRegistrationRequestForNonExistingClub(potentialClub).subscribe({
       next: () => this.newClubOnSuccess(),
       error: (err) => this.newClubOnError(err)
@@ -117,5 +196,25 @@ export class RegisterLeaderComponent {
   newClubOnError(err: Error): void{
     console.log(err)
     window.alert("Request can't be submitted.")
+  }
+
+  selectDay(weekday: String): void {
+    if (this.selectedWeekdays.has(weekday)) {
+      this.selectedWeekdays.delete(weekday)
+    } else {
+      this.selectedWeekdays.add(weekday)
+    }
+  }
+
+  hasWeekday(weekday: String): boolean {
+    return this.selectedWeekdays.has(weekday)
+  }
+
+  selectCategory(category: String): void {
+    if (this.selectedCategories.has(category)) {
+      this.selectedCategories.delete(category)
+    } else {
+      this.selectedCategories.add(category)
+    }
   }
 }

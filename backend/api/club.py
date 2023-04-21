@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from ..services import ClubService, PotentialClubService
 from ..models import User, Club, PotentialClub
 from .authentication import registered_user
+from typing import Tuple
 
 
 api = APIRouter(prefix="/api/club")
@@ -91,7 +92,7 @@ def leader_register_request(
         raise HTTPException(status_code=404, detail=str(e))
     
 
-@api.get("/get/members/", tags=['Club'])
+@api.get("/get/members", tags=['Club'])
 def get_members(
     club_id: int, 
     club_svc: ClubService = Depends()
@@ -105,7 +106,7 @@ def get_members(
     
 
 @api.delete("/delete/club/{club_id}", tags=['Club'])
-def remove_user_from_club(
+def remove_leader_from_club(
     club_id: int,
     club_svc: ClubService = Depends()
 ) -> str:
@@ -196,6 +197,21 @@ def get_all_potential_clubs(potential_club_svc: PotentialClubService = Depends()
     """Gets all potential clubs."""
     try: 
         return potential_club_svc.get_all_requests()
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
+
+@api.post("/filter", response_model=list[Club], tags=['Club'])
+def filter(
+    body: list[list],
+    # availabilities: list[Tuple[str, str]],
+    # categories: list[str],
+    club_svc: ClubService = Depends()
+):
+    """Gets all clubs accoriding to specificied availability and categories."""
+    try:
+        return club_svc.filter_by_availability_and_category(body[0], body[1])
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))

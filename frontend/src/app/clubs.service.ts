@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Observable, throwError, map } from 'rxjs';
+import { Observable} from 'rxjs';
 import { Profile } from './profile/profile.service';
+import { Time } from '@angular/common';
+import { Category, WeekDayTime } from './register-leader.service';
 
 export interface Club {
   id: number;
-  club_code: string;
-  name: string;                   
-  description: string; 
+  club_code: String;
+  name: String;                   
+  description: String; 
   show_short_description: boolean;
-  members: Profile[];               
+  members: Profile[];            
+  meeting_times: WeekDayTime[];
+  categories: Category[];
 }
 
 export interface User_Club {
@@ -36,6 +40,16 @@ export class ClubsService {
    */
   getAllClubs(): Observable<Club[]> {
     return this.http.get<Club[]>("/api/club/all");
+  }
+
+  /**
+   * Retreived filtered clubs in the system.
+   * 
+   * @returns Observale array of Club objects.
+   */
+  filterClubs(availabilities: [String, String][], categories: String[]): Observable<Club[]> {
+    var body = [availabilities, categories]
+    return this.http.post<Club[]>("/api/club/filter", body);
   }
 
 

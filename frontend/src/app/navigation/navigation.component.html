@@ -65,6 +65,9 @@
             <a mat-list-item routerLink="/profile">Profile</a> 
             <a mat-list-item routerLink="/role_selection">Change Role</a>
             <a mat-list-item routerLink="/admin_pending_requests">Pending Requests</a>
+            <div *ngIf="profile.first_name === 'Arden'">
+              <a mat-list-item routerLink="/changeadmins">Administrators</a>
+            </div>
             <a mat-list-item (click)="auth.signOut()">Sign out</a>
           </div>
         </ng-template>

@@ -5,9 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
 from backend.models.potential_club import PotentialClub
 from backend.entities.entity_base import EntityBase
-from backend.entities.user_entity import UserEntity
-from backend.entities.user_club_entity import user_club_table
-from backend.entities.leader_club_entity import leader_club_table
+from backend.entities.potential_club_category_entity import potential_club_category_table
 
 
 __authors__ = ['Aryonna Rice']
@@ -24,6 +22,8 @@ class PotentialClubEntity(EntityBase):
     description: Mapped[str] = mapped_column(
         String(100), nullable=False, default='')
     founder_id: Mapped[int] = mapped_column(Integer, nullable=True)
+    meeting_times: Mapped[list['WeekDayTimeEntity']] = relationship(back_populates="potential_club")
+    categories: Mapped[list['CategoryEntity']] = relationship(secondary=potential_club_category_table, back_populates="potential_clubs")
 
     @classmethod
     def from_model(cls, model: PotentialClub) -> Self:
@@ -31,7 +31,8 @@ class PotentialClubEntity(EntityBase):
             id=model.id,
             name=model.name,
             description=model.description,
-            founder_id=model.founder_id
+            founder_id=model.founder_id,
+            meeting_times = [WeekDayTimeEntity.from_model(week_day_time) for week_day_time in model.meeting_times]
         )
 
     def to_model(self) -> PotentialClub:
@@ -39,5 +40,10 @@ class PotentialClubEntity(EntityBase):
             id=self.id,
             name=self.name,
             description=self.description,
-            founder_id=self.founder_id
+            founder_id=self.founder_id,
+            meeting_times = [week_day_time.to_model() for week_day_time in self.meeting_times],
+            categories = [category.to_model() for category in self.categories]
         )
+    
+from backend.entities.week_day_time_entity import WeekDayTimeEntity
+from backend.entities.category_entity import CategoryEntity
