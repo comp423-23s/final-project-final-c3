@@ -123,7 +123,7 @@ def get_club_id_by_code(
     club_code: str, 
     event_svc: EventService = Depends()) -> int:
     try: 
-        club_id = event_svc.get_club_id_by_code(club_code)
+        club_id = event_svc.get_club_id_from_code(club_code)
         return club_id
     except Exception as e:
         print("❌ " + str(e))
