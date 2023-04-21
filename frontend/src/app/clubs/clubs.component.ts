@@ -18,7 +18,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 })
 export class ClubsComponent {
   // Use an observable class so that the event data can be synchronous with the database
-  
+
   public static Route: Route = {
     path: 'all_clubs',
     component: ClubsComponent, 
@@ -214,4 +214,5 @@ export class ClubsComponent {
     this.selectedWeekdayTimes = new Set()
     this.selectedCategories = new Set()
   }
+
 }

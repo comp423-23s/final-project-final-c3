@@ -54,9 +54,9 @@
         <br>
         
         <button mat-raised-button><a mat-list-item [matMenuTriggerFor]="menu1">Select Categories</a> </button>
-        <mat-menu #menu1="matMenu" (click)="$event.stopPropagation()" yPosition="below">
+        <mat-menu  #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu1" #menu1="matMenu" yPosition="below">
         <span *ngFor="let category of categories">
-            <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
+            <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)' (click)="$event.stopPropagation();">{{ category }} </mat-checkbox>
         </span>
         </mat-menu>
         
