@@ -22,7 +22,7 @@ class PotentialClubEntity(EntityBase):
     description: Mapped[str] = mapped_column(
         String(100), nullable=False, default='')
     founder_id: Mapped[int] = mapped_column(Integer, nullable=True)
-    meeting_times: Mapped[list['WeekDayTimeEntity']] = relationship(back_populates="potential_club", cascade="all, delete-orphan")
+    meeting_times: Mapped[list['WeekDayTimeEntity']] = relationship(back_populates="potential_club")
     categories: Mapped[list['CategoryEntity']] = relationship(secondary=potential_club_category_table, back_populates="potential_clubs")
 
     @classmethod
@@ -32,8 +32,7 @@ class PotentialClubEntity(EntityBase):
             name=model.name,
             description=model.description,
             founder_id=model.founder_id,
-            meeting_times = [WeekDayTimeEntity.from_model(week_day_time) for week_day_time in model.meeting_times],
-            categories = [CategoryEntity.from_model(category) for category in model.categories]
+            meeting_times = [WeekDayTimeEntity.from_model(week_day_time) for week_day_time in model.meeting_times]
         )
 
     def to_model(self) -> PotentialClub:

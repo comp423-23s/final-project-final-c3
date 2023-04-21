@@ -21,9 +21,13 @@ arden_ambassador = User(id=3, pid=100000001, onyen='arden', first_name="Arden",
 merritt_manager = User(id=4, pid=100000002, onyen='merritt', first_name="Merritt",
                last_name="Manager", email="merritt@unc.edu", pronouns="they / them")
 
+ally_ambassador = User(id=5, pid=100000003, onyen='ally', first_name="Ally",
+               last_name="Ambassador", email="ally@unc.edu", pronouns="they / them")
+
 models = [
     root,
     sol_student,
     arden_ambassador,
-    merritt_manager
+    merritt_manager,
+    ally_ambassador
 ]

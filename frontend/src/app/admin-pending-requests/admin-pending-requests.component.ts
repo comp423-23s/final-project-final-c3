@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PotentialClub } from '../register-leader.service';
+import { PotentialClub, WeekDayTime, Category } from '../register-leader.service';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile } from '../profile/profile.service'

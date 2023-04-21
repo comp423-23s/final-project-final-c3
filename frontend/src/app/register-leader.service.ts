@@ -9,15 +9,20 @@ export interface PotentialClub {
   name: String;
   description: String;
   founder_id: number | undefined;
-  meeting_times: Time[];
-  categories: String[];
+  meeting_times: WeekDayTime[];
+  categories: Category[];
 }
 
 export interface WeekDayTime {
   id: number | undefined;
   day: String;
-  start_time: Time;
-  end_time: Time;
+  start_time: string;
+  end_time: string;  
+}
+
+export interface Category {
+  id: number | undefined;
+  name: String;
 }
 
 @Injectable({

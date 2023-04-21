@@ -9,7 +9,8 @@ from ..models import Club, User
 from ..entities import ClubEntity, UserEntity, RoleEntity, WeekDayTimeEntity
 from backend.entities.club_category_entity import club_category_table
 from backend.entities.category_entity import CategoryEntity
-from datetime import time
+from datetime import time, datetime
+
 
 class ClubService:
     _session: Session
@@ -57,16 +58,32 @@ class ClubService:
                 return True
         return False
     
+    def add_leader(self, potential_leader: User, club_id: int, given_club_code: str) -> None:
+        """Adds a leader to an existing club."""
+        club_entity = self._session.get(ClubEntity, club_id)
+        actual_club_code = club_entity.club_code
+        if (given_club_code == actual_club_code):
+            leader_as_user_entity = self._session.get(UserEntity, potential_leader.id)
+            club_entity.members.append(leader_as_user_entity)
+            club_entity.leaders.append(leader_as_user_entity)
+            role_entity = self._session.get(RoleEntity, 2)
+            leader_as_user_entity.roles.append(role_entity)
+            self._session.commit()
+            print("🌶️ Leader successfully addeded in backend service")
+        else:
+            raise Exception("Club code does not match. Request denied.")
    
     def delete_user_from_club(self, subject: User, club_id: int) -> None:
         """"Deletes a user from a club."""
         club_entity = self._session.get(ClubEntity, club_id)
         user_entity = self._session.get(UserEntity, subject.id)
-        if club_entity is None:
-            raise Exception("Club does not exist.")
-        if not self.is_user_in_club(subject=subject, club_id=club_id):
-            raise Exception("User is not in club, cannot be removed.")
         club_entity.members.remove(user_entity)
+        try: 
+            club_entity.leaders.remove(user_entity)
+            role_entity = self._session.get(RoleEntity, 2)
+            user_entity.roles.remove(role_entity)
+        except:
+            print("User was not a leader.")
         self._session.commit()
 
 
@@ -80,29 +97,7 @@ class ClubService:
             user_entity = self._session.get(UserEntity, an_id)
             members.append(user_entity.to_model())
         return members
-    
 
-    def delete_club(self, club_id: int) -> None:
-        """Deletes a club from the database."""
-        club_entity = self._session.get(ClubEntity, club_id)
-        self._session.delete(club_entity)
-        self._session.commit()
-
-
-    def add_leader(self, potential_leader: User, club_id: int, given_club_code: str) -> None:
-        """Adds a leader to an existing club."""
-        club_entity = self._session.get(ClubEntity, club_id)
-        actual_club_code = club_entity.club_code
-        if (given_club_code == actual_club_code):
-            leader_as_user_entity = self._session.get(UserEntity, potential_leader.id)
-            club_entity.members.append(leader_as_user_entity)
-            club_entity.leaders.append(leader_as_user_entity)
-            role_entity = self._session.get(RoleEntity, 2)
-            leader_as_user_entity.roles.append(role_entity)
-            self._session.commit()
-            print("🌶️ Leader successfully addede in backend service")
-        else:
-            raise Exception("Club code does not match. Request denied.")
         
     def get_clubs_led_by_user(self, leader: User) -> list[Club]:
         """Returns a list of all the clubs a user is leading."""
@@ -118,29 +113,29 @@ class ClubService:
         print("🏓" + str(len(clubs)))
         return clubs
 
-    def delete_leader(self, leader: User, club_id) -> None:
-        """Deletes a leader."""
-        club_entity = self._session.get(ClubEntity, club_id)
-        leader_as_user_entity = self._session.get(UserEntity, leader.id)
-        club_entity.leaders.remove(leader_as_user_entity)
 
     def filter_by_availability(self, availabilities: list[Tuple[str, str]]) -> list[int]:
         """Returns a list of clubs that meet at the times specificed by the user."""
         final_club_ids: list[int] = []
         week_day_time_ids: list[int] = []
-        morning: time = time(hour=12, minute=0)
-        afternoon: time = time(hour=17, minute=0)
+        morning_start: time = time(hour=6, minute=0)
+        morning_end: time = time(hour=12, minute=0)
+        afternoon_end: time = time(hour=17, minute=0)
+        evening_end: time = time(hour=20, minute=0)
         for availability in availabilities:
             if availability[1] == "Morning":
-                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time < morning,
-                         WeekDayTimeEntity.day == availability[0])
+                print("🏁" + "entered start")
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= morning_start, WeekDayTimeEntity.start_time < morning_end,
+                        WeekDayTimeEntity.day == availability[0])
             if availability[1] == "Afternoon":
-                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time < afternoon, WeekDayTimeEntity.start_time >= morning,
-                         WeekDayTimeEntity.day == availability[0])
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= morning_end, WeekDayTimeEntity.start_time < afternoon_end, 
+                          WeekDayTimeEntity.day == availability[0])
             if availability[1] == "Evening":
-                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= afternoon,
-                         WeekDayTimeEntity.day == availability[0])
+                print("🏁" + "entered evening")
+                query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= afternoon_end, WeekDayTimeEntity.start_time < evening_end,
+                          WeekDayTimeEntity.day == availability[0])
             week_day_time_entities = self._session.scalars(query).all()
+
             # Get WeekDayTimeEntity's id
             for week_day_time in week_day_time_entities:
                 week_day_time_ids.append(week_day_time.id)
@@ -151,6 +146,8 @@ class ClubService:
             club_ids = self._session.scalars(query1).all()
             for club_id in club_ids:
                 final_club_ids.append(club_id)
+
+        print("💄 length is " + str(len(final_club_ids)))
         return final_club_ids
     
 
@@ -160,7 +157,7 @@ class ClubService:
         all_categories_ids: list[int] = []
         for category in categories:
             query = select(CategoryEntity.id).where(CategoryEntity.name == category)
-            category_id = self._session.scalars(query).all()
+            category_id = self._session.scalar(query)
             all_categories_ids.append(category_id)
         for category_id in all_categories_ids:
             query2 = select(club_category_table.c.club_id).where(club_category_table.c.category_id == category_id)
@@ -185,6 +182,7 @@ class ClubService:
             club_entity = self._session.get(ClubEntity, an_id)
             clubs.append(club_entity.to_model())
 
+        print('🚩 filter result number' + str(len(clubs)))
         return clubs
 
             

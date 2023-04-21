@@ -27,6 +27,7 @@ from .potential_club_entity import PotentialClubEntity
 from .week_day_time_entity import WeekDayTimeEntity
 from .club_category_entity import club_category_table
 from .potential_club_category_entity import potential_club_category_table
+from .category_entity import CategoryEntity
 
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"
