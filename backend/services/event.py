@@ -2,11 +2,12 @@ from fastapi import Depends
 from sqlalchemy import select
 
 from ..database import Session, db_session
-from ..models import Event, User
+from ..models import Event, User, Club
 from ..entities import EventEntity, UserEntity
-from ..services import UserService
+from ..services import ClubService
 from backend.entities.user_event_entity import user_event_table
-
+from backend.entities.user_club_entity import user_club_table
+from backend.entities.leader_club_entity import leader_club_table
 
 class EventService:
     _session: Session
@@ -105,3 +106,34 @@ class EventService:
         for attendee in event_entity.attendees:
             students.append(attendee.to_model())
         return students
+    
+    def events_by_user(self, subject: User) -> list[Event]:
+        """Get events user has registered for that are in their clubs"""
+        events: list[Event] = []
+        clubs_query = select(user_club_table.c.club_id).where(user_club_table.c.user_id == subject.id)
+        club_entities = self._session.scalars(clubs_query).all()
+        for club in club_entities:
+            club_events = self.get_events_by_club_id(club.id)
+            for event in club_events:
+                events.append(event)
+        return events
+    
+    def events_by_leader(self, subject:User) -> list[Event]:
+        """Gets events by the leader's clubs"""
+        events: list[Event] = []
+        clubs = ClubService.get_clubs_led_by_user(subject)
+        if clubs is None:
+            raise Exception("User is not a leader of any clubs.")
+        for club in clubs:
+            club_events = self.get_events_by_club_id(club.id)
+            for event in club_events:
+                events.append(event)
+        # clubs_query = select(leader_club_table.c.club_id).where(leader_club_table.c.user_id == subject.id)
+        # club_ids = self._session.scalars(clubs_query).all()
+        # if club_ids is None:
+        #     raise Exception("User is not a leader of any clubs.")
+        # for an_id in club_ids:
+        #     club_events = self.get_events_by_club_id(an_id)
+        #     for event in club_events:
+        #         events.append(event)
+        return events
