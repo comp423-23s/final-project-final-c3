@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
-from ..services import EventService
-from ..models import User, Event
+from ..services import EventService, PotentialEventService
+from ..models import User, Event, PotentialEvent
 from .authentication import registered_user
 from ..entities import EventEntity, UserEntity
 
@@ -138,6 +138,30 @@ def events_by_user(subject: User = Depends(registered_user), event_svc: EventSer
         return user_events
     except Exception as e:
         print("❌ " + str(e))
+        raise HTTPException(status_code=400, detail=str(e))
+    
+
+# POTENTIAL EVENT ROUTES
+@api.get("/potential_event/all", response_model=list[Event], tags=['Event'])
+def get_all_potential_events(potential_event_svc: PotentialEventService = Depends()):
+    try:
+        print('Entered try block')
+        return potential_event_svc.get_all_potential_events()
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=400, detail=str(e))
+    
+@api.post("/potential_event/create_event", tags=['Event'])
+def create_event_from_potential(
+    event: Event, 
+    potential_event_svc: PotentialEventService = Depends()) -> str:
+    try: 
+        print("We got to backend/api/create_event")
+        potential_event_svc.create_event_from_potential(event)
+        print("✔️ Event Created")
+        return "OK"
+    except Exception as e:
+        print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
     
 @api.get("/events_by_leader", response_model=list[Event], tags=['Event'])
@@ -148,3 +172,15 @@ def events_by_leader(subject: User = Depends(registered_user), event_svc: EventS
     except Exception as e:
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
+    
+@api.post("add_potential_event", tags=['Event'])
+def add_potential_event(
+    potential_event: PotentialEvent, 
+    potential_event_svc: PotentialEventService = Depends()) -> str:
+    try: 
+        potential_event_svc.add_potential_event(potential_event)
+        return "OK"
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
