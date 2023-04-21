@@ -16,8 +16,8 @@ class Event(BaseModel):
     end_time: datetime
     location: str
     description: str
+    show_short_description: bool
     attendees: list[User] = []
-    show_short_description: bool = False
 
 class NewEvent(BaseModel):
     name: str

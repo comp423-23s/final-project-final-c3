@@ -16,11 +16,17 @@ class EventService:
      
     def get_all_events(self) -> list[Event]:
         """Get all registered events in the database."""
+        events = []
         query = select(EventEntity)
         print('Event service: after query')
         event_entities = self._session.scalars(query).all()
         print('Event service: after scalars method')
-        return [entity.to_model() for entity in event_entities]
+        for entity in event_entities:
+            events.append(entity.to_model())
+        for event in events:
+            event.show_short_description = True
+            print(event)
+        return events
     
 
 # STUDENT METHODS
@@ -88,18 +94,12 @@ class EventService:
 
 
 # CLUB LEADER METHODS
-    an_id = 5
     def create_event(self, event: Event) -> None:
         """Creates a new event."""
         print("We got to backend/services/create_event")
         event_entity = EventEntity.from_model(event)
         self._session.add(event_entity)
-        event_entity.id = self.generate_id()
         self._session.commit()
-        
-    def generate_id(self):
-        self.an_id += 1
-        return self.an_id
         
     def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
@@ -122,8 +122,6 @@ class EventService:
         """Returns a club id when given a club_code"""
         query = select(ClubEntity).where(ClubEntity.club_code == club_code)
         club_entity: ClubEntity = self._session.scalar(query)
-        query2 = select(EventEntity).where(EventEntity.club_id == club_entity.id)
-        event_entity: EventEntity = self._session.scalar(query2)
-        if event_entity is None:
-            raise Exception("Event does not exist.")
-        return event_entity.club_id
+        if club_entity is None:
+            raise Exception("Club does not exist.")
+        return club_entity.id
