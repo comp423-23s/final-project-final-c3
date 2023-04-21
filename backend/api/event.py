@@ -34,9 +34,8 @@ def create_event(
     event: Event, 
     event_svc: EventService = Depends()) -> str:
     try: 
-        print("We got to backend/api/create_event")
-        event_svc.create_event(event)
         print("✔️ Event Created")
+        event_svc.create_event(event)
         return "OK"
     except Exception as e:
         print("❌ " + str(e))
@@ -114,6 +113,35 @@ def is_user_registered(
     try: 
         is_registered = event_svc.is_user_registered(subject, event_id)
         return is_registered
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
+# Get a club id when passed an club code
+@api.get("/get_club_id/{club_code}", tags=['Event'])
+def get_club_id_by_code(
+    club_code: str, 
+    event_svc: EventService = Depends()) -> str:
+    try: 
+        club_id = event_svc.get_club_id_by_code(club_code)
+        return club_id
+
+# Get events user has registered for that are in their clubs
+@api.get("/user_club_events", response_model=list[Event], tags=['Event'])
+def events_by_user(subject: User = Depends(registered_user), event_svc: EventService = Depends()):
+    try:
+        user_events = event_svc.events_by_user(subject)
+        return user_events
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
+@api.get("/events_by_leader", response_model=list[Event], tags=['Event'])
+def events_by_leader(subject: User = Depends(registered_user), event_svc: EventService = Depends()):
+    try:
+        leader_events = event_svc.events_by_leader(subject)
+        return leader_events
+
     except Exception as e:
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))

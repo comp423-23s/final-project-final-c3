@@ -27,7 +27,7 @@ export class ChangeAdminComponent {
   }
 
   addNewAdmin(pid: string) {
-    this.adminService.addAdmin(parseInt(pid)).subscribe({
+    this.adminService.testAddAdmin(parseInt(pid)).subscribe({
       next: () => this.onSuccess(),
       error: (err) => this.onError(err)
     })
@@ -36,7 +36,7 @@ export class ChangeAdminComponent {
   removeAdmin(pid: string) {
     // TODO: delegate to srevice to take admin role away from user
     this.adminService.removeAdmin(parseInt(pid)).subscribe({
-      next: () => this.onSuccess(),
+      next: () => this.onSuccessRemove(),
       error: (err) => this.onError(err)
     })
   }
@@ -44,6 +44,11 @@ export class ChangeAdminComponent {
   onSuccess(): void {
     this.admins$ = this.adminService.getAllAdmin()
     this.snackBar.open("Successfully Added Administrator "," ", { duration: 2000 })
+  }
+
+  onSuccessRemove(): void {
+    this.admins$ = this.adminService.getAllAdmin()
+    this.snackBar.open("Successfully Removed Administrator "," ", { duration: 2000 })
   }
 
   onError(err: Error) : void{

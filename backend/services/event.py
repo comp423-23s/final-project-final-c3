@@ -101,7 +101,7 @@ class EventService:
         event_entity = EventEntity.from_model(event)
         self._session.add(event_entity)
         self._session.commit()
-        
+
     def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
         event_entity = self._session.get(EventEntity, event_id)
@@ -118,3 +118,42 @@ class EventService:
         for attendee in event_entity.attendees:
             students.append(attendee.to_model())
         return students
+    
+    def get_club_id_from_code(self, club_code: str) -> int:
+        """Returns a club id when given a club_code"""
+        query = select(EventEntity).where(EventEntity.club_code == club_code)
+        event_entity: EventEntity = self._session.scalar(query)
+        if event_entity is None:
+            raise Exception("Event does not exist.")
+        return event_entity.club_id
+
+    def events_by_user(self, subject: User) -> list[Event]:
+        """Get events user has registered for that are in their clubs"""
+        events: list[Event] = []
+        clubs_query = select(user_club_table.c.club_id).where(user_club_table.c.user_id == subject.id)
+        club_entities = self._session.scalars(clubs_query).all()
+        for club in club_entities:
+            club_events = self.get_events_by_club_id(club.id)
+            for event in club_events:
+                events.append(event)
+        return events
+    
+    def events_by_leader(self, subject:User) -> list[Event]:
+        """Gets events by the leader's clubs"""
+        events: list[Event] = []
+        clubs = ClubService.get_clubs_led_by_user(subject)
+        if clubs is None:
+            raise Exception("User is not a leader of any clubs.")
+        for club in clubs:
+            club_events = self.get_events_by_club_id(club.id)
+            for event in club_events:
+                events.append(event)
+        # clubs_query = select(leader_club_table.c.club_id).where(leader_club_table.c.user_id == subject.id)
+        # club_ids = self._session.scalars(clubs_query).all()
+        # if club_ids is None:
+        #     raise Exception("User is not a leader of any clubs.")
+        # for an_id in club_ids:
+        #     club_events = self.get_events_by_club_id(an_id)
+        #     for event in club_events:
+        #         events.append(event)
+        return events
