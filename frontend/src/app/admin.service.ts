@@ -27,11 +27,11 @@ export class AdminService {
 
   addAdmin(pid: number): Observable<String> {
     // TODO: call a HTTP method to add an admin
-    return this.http.post<String>('/api/admin/action/add/admin', pid)
+    return this.http.post<String>('/api/admin/actions/add/admin', pid)
   }
 
   removeAdmin(pid: number): Observable<String> {
     // TODO: call a HTTP method to remove an admin
-    return this.http.delete<String>(`api/admin/action/delete/admin/${pid}`)
+    return this.http.delete<String>(`api/admin/actions/delete/admin/${pid}`)
   }
 }
