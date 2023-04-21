@@ -39,4 +39,23 @@
     color: white;
     border: hidden;
 }
+
+.main-display {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    justify-content: left;
+}
+
+.club-list {
+    display: flex;
+    flex-direction: column;
+    width: 1415px;
+}
+
+.filters {
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+}
   
