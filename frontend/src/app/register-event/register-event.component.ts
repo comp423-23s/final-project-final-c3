@@ -39,8 +39,18 @@ export class RegisterEventComponent {
       start_date: start_time,
       end_date: end_time
     }    
-
-    this.eventService.createNewEvent(potentialEvent).subscribe(
+    var event: Event = {
+      id: null,
+      club_id: club_id,
+      name: name,
+      description: description,
+      location: location,
+      start_date: start_time,
+      end_date: end_time,
+      attendees: [],
+      show_short_description: true
+    }
+    this.eventService.createNewEvent(event).subscribe(
       {
         next: (data) => {this.onSuccess(data)},
         error: (err) => {this.onError(err)}
