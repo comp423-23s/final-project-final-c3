@@ -44,6 +44,7 @@ import { RegisterEventComponent } from './register-event/register-event.componen
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
 import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
 import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
+import { ChangeAdminComponent } from './change-admin/change-admin.component';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
 
 @NgModule({
@@ -63,6 +64,7 @@ import { ManageEventsComponent } from './manage-events/manage-events.component';
     RoleSelectionComponent,
     LeaderClubsComponent,
     AdminPendingRequestsComponent,
+    ChangeAdminComponent,
     ManageEventsComponent
   ],
   imports: [

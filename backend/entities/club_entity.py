@@ -39,9 +39,7 @@ class ClubEntity(EntityBase):
             name=model.name,
             description=model.description,
             members = [UserEntity.from_model(member) for member in model.members],
-            leaders = [UserEntity.from_model(leader) for leader in model.leaders],
-            meeting_times = [WeekDayTimeEntity.from_model(week_day_time) for week_day_time in model.meeting_times],
-            categories = [CategoryEntity.from_model(category) for category in model.categories]
+            leaders = [UserEntity.from_model(leader) for leader in model.leaders]
         )
 
     def to_model(self) -> Club:

@@ -8,6 +8,8 @@ from .role_details import RoleDetails
 from .club import Club, NewClub
 from .event import Event, NewEvent
 from .potential_club import PotentialClub
+from .category import Category
+from .week_day_time import WeekDayTime
 
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"
