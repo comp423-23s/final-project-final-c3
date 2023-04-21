@@ -24,7 +24,7 @@ export class ManageEventsComponent {
 
   constructor(private eventService: EventService, protected snackBar: MatSnackBar) {
     // TODO: get events by club not just all events
-    this.club_events$ = eventService.getAllEvents()
+    this.club_events$ = eventService.getEventsByClubLeader()
   }
 
   getShortDescription(event: Event): String {
