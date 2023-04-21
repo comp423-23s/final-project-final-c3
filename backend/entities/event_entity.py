@@ -1,6 +1,6 @@
 '''Event accounts for all registered events in the application.'''
 
-from sqlalchemy import Integer, String, ForeignKey
+from sqlalchemy import Integer, String, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
 from backend.entities.entity_base import EntityBase
@@ -27,11 +27,12 @@ class EventEntity(EntityBase):
         String(64), nullable=False, default='')
     description: Mapped[str] = mapped_column(
         String(250), nullable=False, default='')
-    date: Mapped[datetime] = mapped_column(nullable=False)
+    show_short_description: Mapped[bool] = mapped_column(Boolean, default=True)
+    start_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    end_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     club_id: Mapped[int] = mapped_column(ForeignKey('club.id'))
     club: Mapped[ClubEntity] = relationship()
     attendees: Mapped[list['UserEntity']] = relationship(secondary=user_event_table)
-
 
     @classmethod
     def from_model(cls, model: Event) -> Self:
@@ -40,9 +41,10 @@ class EventEntity(EntityBase):
             name=model.name,
             location=model.location,
             description=model.description,
-            date=model.date,
-            club_id = model.club_id,
-            attendees=model.attendees
+            start_time=model.start_time,
+            end_time=model.end_time,
+            club_id = model.club_id, 
+            show_short_description = model.show_short_description
         )
 
     def to_model(self) -> Event:
@@ -51,14 +53,17 @@ class EventEntity(EntityBase):
             name=self.name,
             location=self.location,
             description=self.description,
-            date=self.date,
+            start_time=self.start_time,
+            end_time=self.end_time,
             club_id = self.club_id,
-            attendees= [attendee.to_model() for attendee in self.attendees]
+            attendees= [attendee.to_model() for attendee in self.attendees],
+            show_short_description=self.show_short_description
         )
 
     def update(self, model: Event) -> None:
         self.name = model.name
-        self.date = model.date
+        self.start_time = model.start_time
+        self.end_time = model.end_time
         self.description = model.description
         self.location = model.location
         

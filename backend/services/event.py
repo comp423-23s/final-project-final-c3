@@ -2,9 +2,9 @@ from fastapi import Depends
 from sqlalchemy import select
 
 from ..database import Session, db_session
-from ..models import Event, User, Club
+from ..models import Event, User
 from ..entities import EventEntity, UserEntity
-from ..services import ClubService
+from ..services import UserService
 from backend.entities.user_event_entity import user_event_table
 from backend.entities.user_club_entity import user_club_table
 from backend.entities.leader_club_entity import leader_club_table
@@ -17,11 +17,17 @@ class EventService:
      
     def get_all_events(self) -> list[Event]:
         """Get all registered events in the database."""
+        events = []
         query = select(EventEntity)
         print('Event service: after query')
         event_entities = self._session.scalars(query).all()
         print('Event service: after scalars method')
-        return [entity.to_model() for entity in event_entities]
+        for entity in event_entities:
+            events.append(entity.to_model())
+        for event in events:
+            event.show_short_description = True
+            print(event)
+        return events
     
 
 # STUDENT METHODS
@@ -91,6 +97,7 @@ class EventService:
 # CLUB LEADER METHODS
     def create_event(self, event: Event) -> None:
         """Creates a new event."""
+        print("We got to backend/services/create_event")
         event_entity = EventEntity.from_model(event)
         self._session.add(event_entity)
         self._session.commit()
@@ -150,4 +157,3 @@ class EventService:
         #     for event in club_events:
         #         events.append(event)
         return events
-

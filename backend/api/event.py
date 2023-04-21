@@ -34,6 +34,7 @@ def create_event(
     event: Event, 
     event_svc: EventService = Depends()) -> str:
     try: 
+        print("✔️ Event Created")
         event_svc.create_event(event)
         return "OK"
     except Exception as e:
