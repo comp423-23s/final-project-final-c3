@@ -106,12 +106,13 @@ class EventService:
         return students
     
     def get_club_id_from_code(self, club_code: str) -> int:
-        """Returns a club id when given a club_code"""
         query = select(ClubEntity).where(ClubEntity.club_code == club_code)
-        event_entity: EventEntity = self._session.scalar(query)
-        if event_entity is None:
+        club_entity = self._session.scalars(query).all()
+        if club_entity is None:
             raise Exception("Event does not exist.")
-        return event_entity.id
+        for club in club_entity:
+            if club.club_code == club_code:
+                return club.id
 
     def events_by_user(self, subject: User) -> list[Event]:
         """Get events user has registered for that are in their clubs"""
