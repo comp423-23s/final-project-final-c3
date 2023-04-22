@@ -9,7 +9,7 @@ __license__ = "MIT"
 
 api = APIRouter(prefix="/api/admin/actions")
 
-@api.post("/add/admin", tags=['Admin'])
+@api.post("/add/admin/{pid}", tags=['Admin'])
 def add_admin(
     pid: int, 
     admin_svc: AdminService = Depends()
@@ -73,7 +73,8 @@ def get_all_admin(
 ):
     """Returns a list of all administrators in the database."""
     try:
-        return admin_svc.get_members()
+        print("We got to backend api method")
+        return admin_svc.get_all_admin()
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
