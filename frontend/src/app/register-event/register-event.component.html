@@ -1,28 +1,36 @@
-<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+<form>
     <mat-card>
         <mat-card-header>
             <mat-card-title>Register an Event for Your Club</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <mat-form-field appearance="fill">
-                <mat-label>Club ID</mat-label>
-                <input matInput placeholder="3" formControlName="club_id" name="club_id" required>
+                <mat-label>Club Code</mat-label>
+                <input matInput placeholder="12A3B45" #code required>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Event Name</mat-label>
-                <input matInput placeholder="Workshop" formControlName="name" name="name" required>
+                <input matInput placeholder="Workshop" #name required>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Event Description</mat-label>
-                <input matInput placeholder="A scheduled workshop" formControlName="description" name="description" required>
+                <input matInput placeholder="A scheduled workshop" #description required>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Event Location</mat-label>
-                <input matInput placeholder="Sitterson 156" formControlName="location" name="location" required>
+                <input matInput placeholder="Sitterson 156" #location required>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Event Start Time</mat-label>
+                <input type="datetime-local" matInput  #start required>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Event End Time</mat-label>
+                <input type="datetime-local" matInput  #end required>
             </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button type="submit" [disabled]="eventForm.invalid">SAVE</button>
+            <button mat-raised-button type="submit" (click)="onSubmitEvent(code.value, name.value, description.value, location.value, start.value, end.value)">Create Event</button>
         </mat-card-actions>
     </mat-card>
 </form>
