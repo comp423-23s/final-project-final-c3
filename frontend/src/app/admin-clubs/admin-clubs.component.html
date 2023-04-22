@@ -40,6 +40,19 @@
                 <div class='description'>
                     Members:&nbsp;<p *ngFor="let member of club.members">{{member.first_name}} {{member.last_name}}</p>
                 </div>
+                <mat-card-actions>
+                    <button mat-raised-button routerLink="/profile">
+                        View Leaders
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button mat-raised-button routerLink="/profile">
+                        View Members
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button mat-raised-button routerLink="/profile">
+                        View Events
+                    </button>
+                </mat-card-actions>
             </mat-card-content>
         </mat-card>
     </div>

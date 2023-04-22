@@ -8,6 +8,20 @@
             </mat-card-header>
             <mat-card-content>
                 <div class='description'>
+                    <p>Club Categories:&nbsp;</p>
+                    <p *ngFor="let category of club.categories">
+                        {{ category.name }}&nbsp;
+                    </p>             
+                </div>
+                <div class='description'>
+                    <div>Club Meeting Times: </div>
+                    <br>
+                    <div *ngFor="let meetingTime of club.meeting_times">
+                        {{ meetingTime.day }}: {{ meetingTime.start_time }} ~ {{ meetingTime.day }}: {{ meetingTime.end_time }}
+                        <br>
+                    </div>
+                </div>
+                <div class='description'>
                     {{ club.show_short_description ? getShortDescription(club) : club.description }}                  
                 </div>
                 <mat-card-actions>

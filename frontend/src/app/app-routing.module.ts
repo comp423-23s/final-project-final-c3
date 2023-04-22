@@ -14,6 +14,8 @@ import { RoleSelectionComponent } from './role-selection/role-selection.componen
 import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
 import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
+import { AdminClubsComponent } from './admin-clubs/admin-clubs.component';
+import { AdminClubMembersListComponent } from './admin-clubs/members/list/admin-club-members-list.component';
 
 const routes: Routes = [
   HomeComponent.Route,
@@ -29,6 +31,8 @@ const routes: Routes = [
   LeaderClubsComponent.Route,
   AdminPendingRequestsComponent.Route,
   ManageEventsComponent.Route,
+  AdminClubsComponent.Route,
+  // AdminClubMembersListComponent.Route,
   { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
 ];
 
