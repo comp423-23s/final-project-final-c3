@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI
 
-from .api import health, static_files, profile, authentication, user, club, event
+from .api import health, static_files, profile, authentication, user, club, event, admins
 from .api.admin import users as admin_users
 from .api.admin import roles as admin_roles
 
@@ -29,5 +29,6 @@ app.include_router(admin_users.api)
 app.include_router(admin_roles.api)
 app.include_router(club.api)
 app.include_router(event.api)
+app.include_router(admins.api)
 
 app.mount("/", static_files.StaticFileMiddleware(directory="./static"))

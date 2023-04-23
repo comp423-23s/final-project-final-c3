@@ -22,7 +22,8 @@
                 </div>
                 <br>
                 <div class="time-place">
-                    <span style="font-size: 16px">{{ event.date | date: 'MM/dd/yy @ hh:mma' }} </span>
+                    <span style="font-size: 16px">{{ event.start_time | date: 'MM/dd/yy @ hh:mma' }} </span>
+                    <span style="font-size: 16px">{{ event.end_time | date: 'MM/dd/yy @ hh:mma' }} </span>
                     <span style="font-size: 16px">{{ event.location }}</span>
                 </div>
             </mat-card-content>

@@ -119,7 +119,7 @@ def get_leaders(
 
 
 @api.delete("/delete/club/{club_id}", tags=['Club'])
-def remove_user_from_club(
+def remove_leader_from_club(
     club_id: int,
     club_svc: ClubService = Depends()
 ) -> str:

@@ -45,6 +45,7 @@ import { RegisterEventComponent } from './register-event/register-event.componen
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
 import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
 import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
+import { ChangeAdminComponent } from './change-admin/change-admin.component';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
 import { AdminClubsComponent } from './admin-clubs/admin-clubs.component';
 import { AdminClubMembersListComponent } from './admin-clubs/list/members/admin-club-members-list.component';
@@ -72,7 +73,9 @@ import { AdminClubEventsListComponent } from './admin-clubs/list/events/admin-cl
     AdminClubsComponent,
     AdminClubMembersListComponent,
     AdminClubLeadersListComponent,
-    AdminClubEventsListComponent
+    AdminClubEventsListComponent,
+    ChangeAdminComponent,
+    ManageEventsComponent
   ],
   imports: [
     BrowserModule,

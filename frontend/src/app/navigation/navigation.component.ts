@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {MatMenuModule} from '@angular/material/menu';
 import { Observable, Subscription, of } from 'rxjs';
@@ -8,16 +8,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthenticationService } from '../authentication.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Profile, ProfileService } from '../profile/profile.service';
 import { PermissionService } from '../permission.service';
 import { Role } from '../role';
 import { RoleAdminService } from '../admin/roles/role-admin.service';
+import { ProfileEditorComponent } from '../profile/profile-editor/profile-editor.component';
+
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.css']
+  styleUrls: ['./navigation.component.css'],
+  providers: [ProfileEditorComponent]
 })
 export class NavigationComponent implements OnInit, OnDestroy {
 
@@ -27,6 +30,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   private isHandsetSubscription!: Subscription;
 
   public profile$: Observable<Profile | undefined>;
+  public profile: Profile
   public checkinPermission$: Observable<boolean>;
   public adminPermission$: Observable<boolean>;
 
@@ -90,8 +94,12 @@ menu: any;
     private roleAdminService: RoleAdminService,
     private breakpointObserver: BreakpointObserver,
     protected navigationService: NavigationTitleService,
-    protected errorDialog: MatDialog
+    protected errorDialog: MatDialog,
+    protected route: ActivatedRoute,
+    private profileComponent: ProfileEditorComponent
   ) {
+    const data = route.snapshot.data as { profile: Profile }
+    this.profile = profileComponent.profile;
     this.profile$ = profileService.profile$;
     this.checkinPermission$ = this.permission.check('checkin.create', 'checkin/');
     this.adminPermission$ = this.permission.check('admin.view', 'admin/')
@@ -105,6 +113,8 @@ menu: any;
         return role_route
       })
     }))
+    console.log("We are logging the profile here")
+    console.log(this.profile)
   }
 
   routeTo(e: Object) {
@@ -115,6 +125,17 @@ menu: any;
     this.errorDialogSubscription = this.initErrorDialog();
     this.isHandsetSubscription = this.initResponsiveMenu();
     this.currentRoute = '/profile';
+    this.profileService.http.get<Profile>('/api/profile').subscribe(
+      {
+        next: (data) => {this.onSuccessUpdateProfile(data)},
+        error: (err) => console.log(err)
+      }
+    )
+  }
+
+  private onSuccessUpdateProfile(profile: Profile): void {
+    this.profile = profile
+    console.log(this.profile)
   }
 
   ngOnDestroy(): void {

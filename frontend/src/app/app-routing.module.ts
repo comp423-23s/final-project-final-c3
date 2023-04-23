@@ -13,6 +13,7 @@ import { RegisterEventComponent } from './register-event/register-event.componen
 import { RoleSelectionComponent } from './role-selection/role-selection.component';
 import { LeaderClubsComponent } from './leader-clubs/leader-clubs.component';
 import { AdminPendingRequestsComponent } from './admin-pending-requests/admin-pending-requests.component';
+import { ChangeAdminComponent } from './change-admin/change-admin.component';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
 import { AdminClubsComponent } from './admin-clubs/admin-clubs.component';
 import { AdminClubMembersListComponent } from './admin-clubs/list/members/admin-club-members-list.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
   RoleSelectionComponent.Route,
   LeaderClubsComponent.Route,
   AdminPendingRequestsComponent.Route,
+  ChangeAdminComponent.Route,
   ManageEventsComponent.Route,
   AdminClubsComponent.Route,
   { path: 'admin_club_members_list/:club_id', title: 'Club Members', component: AdminClubMembersListComponent },

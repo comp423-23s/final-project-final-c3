@@ -5,6 +5,7 @@ import { Profile } from './profile/profile.service';
 import { Category, WeekDayTime } from './register-leader.service';
 import { Event } from './event.service';
 
+
 export interface Club {
   id: number;
   club_code: String;
@@ -42,7 +43,7 @@ export class ClubsService {
     return this.http.get<Club[]>("/api/club/all");
   }
 
-  
+
   /**
    * Retreived filtered clubs in the system.
    * 
