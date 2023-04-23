@@ -19,7 +19,7 @@ def get_all_events(event_svc: EventService = Depends()):
 
 
 # Get events by club
-@api.get("/by_club/{club_id}", response_model=list[Event], tags=['Event'])
+@api.get("/by/club/{club_id}", response_model=list[Event], tags=['Event'])
 def get_events_by_club(club_id: int, event_svc: EventService = Depends()):
     try:
         club_events = event_svc.get_events_by_club_id(club_id)

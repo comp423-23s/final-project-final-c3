@@ -79,6 +79,20 @@ class EventService:
                 return True
             return False
 
+        
+    def get_events_by_club_id(self, club_id: int) -> list[Event]:
+        """Returns a list of all events the club has registered."""
+        events: list[Event] = []
+        query = select(EventEntity).where(EventEntity.club_id == club_id)
+        event_entities: list[EventEntity] = self._session.scalars(query).all()
+        if event_entities is None:
+            return events
+        else:
+            for event in event_entities:
+                model = event.to_model()
+                events.append(model)
+            return events
+
 
 # CLUB LEADER METHODS
     def create_event(self, event: Event) -> None:
@@ -87,6 +101,7 @@ class EventService:
         event_entity = EventEntity.from_model(event)
         self._session.add(event_entity)
         self._session.commit()
+
 
     def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
