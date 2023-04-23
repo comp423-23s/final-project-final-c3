@@ -68,11 +68,11 @@ export class EventService {
     return this.http.get<Event[]>('/api/event/events_by_leader')}
 
   getClubID(club_code: string): Observable<number> {
+    console.log('STEP 1.5: Call Backend Method in Frontend Service to get club_id')
     return this.http.get<number>(`/api/event/get_club_id/${club_code}`)
   }
 
   createNewEvent(event: Event): Observable<string> {
-    console.log('We got to createNewEvent in frontend services')
     return this.http.post<string>("/api/event/create_event", event)
   }
   /**

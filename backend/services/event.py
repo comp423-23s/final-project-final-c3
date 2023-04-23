@@ -112,6 +112,7 @@ class EventService:
             raise Exception("Event does not exist.")
         for club in club_entity:
             if club.club_code == club_code:
+                print("This is what club id is equal to in backend services:" + str(club.id))
                 return club.id
 
    
