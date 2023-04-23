@@ -27,17 +27,18 @@ export class RegisterEventComponent {
   onSubmitEvent(club_code: string, name: string, description: string, location: string, start: string, end: string): void {
     // TODO: change parameters to right types
     let club_id = this.getClubID(club_code)
+    console.log(this.getClubID(club_code))
     let start_time: Date = new Date(start)
     let end_time: Date = new Date(end)
     console.log(start_time)
     var event: Event = {
-      id: null,
-      club_id: club_id,
+      id: undefined,
       name: name,
-      description: description,
-      location: location,
+      club_id: club_id,
       start_time: start_time,
       end_time: end_time,
+      location: location,
+      description: description,
       show_short_description: false,
       attendees: []
     }    

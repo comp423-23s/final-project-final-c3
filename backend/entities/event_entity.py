@@ -30,7 +30,7 @@ class EventEntity(EntityBase):
     show_short_description: Mapped[bool] = mapped_column(Boolean, default=True)
     start_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     end_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    club_id: Mapped[int] = mapped_column(ForeignKey('club.id'))
+    club_id: Mapped[int] = mapped_column(Integer, ForeignKey('club.id'))
     club: Mapped[ClubEntity] = relationship()
     attendees: Mapped[list['UserEntity']] = relationship(secondary=user_event_table)
 
