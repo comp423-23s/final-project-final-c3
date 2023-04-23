@@ -1,62 +1,70 @@
-<tr *ngFor="let user_club of user_clubs$ | async">
-    <div style="position: relative">
-        <mat-card style="width:1600px;">
-            <mat-card-header>
-                <div class="'event-name-join-button">
-                    <mat-card-title>{{ user_club.club.name }}</mat-card-title>
-                </div>
-            </mat-card-header>
-            <mat-card-content>
-                <div class='description'>
-                    {{ user_club.club.show_short_description ? getShortDescription(user_club.club) : user_club.club.description }}                  
-                </div>
-                <mat-card-actions>
-                    <button mat-raised-button (click)='alterText(user_club.club)' type="submit">
-                        {{ user_club.club.show_short_description ? "Read More" : "Read Less" }}
-                    </button>
-                </mat-card-actions>
-                <br>
-                <div class="side-buttons">
-                    <mat-card-actions>
-                        <button mat-raised-button *ngIf="user_club.is_joined; else elseBlock" (click)='changeStatus(user_club)'>Leave</button>
-                        <ng-template #elseBlock>
-                            <button mat-raised-button (click)='changeStatus(user_club)'>Join</button>
-                        </ng-template> 
-                    </mat-card-actions>
-                </div>
-            </mat-card-content>
-        </mat-card>
+<div class="main-display">
+    <div class="club-list">
+        <tr *ngFor="let user_club of user_clubs$ | async">
+            <div style="position: relative">
+                <mat-card style="width:1200px;">
+                    <mat-card-header>
+                        <div class="'event-name-join-button">
+                            <mat-card-title>{{ user_club.club.name }}</mat-card-title>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class='description'>
+                            {{ user_club.club.show_short_description ? getShortDescription(user_club.club) : user_club.club.description }}                  
+                        </div>
+                        <mat-card-actions>
+                            <button mat-raised-button (click)='alterText(user_club.club)' type="submit">
+                                {{ user_club.club.show_short_description ? "Read More" : "Read Less" }}
+                            </button>
+                        </mat-card-actions>
+                        <br>
+                        <div class="side-buttons">
+                            <mat-card-actions>
+                                <button mat-raised-button *ngIf="user_club.is_joined; else elseBlock" (click)='changeStatus(user_club)'>Leave</button>
+                                <ng-template #elseBlock>
+                                    <button mat-raised-button (click)='changeStatus(user_club)'>Join</button>
+                                </ng-template> 
+                            </mat-card-actions>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </tr>
     </div>
-</tr>
+    <br>
+    <div class="filters">
+        <mat-label><span style="font-weight: 300; font-size: medium;">Select Availabilities</span></mat-label>
+        <div *ngFor="let weekday of weekdays">
+        <mat-checkbox [checked]="isWeekdaySelected(weekday)" (change)="selectDay(weekday)">
+            {{ weekday }}&nbsp;&nbsp;
+        </mat-checkbox>
+        <span style= "display: flex; flex-direction: column; margin-left: 50px;" *ngIf="isWeekdaySelected(weekday)">
+            <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Morning')">
+                Morning&nbsp;
+            </mat-checkbox>
+            <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Afternoon')">
+                Afternoon&nbsp;
+            </mat-checkbox>
+            <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Evening')">
+                Evening&nbsp;
+            </mat-checkbox>
+        </span>
+        </div>
 
-<br>
-
-<mat-label>Select Availabilities: </mat-label>
-<div *ngFor="let weekday of weekdays">
-    <mat-checkbox [checked]="isWeekdaySelected(weekday)" (change)="selectDay(weekday)">
-        {{ weekday }}&nbsp;&nbsp;
-    </mat-checkbox>
-    <span *ngIf="isWeekdaySelected(weekday)">
-        <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Morning')">
-            Morning&nbsp;
-        </mat-checkbox>
-        <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Afternoon')">
-            Afternoon&nbsp;
-        </mat-checkbox>
-        <mat-checkbox formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Evening')">
-            Evening&nbsp;
-        </mat-checkbox>
-    </span>
+        <br>
+        
+        <button mat-raised-button><a mat-list-item [matMenuTriggerFor]="menu1">Select Categories</a> </button>
+        <mat-menu  #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu1" #menu1="matMenu" yPosition="below">
+        <span *ngFor="let category of categories">
+            <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)' (click)="$event.stopPropagation();">{{ category }} </mat-checkbox>
+        </span>
+        </mat-menu>
+        
+        <br>
+        
+        <button mat-raised-button (click)='onFilter()'>Filter</button>
+        <br>
+        <button mat-raised-button (click)='onShowAllClubs()'>Show All Clubs</button>
+    </div>
+    
 </div>
-
-<br>
-
-<mat-label>Select Categories: </mat-label>
-<span *ngFor="let category of categories">
-    <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
-</span>
-
-<br>
-
-<button mat-raised-button (click)='onFilter()'>Filter</button>
-<button mat-raised-button (click)='onShowAllClubs()'>Show All Clubs</button>
