@@ -19,7 +19,7 @@ def get_all_events(event_svc: EventService = Depends()):
 
 
 # Get events by club
-@api.get("/by_club/{club_id}", response_model=list[Event], tags=['Event'])
+@api.get("/by/club/{club_id}", response_model=list[Event], tags=['Event'])
 def get_events_by_club(club_id: int, event_svc: EventService = Depends()):
     try:
         club_events = event_svc.get_events_by_club_id(club_id)
@@ -123,12 +123,11 @@ def get_club_id_by_code(
     club_code: str, 
     event_svc: EventService = Depends()) -> int:
     try: 
-        club_id = event_svc.get_club_id_by_code(club_code)
+        club_id = event_svc.get_club_id_from_code(club_code)
         return club_id
     except Exception as e:
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
-
 
 # Get events user has registered for that are in their clubs
 @api.get("/user_club_events", response_model=list[Event], tags=['Event'])
