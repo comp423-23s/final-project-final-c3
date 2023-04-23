@@ -24,7 +24,7 @@ export class ManageEventsComponent {
 
   constructor(private eventService: EventService, protected snackBar: MatSnackBar) {
     // TODO: get events by club not just all events
-    this.club_events$ = eventService.getAllEvents()
+    this.club_events$ = eventService.getEventsByClubLeader()
   }
 
   getShortDescription(event: Event): String {
@@ -46,7 +46,7 @@ export class ManageEventsComponent {
   }
 
   onSuccess(event: Event): void {
-    this.club_events$ = this.eventService.getAllEvents()
+    this.club_events$ = this.eventService.getEventsByClubLeader()
     this.snackBar.open("Successfully deleted " + event.name, "", { duration: 2000 })
   }
 
