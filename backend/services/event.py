@@ -114,16 +114,7 @@ class EventService:
             if club.club_code == club_code:
                 return club.id
 
-    def events_by_user(self, subject: User) -> list[Event]:
-        """Get events user has registered for that are in their clubs"""
-        events: list[Event] = []
-        clubs_query = select(user_club_table.c.club_id).where(user_club_table.c.user_id == subject.id)
-        club_entities = self._session.scalars(clubs_query).all()
-        for club in club_entities:
-            club_events = self.get_events_by_club_id(club.id)
-            for event in club_events:
-                events.append(event)
-        return events
+   
     
     def events_by_leader(self, subject:User) -> list[Event]:
         """Gets events by the leader's clubs"""

@@ -29,7 +29,7 @@ export class RegisterEventComponent {
     let club_id = this.getClubID(club_code)
     let start_time: Date = new Date(start)
     let end_time: Date = new Date(end)
-    console.log(start_time)
+    console.log(club_id)
     var event: Event = {
       id: null,
       club_id: club_id,

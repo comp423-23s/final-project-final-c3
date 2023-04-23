@@ -46,7 +46,7 @@ export class ManageEventsComponent {
   }
 
   onSuccess(event: Event): void {
-    this.club_events$ = this.eventService.getAllEvents()
+    this.club_events$ = this.eventService.getEventsByClubLeader()
     this.snackBar.open("Successfully deleted " + event.name, "", { duration: 2000 })
   }
 
