@@ -48,5 +48,4 @@ export class AdminUsersListComponent {
     paginationParams.page_size = e.pageSize;
     this.userAdminService.list(paginationParams).subscribe((page) => this.page = page)
   }
-
 }

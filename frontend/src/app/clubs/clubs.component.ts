@@ -214,5 +214,4 @@ export class ClubsComponent {
     this.selectedWeekdayTimes = new Set()
     this.selectedCategories = new Set()
   }
-
 }

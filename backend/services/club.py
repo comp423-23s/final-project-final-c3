@@ -4,6 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from backend.entities.user_club_entity import user_club_table
 from backend.entities.leader_club_entity import leader_club_table
+from backend.models.pagination import Paginated, PaginationParams
 from ..database import db_session
 from ..models import Club, User
 from ..entities import ClubEntity, UserEntity, RoleEntity, WeekDayTimeEntity
@@ -87,18 +88,36 @@ class ClubService:
         self._session.commit()
 
 
-    # Leader Methods Below
+    # Leader and Administrator Methods Below
     def get_members(self, club_id: int) -> list[User]:
         """Returns a list of members for a club."""
         members: list[User] = []
-        query = select(user_club_table.c.user_id).where(user_club_table.c.club_id== club_id)
+        query = select(user_club_table.c.user_id).where(user_club_table.c.club_id == club_id)
         user_ids = self._session.scalars(query).all()
         for an_id in user_ids:
             user_entity = self._session.get(UserEntity, an_id)
             members.append(user_entity.to_model())
         return members
 
-        
+   
+    def get_leaders(self, club_id: int) -> list[User]:
+        """Returns a list of leaders for a club."""
+        leaders: list[User] = []
+        query = select(leader_club_table.c.user_id).where(leader_club_table.c.club_id == club_id)
+        user_ids = self._session.scalars(query).all()
+        for an_id in user_ids:
+            user_entity = self._session.get(UserEntity, an_id)
+            leaders.append(user_entity.to_model())
+        return leaders
+    
+
+    def delete_club(self, club_id: int) -> None:
+        """Deletes a club from the database."""
+        club_entity = self._session.get(ClubEntity, club_id)
+        self._session.delete(club_entity)
+        self._session.commit()
+
+
     def get_clubs_led_by_user(self, leader: User) -> list[Club]:
         """Returns a list of all the clubs a user is leading."""
         clubs: list[Club] = []
@@ -112,6 +131,13 @@ class ClubService:
             print("🏓 I am leading" + club.name)
         print("🏓" + str(len(clubs)))
         return clubs
+
+
+    def delete_leader(self, leader: User, club_id) -> None:
+        """Deletes a leader."""
+        club_entity = self._session.get(ClubEntity, club_id)
+        leader_as_user_entity = self._session.get(UserEntity, leader.id)
+        club_entity.leaders.remove(leader_as_user_entity)
 
 
     def filter_by_availability(self, availabilities: list[Tuple[str, str]]) -> list[int]:
@@ -184,15 +210,4 @@ class ClubService:
 
         print('🚩 filter result number' + str(len(clubs)))
         return clubs
-
-            
-
-
-
-
-
-
-        
-
-
-
+    

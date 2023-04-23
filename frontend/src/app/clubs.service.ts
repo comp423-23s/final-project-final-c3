@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable} from 'rxjs';
 import { Profile } from './profile/profile.service';
-import { Time } from '@angular/common';
 import { Category, WeekDayTime } from './register-leader.service';
+import { Event } from './event.service';
+
 
 export interface Club {
   id: number;
@@ -42,6 +43,7 @@ export class ClubsService {
     return this.http.get<Club[]>("/api/club/all");
   }
 
+
   /**
    * Retreived filtered clubs in the system.
    * 
@@ -79,5 +81,35 @@ export class ClubsService {
    */
   leaveClub(club: Club): Observable<String> {
     return this.http.delete<String>(`api/club/remove/from/${club.id}`)
+  }
+
+
+  /**
+   * Get all members of a club
+   * @Param number club_id
+   * @return list of Profile
+   */
+  getClubMembers(club_id: number): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`api/club/get/members/${club_id}`)
+  }
+
+
+  /**
+   * Get all leaders of a club
+   * @Param number club_id
+   * @return list of Profile
+   */
+  getClubLeaders(club_id: number): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`api/club/get/leaders/${club_id}`)
+  }
+
+
+  /**
+   * Get all events of a club
+   * @Param number club_id
+   * @return list of Event
+   */
+  getClubEvents(club_id: number): Observable<Event[]> {
+    return this.http.get<Event[]>(`api/event/by/club/${club_id}`)
   }
 }
