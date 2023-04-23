@@ -13,7 +13,7 @@ export class AdminClubEventsListComponent {
   public club_id: number = 0
   public clubEvents: Event[] = []
 
-  public displayedColumns: string[] = ['name', 'date', 'location', 'description']
+  public displayedColumns: string[] = ['name', 'start_time', 'end_time', 'location', 'description']
 
   constructor(
     private route: ActivatedRoute,
