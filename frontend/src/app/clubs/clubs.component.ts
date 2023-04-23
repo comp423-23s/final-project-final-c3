@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
@@ -6,6 +6,7 @@ import { Profile, ProfileService } from '../profile/profile.service'
 import { Club, ClubsService, User_Club } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ClubsComponent {
   // Use an observable class so that the event data can be synchronous with the database
-  
+
   public static Route: Route = {
     path: 'all_clubs',
     component: ClubsComponent, 
@@ -213,4 +214,5 @@ export class ClubsComponent {
     this.selectedWeekdayTimes = new Set()
     this.selectedCategories = new Set()
   }
+
 }

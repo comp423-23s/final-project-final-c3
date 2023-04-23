@@ -130,7 +130,6 @@ def get_club_id_by_code(
         raise HTTPException(status_code=404, detail=str(e))
 
 
-
 # Get events user has registered for that are in their clubs
 @api.get("/user_club_events", response_model=list[Event], tags=['Event'])
 def events_by_user(subject: User = Depends(registered_user), event_svc: EventService = Depends()):
