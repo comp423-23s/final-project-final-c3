@@ -77,7 +77,7 @@ class EventService:
         """Returns a list of all events the club has registered."""
         events: list[Event] = []
         query = select(EventEntity).where(EventEntity.club_id == club_id)
-        event_entities: list[EventEntity] = self._session.scalar(query)
+        event_entities: list[EventEntity] = self._session.scalars(query).all()
         if event_entities is None:
             return events
         else:
@@ -88,7 +88,6 @@ class EventService:
 
 
 # CLUB LEADER METHODS
-
     def delete_event(self, event_id: int) -> None:
         """Deletes an event."""
         event_entity = self._session.get(EventEntity, event_id)
