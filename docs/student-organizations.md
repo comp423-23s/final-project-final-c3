@@ -26,6 +26,7 @@ As a leader of a club (e.g. President), one may:
 
 As an administrator, one may:
 * Approve or deny a student's request to create a new club
+Note: Only Arden Administrator can add and delete other Administrators
 
 
 # Implementation Notes
