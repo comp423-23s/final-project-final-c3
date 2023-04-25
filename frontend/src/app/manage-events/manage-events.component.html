@@ -25,7 +25,7 @@
                 </div>
                 <br>
                 <div class="time-place">
-                    <span style="font-size: 14px">When:  {{ event.start_time | date: 'MMM d, y, h:mm a' }} - {{ event.end_time | date: 'MM/dd/yy @ hh:mma' }}</span>
+                    <span style="font-size: 14px">When:  {{ event.start_time | date: 'MMM d, y, h:mm a' }} - {{ event.end_time | date: date: 'MMM d, y, h:mm a' }}</span>
                     <span style="font-size: 14px">Where: {{ event.location  }}</span>
                     <br>
                     <span style="font-size: 16px">{{ event.attendees }}</span>
