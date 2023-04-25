@@ -51,6 +51,7 @@ class PotentialClubService:
         for week_day_time_entity in potential_club_entity.meeting_times:
             club_entity.meeting_times.append(week_day_time_entity)
 
+        stmt = delete(WeekDayTimeEntity).where(WeekDayTimeEntity.potential_club_id == potential_club.id)
         # Safely delete PotentialClubEntity
         stmt = delete(WeekDayTimeEntity).where(WeekDayTimeEntity.potential_club_id == potential_club.id)
         self._session.delete(potential_club_entity)

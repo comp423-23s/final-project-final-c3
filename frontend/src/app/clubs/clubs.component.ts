@@ -42,7 +42,11 @@ export class ClubsComponent {
     this.profile = data.profile
     this.clubs$ = clubsService.getAllClubs()
     this.filtered_clubs$ = this.clubs$
-    this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
+    this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
+      return clubs.map(club => {
+        console.log("Club categories numbers: " + club.categories.length)
+        return {...club, show_short_description: true}})
+    }))
     this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
       return clubs.map(a_club => {
         const user_club: User_Club = {
