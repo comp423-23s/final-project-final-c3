@@ -11,11 +11,6 @@
                     {{ user_event.event.show_short_description ? getShortDescription(user_event.event) : user_event.event.description }}
                 </div>
                 <div>
-                    <mat-card-actions>
-                        <button mat-raised-button (click)='alterText(user_event.event)' type="submit">
-                            {{ user_event.event.show_short_description ? "Read More" : "Read Less" }}
-                        </button>
-                    </mat-card-actions>
                     <div class="side-buttons">
                         <mat-card-actions>
                             <button mat-raised-button *ngIf="user_event.is_joined; else elseBlock" (click)='changeStatus(user_event)'>Cancel Registration</button>
@@ -23,12 +18,19 @@
                                 <button mat-raised-button (click)='changeStatus(user_event)'>Register</button>
                             </ng-template> 
                         </mat-card-actions>
+                        <mat-card-actions>
+                            <button mat-raised-button (click)='alterText(user_event.event)' type="submit">
+                                {{ user_event.event.show_short_description ? "Read More" : "Read Less" }}
+                            </button>
+                        </mat-card-actions>
                     </div>
                 </div>
                 <br>
                 <div class="time-place">
                     <span style="font-size: 16px">Start Time: {{ user_event.event.start_time | date: 'MM/dd/yy @ hh:mma' }} </span>
+                    <br>
                     <span style="font-size: 16px">End Time: {{ user_event.event.end_time | date: 'MM/dd/yy @ hh:mma' }} </span>
+                    <br>
                     <span style="font-size: 16px">Location: {{ user_event.event.location  }}</span>
                 </div>
             </mat-card-content>
