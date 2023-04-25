@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ModuleWithComponentFactories, OnInit } from '@angular/core';
 import { Route, ActivatedRoute } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Event, EventService } from '../event.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as moment from 'moment' ;
 
 
 @Component({
