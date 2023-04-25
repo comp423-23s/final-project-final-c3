@@ -36,17 +36,12 @@ export class RegisterEventComponent {
   // This function is called once we have the form data
   // It calls another function 
   onSubmitEvent(club_code: string, name: string, description: string, location: string, start: string, end: string): void {    
-    this.getClubID(club_code, name, description, location, start, end)
-  }
-
-  getClubID(club_code: string, name: string, description: string, location: string, start: string, end: string): void {
     this.eventService.getClubID(club_code).subscribe(
       {
         next: (data) => {this.onSuccessGetClubID(data, name, description, location, start, end )},
         error: (err) => {this.onError(err)}
       }
     )
-    
   }
 
   onSuccessGetClubID(club_id: number, name: string, description: string, location: string, start: string, end: string): void {
