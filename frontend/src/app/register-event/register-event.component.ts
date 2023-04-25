@@ -6,6 +6,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Event, EventService } from '../event.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 @Component({
   selector: 'app-register-event',
   templateUrl: './register-event.component.html',
@@ -86,14 +87,19 @@ export class RegisterEventComponent {
     let name = form.name 
     let description = form.description
     let location = form.location
-    let start = form.start
-    let end = form.end
+    let start = form.start ?? ''
+    let end = form.end ?? ''
+    let start_time: Date = new Date(start)
+    let end_time: Date = new Date(end)
     if (code == null || name == null || description == null || location == null || start == null || end == null) {
       this.snackBar.open("Please Enter a Value for All Fields",  "", { duration: 4000 })
     }
-    else {
+    else if (!isNaN(start_time.valueOf()) || !isNaN(end_time.valueOf())) {
       this.onSubmitEvent(code, name, description, location, start, end)
       this.form.reset()
+    }
+    else {
+      this.snackBar.open("Please Enter a Valid Date and Time",  "", { duration: 4000 })
     }
   }
 }
