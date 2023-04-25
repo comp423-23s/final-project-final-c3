@@ -39,12 +39,48 @@ with Session(engine) as session:
     session.execute(text(f'ALTER SEQUENCE {entities.UserEntity.__table__}_id_seq RESTART WITH {len(users.models) + 1}'))
     session.commit()
 
+# Add Categories
+with Session(engine) as session:
+    from .dev_data import categories
+    to_entity = entities.CategoryEntity.from_model
+    session.add_all([to_entity(model) for model in categories.models])
+    session.execute(text(f'ALTER SEQUENCE {entities.CategoryEntity.__table__}_id_seq RESTART WITH {len(categories.models) + 1}'))
+    session.commit()
+
+# Add WeekDayTimes
+with Session(engine) as session:
+    from .dev_data import week_day_times
+    to_entity = entities.WeekDayTimeEntity.from_model
+    session.add_all([to_entity(model) for model in week_day_times.models])
+    session.execute(text(f'ALTER SEQUENCE {entities.WeekDayTimeEntity.__table__}_id_seq RESTART WITH {len(week_day_times.models) + 1}'))
+    session.commit()
+
 # Add Clubs
 with Session(engine) as session:
     from .dev_data import clubs
     to_entity = entities.ClubEntity.from_model
     session.add_all([to_entity(model) for model in clubs.models])
     session.execute(text(f'ALTER SEQUENCE {entities.ClubEntity.__table__}_id_seq RESTART WITH {len(clubs.models) + 1}'))
+    session.commit()
+
+# Add Categories to Clubs
+with Session(engine) as session:
+    from ..entities import ClubEntity, CategoryEntity
+    from .dev_data import club_categories
+    for club, category in club_categories.pairs:
+        club_entity = session.get(ClubEntity, club.id)
+        category_entity = session.get(CategoryEntity, category.id)
+        club_entity.categories.append(category_entity)
+    session.commit()
+
+# Add WeekDayTime to Clubs
+with Session(engine) as session:
+    from ..entities import ClubEntity, WeekDayTimeEntity
+    from .dev_data import club_week_day_times
+    for club, week_day_time in club_week_day_times.pairs:
+        club_entity = session.get(ClubEntity, club.id)
+        week_day_time_entity = session.get(WeekDayTimeEntity, week_day_time.id)
+        club_entity.meeting_times.append(week_day_time_entity)
     session.commit()
     
 # Add Events
@@ -62,17 +98,7 @@ with Session(engine) as session:
     session.add_all([to_entity(model) for model in roles.models])
     session.execute(text(f'ALTER SEQUENCE {entities.RoleEntity.__table__}_id_seq RESTART WITH {len(roles.models) + 1}'))
     session.commit()
-
-
-# Add Categories
-with Session(engine) as session:
-    from .dev_data import categories
-    to_entity = entities.CategoryEntity.from_model
-    session.add_all([to_entity(model) for model in categories.models])
-    session.execute(text(f'ALTER SEQUENCE {entities.CategoryEntity.__table__}_id_seq RESTART WITH {len(categories.models) + 1}'))
-    session.commit()
     
-
 # Add Users to Roles
 with Session(engine) as session:
     from ..entities import UserEntity, RoleEntity
@@ -93,7 +119,6 @@ with Session(engine) as session:
         session.add(entity)
     session.execute(text(f'ALTER SEQUENCE permission_id_seq RESTART WITH {len(permissions.pairs) + 1}'))
     session.commit()
-
 
 
 # Add Fake Data to Display
@@ -131,5 +156,4 @@ with Session(engine) as session:
     # event_e_end = datetime.datetime(year=2023, month=5, day=29, hour=9, minute=0)
     # event_e: EventEntity = EventEntity(id=5, name="Club outing", club_id=5, start_time = event_e_start, end_time = event_e_end, location="1205 Pine Knolls Road, Kernersville NC", description="Club outing to Top Golf", attendees=[])
     # session.add(event_e)
-    
     
