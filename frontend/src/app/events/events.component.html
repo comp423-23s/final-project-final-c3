@@ -27,9 +27,9 @@
                 </div>
                 <br>
                 <div class="time-place">
-                    <span style="font-size: 16px">{{ user_event.event.start_time | date: 'MM/dd/yy @ hh:mma' }} </span>
-                    <span style="font-size: 16px">{{ user_event.event.end_time | date: 'MM/dd/yy @ hh:mma' }} </span>
-                    <span style="font-size: 16px">{{ user_event.event.location  }}</span>
+                    <span style="font-size: 16px">Start Time: {{ user_event.event.start_time | date: 'MM/dd/yy @ hh:mma' }} </span>
+                    <span style="font-size: 16px">End Time: {{ user_event.event.end_time | date: 'MM/dd/yy @ hh:mma' }} </span>
+                    <span style="font-size: 16px">Location: {{ user_event.event.location  }}</span>
                 </div>
             </mat-card-content>
         </mat-card>
