@@ -73,7 +73,7 @@ export class RegisterEventComponent {
   }
 
   private onError(err: any) {
-    console.error("How to handle this?");
+    this.snackBar.open("You Have Entered an Incorrect Club Code", "", { duration: 2000 })
   }
 
   onSubmit(): void {
@@ -84,7 +84,13 @@ export class RegisterEventComponent {
     let location = form.location
     let start = form.start
     let end = form.end
-    this.onSubmitEvent(code, name, description, location, start, end)
+    if (typeof(code) !== 'string' || typeof(name) !== 'string' || typeof(description) !== 'string' || typeof(location) !== 'string' || typeof(start) !== 'string' || typeof(end) !== 'string') {
+      this.snackBar.open("Please Enter a Value for All Fields")
+    }
+    else {
+      this.onSubmitEvent(code, name, description, location, start, end)
+    }
+    
     this.form.reset()
   }
 }
