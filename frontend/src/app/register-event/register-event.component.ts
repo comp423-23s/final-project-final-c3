@@ -33,14 +33,13 @@ export class RegisterEventComponent {
 
   }
 
-  onSubmitEvent(club_code: string, name: string, description: string, location: string, start: string, end: string): void {
-    // TODO: change parameters to right types
-    console.log("STEP 0: Call this.getClubID below")
+  // This function is called once we have the form data
+  // It calls another function 
+  onSubmitEvent(club_code: string, name: string, description: string, location: string, start: string, end: string): void {    
     this.getClubID(club_code, name, description, location, start, end)
   }
 
   getClubID(club_code: string, name: string, description: string, location: string, start: string, end: string): void {
-    console.log("STEP 1: In getClubID now, subscribe to service below: ")
     this.eventService.getClubID(club_code).subscribe(
       {
         next: (data) => {this.onSuccessGetClubID(data, name, description, location, start, end )},
@@ -51,8 +50,6 @@ export class RegisterEventComponent {
   }
 
   onSuccessGetClubID(club_id: number, name: string, description: string, location: string, start: string, end: string): void {
-    console.log("STEP 2: On Success, assign this.club_id to the data value of:")
-    console.log(club_id)
     let start_time: Date = new Date(start)
     let end_time: Date = new Date(end)
     var event: Event = {
@@ -66,8 +63,6 @@ export class RegisterEventComponent {
       show_short_description: false,
       attendees: []
     } 
-    console.log("STEP 3: Check event club_id: ")   
-    console.log(event.club_id)
     this.eventService.createNewEvent(event).subscribe(
       {
         next: (data) => {this.onSuccess(data)},
