@@ -61,7 +61,7 @@ export class RegisterEventComponent {
     this.eventService.createNewEvent(event).subscribe(
       {
         next: (data) => {this.onSuccess(data)},
-        error: (err) => {this.onError(err)}
+        error: (err) => {this.onErrorCreation(err)}
       }
     )
   
@@ -76,6 +76,10 @@ export class RegisterEventComponent {
     this.snackBar.open("You Have Entered an Incorrect Club Code", "", { duration: 2000 })
   }
 
+  private onErrorCreation(err: any) {
+    this.snackBar.open("Unable to Complete Event Registration", "", { duration: 2000 })
+  }
+
   onSubmit(): void {
     let form = this.form.value;
     let code = form.code
@@ -84,13 +88,12 @@ export class RegisterEventComponent {
     let location = form.location
     let start = form.start
     let end = form.end
-    if (typeof(code) !== 'string' || typeof(name) !== 'string' || typeof(description) !== 'string' || typeof(location) !== 'string' || typeof(start) !== 'string' || typeof(end) !== 'string') {
-      this.snackBar.open("Please Enter a Value for All Fields")
+    if (code == null || name == null || description == null || location == null || start == null || end == null) {
+      this.snackBar.open("Please Enter a Value for All Fields",  "", { duration: 4000 })
     }
     else {
       this.onSubmitEvent(code, name, description, location, start, end)
+      this.form.reset()
     }
-    
-    this.form.reset()
   }
 }
