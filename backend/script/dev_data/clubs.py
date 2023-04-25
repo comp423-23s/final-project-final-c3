@@ -1,9 +1,9 @@
-from ...models import Club
+from ...models import Club, WeekDayTime
+
 
 __authors__ = ["Kris Jordan"]
 __copyright__ = "Copyright 2023"
 __license__ = "MIT"
-
 
 club_a = Club(id=0, club_code="1AB45TY0", name="Pearl Hacks", description="Pearl Hacks is a weekend-long hackathon targeting women and non-binary students.", show_short_description=True)
 club_b = Club(id=1, club_code="1NB457Y9", name="App Team", description="App Team Carolina provides a collaborative environment for UNC students to learn iOS development.", show_short_description=True)

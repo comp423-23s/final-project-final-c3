@@ -51,6 +51,7 @@ import { AdminClubsComponent } from './admin-clubs/admin-clubs.component';
 import { AdminClubMembersListComponent } from './admin-clubs/list/members/admin-club-members-list.component';
 import { AdminClubLeadersListComponent } from './admin-clubs/list/leaders/admin-club-leaders-list.component';
 import { AdminClubEventsListComponent } from './admin-clubs/list/events/admin-club-events-list.component';
+import { LeaderClubMembersListComponent } from './leader-clubs/leader-club-members-list/leader-club-members-list.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { AdminClubEventsListComponent } from './admin-clubs/list/events/admin-cl
     AdminClubLeadersListComponent,
     AdminClubEventsListComponent,
     ChangeAdminComponent,
-    ManageEventsComponent
+    ManageEventsComponent,
+    LeaderClubMembersListComponent
   ],
   imports: [
     BrowserModule,
