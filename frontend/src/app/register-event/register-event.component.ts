@@ -90,17 +90,17 @@ export class RegisterEventComponent {
     let location = form.location
     let start = form.start ?? ''
     let end = form.end ?? ''
-    let start_time: Date = new Date(start)
-    let end_time: Date = new Date(end)
+    console.log(start)
+    console.log(moment(start, moment.ISO_8601).isValid())
     if (code == null || name == null || description == null || location == null || start == null || end == null) {
       this.snackBar.open("Please Enter a Value for All Fields",  "", { duration: 4000 })
     }
-    else if (!isNaN(start_time.valueOf()) || !isNaN(end_time.valueOf())) {
-      this.onSubmitEvent(code, name, description, location, start, end)
-      this.form.reset()
+    else if (!moment(start, moment.ISO_8601).isValid() || !moment(start, moment.ISO_8601).isValid()) {
+      this.snackBar.open("Please Enter a Valid Date and Time",  "", { duration: 4000 })
     }
     else {
-      this.snackBar.open("Please Enter a Valid Date and Time",  "", { duration: 4000 })
+      this.onSubmitEvent(code, name, description, location, start, end)
+      this.form.reset()
     }
   }
 }
