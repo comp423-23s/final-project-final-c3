@@ -20,8 +20,16 @@ export class RegisterEventComponent {
     resolve: { profile: profileResolver }
   };
 
+  form = this.formBuilder.group({
+    code: '',
+    name: '',
+    description: '',
+    location: '',
+    start: '',
+    end: ''
+  });
 
-  constructor(protected snackBar: MatSnackBar, private eventService: EventService) {
+  constructor(protected snackBar: MatSnackBar, private eventService: EventService, private formBuilder: FormBuilder,) {
 
   }
 
@@ -29,7 +37,6 @@ export class RegisterEventComponent {
     // TODO: change parameters to right types
     console.log("STEP 0: Call this.getClubID below")
     this.getClubID(club_code, name, description, location, start, end)
-    
   }
 
   getClubID(club_code: string, name: string, description: string, location: string, start: string, end: string): void {
@@ -72,9 +79,22 @@ export class RegisterEventComponent {
 
   private onSuccess(string: string) {
     this.snackBar.open("Event Created", "", { duration: 2000 })
+    this.form.reset()
   }
 
   private onError(err: any) {
     console.error("How to handle this?");
+  }
+
+  onSubmit(): void {
+    let form = this.form.value;
+    let code = form.code
+    let name = form.name 
+    let description = form.description
+    let location = form.location
+    let start = form.start
+    let end = form.end
+    this.onSubmitEvent(code, name, description, location, start, end)
+    this.form.reset()
   }
 }
