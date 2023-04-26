@@ -118,6 +118,19 @@ def get_leaders(
         raise HTTPException(status_code=404, detail=str(e))
 
 
+@api.get("/get/club/name/{club_id}", tags=['Club'])
+def get_club_name(
+    club_id: int,
+    club_svc: ClubService=Depends()
+) -> str:
+    """Returns club name for a particular club."""
+    try:
+        return club_svc.get_club_name(club_id)
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+
+
 @api.delete("/delete/club/{club_id}", tags=['Club'])
 def remove_leader_from_club(
     club_id: int,
