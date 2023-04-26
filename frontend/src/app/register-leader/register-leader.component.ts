@@ -22,7 +22,7 @@ export class RegisterLeaderComponent {
   public static Route: Route = {
     path: 'register_leader',
     component: RegisterLeaderComponent,
-    title: 'Register Leader',
+    title: 'Register As a Club Leader',
     canActivate: [isAuthenticated],
     resolve: { profile: profileResolver }
   };

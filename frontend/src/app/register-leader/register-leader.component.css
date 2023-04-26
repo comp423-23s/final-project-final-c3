@@ -1,10 +1,10 @@
-.example-margin {
-    margin: 0 12px;
-}
-
 .mat-mdc-card {
     margin: 1em;
     max-width: 640px;
+}
+
+.mat-mdc-content {
+    padding: 0 16px
 }
 
 .mat-mdc-form-field {
