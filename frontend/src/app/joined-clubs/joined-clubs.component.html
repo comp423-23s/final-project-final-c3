@@ -24,15 +24,15 @@
                 <div class='description'>
                     {{ club.show_short_description ? getShortDescription(club) : club.description }}                  
                 </div>
-                <mat-card-actions>
-                    <button mat-raised-button (click)='alterText(club)' type="submit">
-                        {{ club.show_short_description ? "Read More" : "Read Less" }}
-                    </button>
-                </mat-card-actions>
                 <br>
                 <div class="side-buttons">
                     <mat-card-actions>
                         <button mat-raised-button (click)='leaveClub(club)' type="submit">Leave</button>
+                    </mat-card-actions>
+                    <mat-card-actions>
+                        <button mat-raised-button (click)='alterText(club)' type="submit">
+                            {{ club.show_short_description ? "Read More" : "Read Less" }}
+                        </button>
                     </mat-card-actions>
                 </div>
             </mat-card-content>
