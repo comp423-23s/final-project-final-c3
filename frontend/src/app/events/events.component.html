@@ -6,7 +6,6 @@
                     <mat-card-title>{{ user_event.event.name }}</mat-card-title>
                 </div>
             </mat-card-header>
-            <hr>
             <mat-card-content>
                 <div class='description'>
                     {{ user_event.event.show_short_description ? getShortDescription(user_event.event) : user_event.event.description }}
