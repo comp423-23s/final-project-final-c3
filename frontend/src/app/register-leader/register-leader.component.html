@@ -1,100 +1,203 @@
-<form>
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>Are You on Your Club's Executive Board?</mat-card-title>
-            <mat-card-subtitle>To gain access to the executive board leader capabilities, 
-                enter the club name and valid club code below.
-                Once submitted, <a style="color: #c7c7c7" routerLink="/role_selection">change your role</a> to access your club information.</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            <mat-checkbox (change)="changeClubExistStatus()">
-                Create a New Club
-            </mat-checkbox>
-            <div *ngIf="clubExists"> 
-                <mat-form-field appearance="fill">
-                    <mat-label>Select Club</mat-label>
-                    <mat-select (selectionChange)="selectionChange($event.value)">
-                        <mat-option *ngFor="let club of clubs$ | async" [value]="club.name">
-                            {{ club.name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <br>
-                <mat-form-field appearance="fill">
-                    <mat-label>Enter Club Code: </mat-label>
-                    <input matInput #input>
-                </mat-form-field>
-                <br>
-                <mat-card-actions>
-                    <button mat-raised-button (click)='onSubmitExistingClub(input.value)' type="submit">
-                        Submit
-                    </button>
-                </mat-card-actions>
-            </div>    
-            <div *ngIf="!clubExists"> 
-                <mat-form-field appearance="fill">
-                    <mat-label>Club Name: </mat-label>
-                    <input matInput #clubName>
-                </mat-form-field>
-                <br>
-                <mat-form-field appearance="fill">
-                    <mat-label>Club Description: </mat-label>
-                    <input matInput #clubDescription>
-                </mat-form-field>
-                <br>
-                <mat-label>Enter Meeting Times: </mat-label>
-                <br>
-                <mat-checkbox (change)="selectDay('Monday')">
-                    Monday&nbsp;
+<div class="flex-cards">
+    <form>
+        <mat-card>
+            <mat-card-header style="margin-bottom: 10px">
+                <mat-card-title>Are You on Your Club's Executive Board?</mat-card-title>
+                <mat-card-subtitle>To gain access to the executive board leader capabilities, 
+                    enter the club name and valid club code below.
+                    Once submitted, <a style="color: #c7c7c7" routerLink="/role_selection">change your role</a> to access your club's information.</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-checkbox (change)="changeClubExistStatus()">
+                    Create a New Club
                 </mat-checkbox>
-                <span *ngIf="hasWeekday('Monday')">
-                    <input type="time" [(ngModel)]="mondayStartTime" [ngModelOptions]="{standalone: true}"/><br>
-                    <input type="time" [(ngModel)]="mondayEndTime" [ngModelOptions]="{standalone: true}"/><br>
-                </span>
-                <br>
-                <mat-checkbox (change)="selectDay('Tuesday')">
-                    Tuesday&nbsp;
+                <div *ngIf="clubExists"> 
+                    <mat-form-field appearance="fill">
+                        <mat-label>Select Club</mat-label>
+                        <mat-select (selectionChange)="selectionChange($event.value)">
+                            <mat-option *ngFor="let club of clubs$ | async" [value]="club.name">
+                                {{ club.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Enter Club Code: </mat-label>
+                        <input matInput #input>
+                    </mat-form-field>
+                    <br>
+                    <mat-card-actions>
+                        <button mat-raised-button (click)='onSubmitExistingClub(input.value)' type="submit">
+                            Submit
+                        </button>
+                    </mat-card-actions>
+                </div>    
+                <div *ngIf="!clubExists"> 
+                    <mat-form-field appearance="fill">
+                        <mat-label>Club Name: </mat-label>
+                        <input matInput #clubName>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Club Description: </mat-label>
+                        <input matInput #clubDescription>
+                    </mat-form-field>
+                    <br>
+                    <mat-label>Enter Meeting Times: </mat-label>
+                    <br>
+                    <mat-checkbox (change)="selectDay('Monday')">
+                        Monday&nbsp;
+                    </mat-checkbox>
+                    <span *ngIf="hasWeekday('Monday')">
+                        <input type="time" [(ngModel)]="mondayStartTime" [ngModelOptions]="{standalone: true}"/><br>
+                        <input type="time" [(ngModel)]="mondayEndTime" [ngModelOptions]="{standalone: true}"/><br>
+                    </span>
+                    <br>
+                    <mat-checkbox (change)="selectDay('Tuesday')">
+                        Tuesday&nbsp;
+                    </mat-checkbox>
+                    <span *ngIf="hasWeekday('Tuesday')">
+                        <input type="time" [(ngModel)]="tuesdayStartTime" [ngModelOptions]="{standalone: true}"/>
+                        <input type="time" [(ngModel)]="tuesdayEndTime" [ngModelOptions]="{standalone: true}"/>
+                    </span>
+                    <br>
+                    <mat-checkbox (change)="selectDay('Wednesday')">
+                        Wednesday&nbsp;
+                    </mat-checkbox>
+                    <span *ngIf="hasWeekday('Wednesday')">
+                        <input type="time" [(ngModel)]="wednesdayStartTime" [ngModelOptions]="{standalone: true}"/>
+                        <input type="time" [(ngModel)]="wednesdayEndTime" [ngModelOptions]="{standalone: true}"/>
+                    </span>
+                    <br>
+                    <mat-checkbox (change)="selectDay('Thursday')">
+                        Thursday&nbsp;
+                    </mat-checkbox>
+                    <span *ngIf="hasWeekday('Thursday')">
+                        <input type="time" [(ngModel)]="thursdayStartTime" [ngModelOptions]="{standalone: true}"/>
+                        <input type="time" [(ngModel)]="thursdayEndTime" [ngModelOptions]="{standalone: true}"/>
+                    </span>
+                    <br>
+                    <mat-checkbox (change)="selectDay('Friday')">
+                        Friday&nbsp;
+                    </mat-checkbox>
+                    <span *ngIf="hasWeekday('Friday')">
+                        <input type="time" [(ngModel)]="fridayStartTime" [ngModelOptions]="{standalone: true}"/>
+                        <input type="time" [(ngModel)]="fridayEndTime" [ngModelOptions]="{standalone: true}"/>
+                    </span>
+                    <br>
+                    <mat-label>Select Categories: </mat-label>
+                    <span *ngFor="let categoryName of categoryNames">
+                        <mat-checkbox class="example-margin" (change)='selectCategory(categoryName)'>{{ categoryName }}</mat-checkbox>
+                    </span>
+                    <br>
+                    <mat-card-actions>
+                        <button mat-raised-button (click)='onSubmitNewClub(clubName.value, clubDescription.value)' type="submit">
+                            Submit
+                        </button>
+                    </mat-card-actions>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+    
+    <form>
+        <mat-card>
+            <mat-card-header style="margin-bottom: 10px">
+                <mat-card-title>Are You on Your Club's Executive Board?</mat-card-title>
+                <mat-card-subtitle>To gain access to the executive board leader capabilities, 
+                    enter the club name and valid club code below.
+                    Once submitted, <a style="color: #c7c7c7" routerLink="/role_selection">change your role</a> to access your club's information.</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-checkbox (change)="changeClubExistStatus()">
+                    Create a New Club
                 </mat-checkbox>
-                <span *ngIf="hasWeekday('Tuesday')">
-                    <input type="time" [(ngModel)]="tuesdayStartTime" [ngModelOptions]="{standalone: true}"/>
-                    <input type="time" [(ngModel)]="tuesdayEndTime" [ngModelOptions]="{standalone: true}"/>
-                </span>
-                <br>
-                <mat-checkbox (change)="selectDay('Wednesday')">
-                    Wednesday&nbsp;
-                </mat-checkbox>
-                <span *ngIf="hasWeekday('Wednesday')">
-                    <input type="time" [(ngModel)]="wednesdayStartTime" [ngModelOptions]="{standalone: true}"/>
-                    <input type="time" [(ngModel)]="wednesdayEndTime" [ngModelOptions]="{standalone: true}"/>
-                </span>
-                <br>
-                <mat-checkbox (change)="selectDay('Thursday')">
-                    Thursday&nbsp;
-                </mat-checkbox>
-                <span *ngIf="hasWeekday('Thursday')">
-                    <input type="time" [(ngModel)]="thursdayStartTime" [ngModelOptions]="{standalone: true}"/>
-                    <input type="time" [(ngModel)]="thursdayEndTime" [ngModelOptions]="{standalone: true}"/>
-                </span>
-                <br>
-                <mat-checkbox (change)="selectDay('Friday')">
-                    Friday&nbsp;
-                </mat-checkbox>
-                <span *ngIf="hasWeekday('Friday')">
-                    <input type="time" [(ngModel)]="fridayStartTime" [ngModelOptions]="{standalone: true}"/>
-                    <input type="time" [(ngModel)]="fridayEndTime" [ngModelOptions]="{standalone: true}"/>
-                </span>
-                <br>
-                <mat-label>Select Categories: </mat-label>
-                <span *ngFor="let categoryName of categoryNames">
-                    <mat-checkbox class="example-margin" (change)='selectCategory(categoryName)'>{{ categoryName }}</mat-checkbox>
-                </span>
-                <br>
-                <mat-card-actions>
-                    <button mat-raised-button (click)='onSubmitNewClub(clubName.value, clubDescription.value)' type="submit">
-                        Submit
-                    </button>
-                </mat-card-actions>
-            </div>
-        </mat-card-content>
-    </mat-card>
-</form>
+                <div *ngIf="clubExists"> 
+                    <mat-form-field appearance="fill">
+                        <mat-label>Select Club</mat-label>
+                        <mat-select (selectionChange)="selectionChange($event.value)">
+                            <mat-option *ngFor="let club of clubs$ | async" [value]="club.name">
+                                {{ club.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Enter Club Code: </mat-label>
+                        <input matInput #input>
+                    </mat-form-field>
+                    <br>
+                    <mat-card-actions>
+                        <button mat-raised-button (click)='onSubmitExistingClub(input.value)' type="submit">
+                            Submit
+                        </button>
+                    </mat-card-actions>
+                </div>    
+                <div *ngIf="!clubExists"> 
+                    <mat-form-field appearance="fill">
+                        <mat-label>Club Name: </mat-label>
+                        <input matInput #clubName>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Club Description: </mat-label>
+                        <input matInput #clubDescription>
+                    </mat-form-field>
+                    <br>
+                    <mat-label>Enter Meeting Times: </mat-label>
+                    <br>
+                    <mat-checkbox (change)="selectDay('Monday')">
+                        Monday&nbsp;
+                    </mat-checkbox>
+                    <span *ngIf="hasWeekday('Monday')">
+                        <input type="time" [(ngModel)]="mondayStartTime" [ngModelOptions]="{standalone: true}"/><br>
+                        <input type="time" [(ngModel)]="mondayEndTime" [ngModelOptions]="{standalone: true}"/><br>
+                    </span>
+                    <br>
+                    <mat-checkbox (change)="selectDay('Tuesday')">
+                        Tuesday&nbsp;
+                    </mat-checkbox>
+                    <span *ngIf="hasWeekday('Tuesday')">
+                        <input type="time" [(ngModel)]="tuesdayStartTime" [ngModelOptions]="{standalone: true}"/>
+                        <input type="time" [(ngModel)]="tuesdayEndTime" [ngModelOptions]="{standalone: true}"/>
+                    </span>
+                    <br>
+                    <mat-checkbox (change)="selectDay('Wednesday')">
+                        Wednesday&nbsp;
+                    </mat-checkbox>
+                    <span *ngIf="hasWeekday('Wednesday')">
+                        <input type="time" [(ngModel)]="wednesdayStartTime" [ngModelOptions]="{standalone: true}"/>
+                        <input type="time" [(ngModel)]="wednesdayEndTime" [ngModelOptions]="{standalone: true}"/>
+                    </span>
+                    <br>
+                    <mat-checkbox (change)="selectDay('Thursday')">
+                        Thursday&nbsp;
+                    </mat-checkbox>
+                    <span *ngIf="hasWeekday('Thursday')">
+                        <input type="time" [(ngModel)]="thursdayStartTime" [ngModelOptions]="{standalone: true}"/>
+                        <input type="time" [(ngModel)]="thursdayEndTime" [ngModelOptions]="{standalone: true}"/>
+                    </span>
+                    <br>
+                    <mat-checkbox (change)="selectDay('Friday')">
+                        Friday&nbsp;
+                    </mat-checkbox>
+                    <span *ngIf="hasWeekday('Friday')">
+                        <input type="time" [(ngModel)]="fridayStartTime" [ngModelOptions]="{standalone: true}"/>
+                        <input type="time" [(ngModel)]="fridayEndTime" [ngModelOptions]="{standalone: true}"/>
+                    </span>
+                    <br>
+                    <mat-label>Select Categories: </mat-label>
+                    <span *ngFor="let categoryName of categoryNames">
+                        <mat-checkbox class="example-margin" (change)='selectCategory(categoryName)'>{{ categoryName }}</mat-checkbox>
+                    </span>
+                    <br>
+                    <mat-card-actions>
+                        <button mat-raised-button (click)='onSubmitNewClub(clubName.value, clubDescription.value)' type="submit">
+                            Submit
+                        </button>
+                    </mat-card-actions>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+</div>
