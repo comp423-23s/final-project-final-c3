@@ -36,7 +36,7 @@
         <button style="margin-bottom: 10px; width: 100%;" mat-raised-button>
             <a mat-list-item [matMenuTriggerFor]="menu1">
             <span style="margin-top: 4px;">Select Categories </span>
-            <span style="margin-bottom: -10px"><mat-icon>arrow_drop_down</mat-icon></span>
+            <span style="margin-bottom: -3px"><mat-icon>arrow_drop_down</mat-icon></span>
             </a> 
         </button>
         <mat-menu  #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu1" #menu1="matMenu" yPosition="below">
@@ -63,7 +63,7 @@
             </span>
         </div>
         <button style="margin-bottom: 10px; width: 100%;" mat-raised-button (click)='onFilter()'>Apply Filters</button>
-        <button style="background-color: #646464; width: 120px; position: relative; right: 0px; top: 0px" mat-raised-button (click)='onShowAllClubs()'>Clear</button>
+        <button style="background-color: #646464; width: 80px; height: 30px;position: relative; left: 120px; top: 0px" mat-raised-button (click)='onShowAllClubs()'>Clear</button>
     </div>
 </div>
 
