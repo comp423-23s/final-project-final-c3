@@ -33,7 +33,11 @@
     </div>
     <br>
     <div class="filters">
-        <button style="margin-bottom: 10px" mat-raised-button><a mat-list-item [matMenuTriggerFor]="menu1">Select Categories</a> </button>
+        <button style="margin-bottom: 10px" mat-raised-button>
+            <a mat-list-item [matMenuTriggerFor]="menu1">
+            Select Categories <span style="margin-bottom: -7px"><mat-icon>arrow_drop_down</mat-icon></span>
+            </a> 
+        </button>
         <mat-menu  #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu1" #menu1="matMenu" yPosition="below">
         <span *ngFor="let category of categories">
             <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)' (click)="$event.stopPropagation();">{{ category }} </mat-checkbox>
@@ -58,7 +62,7 @@
             </span>
         </div>
         <button style="margin-bottom: 10px" mat-raised-button (click)='onFilter()'>Apply Filter</button>
-        <button mat-raised-button (click)='onShowAllClubs()'>Clear Filters</button>
+        <button style="background-color: grey; width: 120px" mat-raised-button (click)='onShowAllClubs()'>Clear Filters</button>
     </div>
 </div>
 

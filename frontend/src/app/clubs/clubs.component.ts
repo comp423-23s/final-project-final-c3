@@ -7,6 +7,7 @@ import { Club, ClubsService, User_Club } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatMenuTrigger } from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon'
 
 @Injectable({
   providedIn: 'root'
