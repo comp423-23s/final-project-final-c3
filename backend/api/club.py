@@ -241,3 +241,16 @@ def filter(
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))
+    
+    
+@api.get("/club/requests", response_model=list[PotentialClub], tags=['Club'])
+def user_requests(
+    subject: User = Depends(registered_user),
+    potential_club_svc: PotentialClubService = Depends()
+):
+    """Gets all potential clubs for a user."""
+    try:
+        return potential_club_svc.user_requests(subject)
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
