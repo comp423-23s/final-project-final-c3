@@ -72,7 +72,7 @@ export class ClubsComponent {
       }
     )
     this.clubsService.joinClub(club).subscribe({
-      next: () => this.onSuccess(),
+      next: () => this.onSuccessJoin(),
       error: (err) => this.onError(err)
     })
   }
@@ -84,12 +84,28 @@ export class ClubsComponent {
   // Enables a student to leave a club
   onLeave(club: Club): void {
     this.clubsService.leaveClub(club).subscribe({
-      next: () => this.onSuccess(),
+      next: () => this.onSuccessLeave(),
       error: (err) => this.onError(err)
     })
   }
 
-  onSuccess(): void {
+  onSuccessJoin(): void {
+    this.snackBar.open("Successfully Joined Club " , "", { duration: 4000 })
+    this.clubs$ = this.clubsService.getAllClubs()
+    this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
+    this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
+      return clubs.map(a_club => {
+        const user_club : User_Club = {
+          club: a_club, 
+          is_joined: a_club.members.map(member => member.id).includes(this.profile.id)
+        }
+        return user_club
+      })
+    }))
+  }
+
+  onSuccessLeave(): void {
+    this.snackBar.open("Successfully Left Club " , "", { duration: 4000 })
     this.clubs$ = this.clubsService.getAllClubs()
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
     this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
@@ -110,6 +126,7 @@ export class ClubsComponent {
     } else {
       window.alert("Unknown error: " + JSON.stringify(err));
     }
+    this.snackBar.open("Join Unsuccessful: You May Need To Update Your Profile " , "", { duration: 4000 })
   }
 
   // Controls which description is rendered on screen (short or long)
