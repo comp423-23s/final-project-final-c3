@@ -1,4 +1,4 @@
-<tr *ngFor="let club of clubs$ | async">
+<tr *ngFor="let club of my_pending_clubs$ | async">
     <div style="position: relative">
         <mat-card style="width:1600px;">
             <mat-card-header>
@@ -7,6 +7,9 @@
                 </div>
             </mat-card-header>
             <mat-card-content>
+                <div class='description'>
+                    {{ club.description }}                  
+                </div>
                 <div class='description'>
                     <span>Categories:&nbsp;</span>
                     <span *ngFor="let category of club.categories">
@@ -20,20 +23,6 @@
                         {{ meetingTime.day }} {{ meetingTime.start_time }} - {{ meetingTime.end_time }}
                         <br>
                     </div>
-                </div>
-                <div class='description'>
-                    {{ club.show_short_description ? getShortDescription(club) : club.description }}                  
-                </div>
-                <br>
-                <div class="side-buttons">
-                    <mat-card-actions>
-                        <button mat-raised-button (click)='leaveClub(club)' type="submit">Leave</button>
-                    </mat-card-actions>
-                    <mat-card-actions>
-                        <button mat-raised-button (click)='alterText(club)' type="submit">
-                            {{ club.show_short_description ? "Read More" : "Read Less" }}
-                        </button>
-                    </mat-card-actions>
                 </div>
             </mat-card-content>
         </mat-card>
