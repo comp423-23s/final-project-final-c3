@@ -18,3 +18,8 @@
     flex-direction: row;
     justify-content: space-around;
 }
+
+.time-field {
+    display: flex;
+    flex-direction: row;
+}
