@@ -79,3 +79,9 @@ class PotentialClubService:
         query = select(PotentialClubEntity)
         potential_club_entities = self._session.scalars(query).all()
         return [entity.to_model() for entity in potential_club_entities]
+    
+    def user_requests(self, user: User) -> list[PotentialClub]:
+        query = select(PotentialClubEntity).where(PotentialClubEntity.founder_id == user.id)
+        potential_club_entities = self._session.scalars(query).all()
+        return [entity.to_model() for entity in potential_club_entities]
+        
