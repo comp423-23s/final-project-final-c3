@@ -39,3 +39,7 @@
     color: white;
     border: hidden;
 }
+
+.mat-mdc-card:hover {
+    box-shadow: 0px 0px 5px #8c8c8c;
+}
