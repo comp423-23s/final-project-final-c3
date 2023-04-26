@@ -2,7 +2,9 @@
     <ng-container *ngIf="clubs.length === 0; else list">
         <div class="empty-list">
             <mat-card-title>Oops! Looks like you are not currently a member of any clubs.</mat-card-title>
-            <mat-card-subtitle>View a list of <a mat-list-item routerLink="/admin_clubs">all clubs</a> to join. </mat-card-subtitle>
+            <div style="display: flex;flex-direction:row">
+                <mat-card-subtitle>View a list of <a style="color: #c7c7c7" routerLink="/all_clubs">All Clubs</a> to join. </mat-card-subtitle>
+            </div>
         </div>
     </ng-container>
     <ng-template #list>

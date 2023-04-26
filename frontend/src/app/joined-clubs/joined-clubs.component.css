@@ -46,6 +46,8 @@
 
 .empty-list {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    width: 90%;
+    align-items: center;
+    margin-top:35px;
 }
