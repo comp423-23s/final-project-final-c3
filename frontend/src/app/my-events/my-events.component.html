@@ -1,9 +1,9 @@
 <div *ngIf="(my_events$ | async) as events">
     <ng-container *ngIf="events.length === 0; else list">
         <div class="empty-list">
-            <mat-card-title>Oops! Looks like you are not currently a member of any clubs.</mat-card-title>
+            <mat-card-title>Oops! Looks like you are not currently registered for any events.</mat-card-title>
             <div style="display: flex;flex-direction:row">
-                <mat-card-subtitle>View a list of <a style="color: #c7c7c7" routerLink="/all_clubs">All Clubs</a> to join. </mat-card-subtitle>
+                <mat-card-subtitle>View a list of <a style="color: #c7c7c7" routerLink="/events">All Events</a> to register. </mat-card-subtitle>
             </div>
         </div>
     </ng-container>
@@ -16,7 +16,6 @@
                             <mat-card-title>{{ event.name }}</mat-card-title>
                         </div>
                     </mat-card-header>
-                    <hr>
                     <mat-card-content>
                         <div class='description'>
                             {{ event.show_short_description ? getShortDescription(event) : event.description }}
