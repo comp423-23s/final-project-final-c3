@@ -56,4 +56,13 @@ export class RegisterLeaderService {
     return this.http.post<String>("/api/club/potential/club/request", potentialClub)
     // return this.http.get<String>(`/api/admin/club/requests/potential/club/request/${potentialClub.id}/${potentialClub.name}/${potentialClub.description}`)
   }
+
+  /**
+   * Returns all pending requests a student submitted
+   * 
+   * @returns PotentialClub[]
+   */
+  getMyPendingClubs(): Observable<PotentialClub[]> {
+    return this.http.get<PotentialClub[]>("api/club/club/requests")
+  }
 }

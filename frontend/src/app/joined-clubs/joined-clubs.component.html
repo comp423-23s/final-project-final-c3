@@ -17,7 +17,7 @@
                     <div>Meeting Times:&nbsp;</div>
                     <br>
                     <div *ngFor="let meetingTime of club.meeting_times">
-                        {{ meetingTime.day }}: {{ meetingTime.start_time }} ~ {{ meetingTime.day }}: {{ meetingTime.end_time }}
+                        {{ meetingTime.day }} {{ meetingTime.start_time }} - {{ meetingTime.end_time }}
                         <br>
                     </div>
                 </div>
