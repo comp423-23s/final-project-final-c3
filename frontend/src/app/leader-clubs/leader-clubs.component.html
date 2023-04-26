@@ -11,13 +11,13 @@
                     Club Code: {{ club.club_code }}               
                 </div>
                 <div class='description'>
-                    <p>Club Categories:&nbsp;</p>
-                    <p *ngFor="let category of club.categories">
-                        {{ category.name }}&nbsp;
-                    </p>             
+                    <span>Categories:&nbsp;</span>
+                    <span *ngFor="let category of club.categories">
+                        {{ category.name }}&nbsp;&nbsp;
+                    </span>             
                 </div>
                 <div class='description'>
-                    <div>Club Meeting Times: </div>
+                    <div>Meeting Times:&nbsp;</div>
                     <br>
                     <div *ngFor="let meetingTime of club.meeting_times">
                         {{ meetingTime.day }}: {{ meetingTime.start_time }} ~ {{ meetingTime.day }}: {{ meetingTime.end_time }}
@@ -34,12 +34,11 @@
                         </button>
                     </mat-card-actions>
                 </div>
-                <div class='description'>
-                    Categories:&nbsp;<p *ngFor="let category of club.categories"> {{category.name}}</p>
-                </div>
-                <div class='description'>
-                    Members:&nbsp;<p *ngFor="let member of club.members">{{member.first_name}} {{member.last_name}}</p>
-                </div>
+                <mat-card-actions>
+                    <button mat-raised-button [routerLink]="['/leader_club_members_list', club.id]">
+                        View Members
+                    </button>
+                </mat-card-actions>
             </mat-card-content>
         </mat-card>
     </div>
