@@ -46,6 +46,7 @@
     width: 95%;
     justify-content: left;
     z-index: 0;
+    position: absolute;
 }
 
 .club-list {
