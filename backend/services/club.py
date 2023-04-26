@@ -109,6 +109,12 @@ class ClubService:
             user_entity = self._session.get(UserEntity, an_id)
             leaders.append(user_entity.to_model())
         return leaders
+
+
+    def get_club_name(self, club_id: int) -> str:
+        """get club name by club id"""
+        club_entity = self._session.get(ClubEntity, club_id)
+        return club_entity.name
     
 
     def delete_club(self, club_id: int) -> None:
