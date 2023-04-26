@@ -17,7 +17,7 @@
                     <input matInput #clubDescription>
                 </mat-form-field>
                 <br>
-                <mat-card-subtitle>Enter Meeting Times</mat-card-subtitle>
+                <mat-card-subtitle>Enter Meeting Times (Start and End)</mat-card-subtitle>
                 <div style="display:flex;flex-direction: row;">
                     <mat-checkbox (change)="selectDay('Monday')">
                         Monday&nbsp;
@@ -78,7 +78,7 @@
                     </span>
                 </div>
                 <br>
-                <mat-card-subtitle style="margin-top:10px">Select Relevant Club Categories</mat-card-subtitle>
+                <mat-card-subtitle style="margin-top:10px">Select Relevant Club Categories (Optional)</mat-card-subtitle>
                 <span *ngFor="let categoryName of categoryNames">
                     <mat-checkbox class="example-margin" (change)='selectCategory(categoryName)'>{{ categoryName }}</mat-checkbox>
                 </span>
@@ -91,7 +91,7 @@
             </mat-card-actions>
         </mat-card>
     </form>
-    <form style="width: 30%">
+    <form style="width: 40%">
         <mat-card>
             <mat-card-header style="margin-bottom: 10px">
                 <mat-card-title>Are You on An Existing Club's Executive Board?</mat-card-title>
