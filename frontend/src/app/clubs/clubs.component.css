@@ -52,12 +52,13 @@
     display: flex;
     flex-direction: column;
     width: 1415px;
+    align-items: center;
 }
 
 .filters {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 200px;
     margin-top: 20px;
 }
 

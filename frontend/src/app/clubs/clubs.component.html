@@ -33,9 +33,10 @@
     </div>
     <br>
     <div class="filters">
-        <button style="margin-bottom: 10px" mat-raised-button>
+        <button style="margin-bottom: 10px; width: 100%;" mat-raised-button>
             <a mat-list-item [matMenuTriggerFor]="menu1">
-            Select Categories <span style="margin-bottom: -7px"><mat-icon>arrow_drop_down</mat-icon></span>
+            <span style="margin-top: 4px;">Select Categories </span>
+            <span style="margin-bottom: -10px"><mat-icon>arrow_drop_down</mat-icon></span>
             </a> 
         </button>
         <mat-menu  #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu1" #menu1="matMenu" yPosition="below">
@@ -44,7 +45,7 @@
         </span>
         </mat-menu>
         <div style="margin-bottom: 10px" *ngFor="let weekday of weekdays">
-            <button mat-raised-button style="background-color: #4786c6; width: 200px;">
+            <button mat-raised-button style="background-color: #4786c6; width: 100%;">
                 <mat-checkbox [checked]="isWeekdaySelected(weekday)" (change)="selectDay(weekday)">
                     {{ weekday }}&nbsp;&nbsp;
                 </mat-checkbox>
@@ -61,8 +62,8 @@
                 </mat-checkbox>
             </span>
         </div>
-        <button style="margin-bottom: 10px" mat-raised-button (click)='onFilter()'>Apply Filter</button>
-        <button style="background-color: grey; width: 120px" mat-raised-button (click)='onShowAllClubs()'>Clear Filters</button>
+        <button style="margin-bottom: 10px; width: 100%;" mat-raised-button (click)='onFilter()'>Apply Filters</button>
+        <button style="background-color: #646464; width: 120px; position: relative; right: 0px; top: 0px" mat-raised-button (click)='onShowAllClubs()'>Clear</button>
     </div>
 </div>
 
