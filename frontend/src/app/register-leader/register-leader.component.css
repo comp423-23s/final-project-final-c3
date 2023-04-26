@@ -23,3 +23,15 @@
     display: flex;
     flex-direction: row;
 }
+
+/* Inputting Time Styles */
+
+input[type=time] {
+    background-color: #424242;
+    border: solid;
+    border-color: #686868;
+    color: #2a2c2d;
+    font-size: 14px;
+    font-family: helvetica;
+    width: 180px;
+  }
