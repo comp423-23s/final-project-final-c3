@@ -22,7 +22,7 @@ export class RegisterLeaderComponent {
   public static Route: Route = {
     path: 'register_leader',
     component: RegisterLeaderComponent,
-    title: 'Register Leader',
+    title: 'Register As a Club Leader',
     canActivate: [isAuthenticated],
     resolve: { profile: profileResolver }
   };
@@ -90,14 +90,13 @@ export class RegisterLeaderComponent {
 
   // Function that displays message is leader regstration was successful
   existingClubOnSuccess(): void {
-    // this.navigationComponent.roles$ = this.roleAdminService.list_my_roles();
-    window.alert("Leader registration was successful.")
+    this.snackBar.open("Leader registration was successful", "", { duration: 4000 })
   }
 
   //Function that displays error message if the club code was incorrect
   existingClubOnError(err: Error): void{
     console.log(err)
-    window.alert("Wrong club code. Leader registration request denied.");
+    this.snackBar.open("Wrong Club Code: Leader Registration Request Denied", "", { duration: 4000 })
   }
 
   onSubmitNewClub(clubName: string, clubDescription: string): void {
@@ -109,7 +108,7 @@ export class RegisterLeaderComponent {
         }
       )
     } else {
-      window.alert("Please enter club name and description.")
+      this.snackBar.open("Please Enter Club Name and Description", "", { duration: 4000 })
     }
   }
 
@@ -190,12 +189,12 @@ export class RegisterLeaderComponent {
   }
 
   newClubOnSuccess(): void {
-    window.alert("Request was submitted.")
+    this.snackBar.open("Request Successfully Submitted", "", { duration: 2000 })
   }
 
   newClubOnError(err: Error): void{
     console.log(err)
-    window.alert("Request can't be submitted.")
+    this.snackBar.open("Unable to Submit Request", "", { duration: 2000 })
   }
 
   selectDay(weekday: String): void {
