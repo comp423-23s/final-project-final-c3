@@ -153,7 +153,7 @@ class ClubService:
         morning_start: time = time(hour=6, minute=0)
         morning_end: time = time(hour=12, minute=0)
         afternoon_end: time = time(hour=17, minute=0)
-        evening_end: time = time(hour=20, minute=0)
+        evening_end: time = time(hour=23, minute=59)
         for availability in availabilities:
             if availability[1] == "Morning":
                 print("🏁" + "entered start")
