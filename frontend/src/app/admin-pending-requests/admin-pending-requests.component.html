@@ -23,13 +23,9 @@
                                 {{ category.name }}&nbsp;&nbsp;
                             </span>             
                         </div>
-                        <div class='description'>
-                            <div>Meeting Times:&nbsp;</div>
-                            <br>
-                            <div *ngFor="let meetingTime of potential_club.meeting_times">
-                                {{ meetingTime.day }} {{ meetingTime.start_time }} - {{ meetingTime.end_time }}
-                                <br>
-                            </div>
+                        <div class='description'>Meeting Times:</div>
+                        <div class='description' *ngFor="let meetingTime of potential_club.meeting_times">
+                            &nbsp;&nbsp;&nbsp;&nbsp;• {{ meetingTime.day }} {{ convertToTime(meetingTime.start_time) }} - {{ convertToTime(meetingTime.end_time) }}
                         </div>
                         <mat-card-actions>
                             <button mat-raised-button (click)='approve(potential_club)' type="submit">

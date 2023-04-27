@@ -4,11 +4,8 @@ import { PotentialClub, WeekDayTime, Category } from '../register-leader.service
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile } from '../profile/profile.service'
-import { Club, ClubsService, User_Club } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
-import { LeaderClubsService } from '../leader-clubs.service';
 import { AdminPendingRequestsService } from '../admin-pending-requests.service';
 
 @Component({
@@ -71,5 +68,18 @@ export class AdminPendingRequestsComponent {
   // If the club could not be denied, display alert message
   denyOnError() {
     window.alert("Request can't be denied.")
+  }
+
+  convertToTime(timeStr: String) {
+    var amOrPm: String = "AM"
+    var hour: number = parseInt(timeStr.split(":")[0])
+    var min: number = parseInt(timeStr.split(":")[1])
+    if (hour >= 12) {
+      amOrPm = 'PM'
+    }
+    if (hour > 12) {
+      hour = hour - 12
+    }
+    return `${hour<10?'0':''}${hour}:${min<10?'0':''}${min} ${amOrPm}`
   }
 }
