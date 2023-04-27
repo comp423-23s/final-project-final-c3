@@ -1,10 +1,21 @@
 <form>
-    <mat-form-field appearance="fill">
-        <mat-label>Select Your Role</mat-label>
-        <mat-select (selectionChange)="selectionChange($event.value)">
-            <mat-option *ngFor="let r of role_routes$ | async" [value]="r.display">
-                {{ r.display }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+    <mat-card>
+        <mat-card-header style="margin-bottom:15px">
+            <mat-card-title>Change Your Role</mat-card-title>
+            <mat-card-subtitle>If you are an administrator or club leader, 
+                you may change your role to view your corresponding capabilities. 
+                If you are not a club leader but would like to become one, <a style="color: #c7c7c7" routerLink="/register_leader">submit a request here.</a>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field appearance="fill">
+                <mat-label>Select Your Role</mat-label>
+                <mat-select (selectionChange)="selectionChange($event.value)">
+                    <mat-option *ngFor="let r of role_routes$ | async" [value]="r.display">
+                        {{ r.display }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </mat-card-content>
+    </mat-card>
 </form>

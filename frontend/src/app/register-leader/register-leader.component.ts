@@ -114,14 +114,11 @@ export class RegisterLeaderComponent {
 
   private onSuccessUpdateProfile(profile: Profile, clubName: String, clubDescription: string): void {
     var meetingTimes: WeekDayTime[] = []
-    console.log(this.mondayStartTime)
-    console.log(this.mondayEndTime)
     if (this.hasWeekday("Monday")) {
       var mondayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Monday",
-        // start_time: this.mondayStartime,
-        start_time: this.mondayEndTime,
+        start_time: this.mondayStartTime,
         end_time: this.mondayEndTime
       }
       meetingTimes.push(mondayWeekdayTime)
