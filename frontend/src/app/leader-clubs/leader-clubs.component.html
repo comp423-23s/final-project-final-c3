@@ -39,6 +39,11 @@
                         </div>
                         <div class="side-buttons">
                             <mat-card-actions>
+                                <a mat-list-item class="logo-item">
+                                    <img class="logo" [src]="'assets/' + club.name + '.png'" alt="No club logo" />
+                                </a>
+                            </mat-card-actions>
+                            <mat-card-actions>
                                 <button mat-raised-button (click)='alterText(club)' type="submit">
                                     {{ club.show_short_description ? "Read More" : "Read Less" }}
                                 </button>
