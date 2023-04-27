@@ -43,7 +43,6 @@ export class ClubsComponent {
     this.filtered_clubs$ = this.clubs$
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
       return clubs.map(club => {
-        // console.log("Club categories numbers: " + club.categories.length)
         return {...club, show_short_description: true}})
     }))
     this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
@@ -124,11 +123,11 @@ export class ClubsComponent {
   onError(err: Error): void{
     if (err.message) {
       console.log(err)
-      window.alert("The error is: " + err.message);
+      this.snackBar.open("⚠️ Join Unsuccessful: This isn't your fault, but something went wrong. Please try again later." , "", { duration: 4000 })
     } else {
-      window.alert("Unknown error: " + JSON.stringify(err));
+      this.snackBar.open("⚠️ Join Unsuccessful: This isn't your fault, but something went wrong. Please try again later." , "", { duration: 4000 })
     }
-    this.snackBar.open("Join Unsuccessful: You May Need To Update Your Profile " , "", { duration: 4000 })
+    this.snackBar.open("⚠️ Join Unsuccessful: You May Need To Update Your Profile " , "", { duration: 4000 })
   }
 
   // Controls which description is rendered on screen (short or long)
@@ -233,5 +232,18 @@ export class ClubsComponent {
     this.selectedWeekdays = new Set()
     this.selectedWeekdayTimes = new Set()
     this.selectedCategories = new Set()
+  }
+
+  convertToTime(timeStr: String) {
+    var amOrPm: String = "AM"
+    var hour: number = parseInt(timeStr.split(":")[0])
+    var min: number = parseInt(timeStr.split(":")[1])
+    if (hour >= 12) {
+      amOrPm = 'PM'
+    }
+    if (hour > 12) {
+      hour = hour - 12
+    }
+    return `${hour<10?'0':''}${hour}:${min<10?'0':''}${min} ${amOrPm}`
   }
 }

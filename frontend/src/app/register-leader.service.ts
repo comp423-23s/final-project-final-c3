@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { ClubsService } from './clubs.service';
-import { Time } from '@angular/common';
+
 
 export interface PotentialClub {
   id: number | undefined;
@@ -43,7 +43,6 @@ export class RegisterLeaderService {
   leaderRegistrationRequestForExistingClub(clubId: number, givenClubCode: String): Observable<String> {
     console.log("frontend service called")
     return this.http.get<String>(`/api/club/add/leader/to/club/${clubId}/${givenClubCode}`)
-    // return this.http.get<String>(`/api/club/add/leader/to/club/${clubId}/${givenClubCode}`)
   }
 
   /**
@@ -54,7 +53,6 @@ export class RegisterLeaderService {
    */
   leaderRegistrationRequestForNonExistingClub(potentialClub: PotentialClub): Observable<String> {
     return this.http.post<String>("/api/club/potential/club/request", potentialClub)
-    // return this.http.get<String>(`/api/admin/club/requests/potential/club/request/${potentialClub.id}/${potentialClub.name}/${potentialClub.description}`)
   }
 
   /**
