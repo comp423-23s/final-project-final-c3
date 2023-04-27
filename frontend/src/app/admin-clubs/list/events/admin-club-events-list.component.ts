@@ -28,6 +28,7 @@ export class AdminClubEventsListComponent {
     })
     this.clubsService.getClubEvents(this.club_id).subscribe(events => {
       this.clubEvents = events
+
     })
   }
 }
