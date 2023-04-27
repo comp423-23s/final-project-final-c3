@@ -1,0 +1,42 @@
+.show-less {
+    height: 4rem;
+    overflow: hidden;
+    padding: 1rem;
+}
+
+.description {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    width: 80%;
+}
+
+.side-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: flex-end;
+    position:absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.time-place {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.event-name-join-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.read-more {
+    background: #424242;
+    color: white;
+    border: hidden;
+}
+  

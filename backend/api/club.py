@@ -118,6 +118,19 @@ def get_leaders(
         raise HTTPException(status_code=404, detail=str(e))
 
 
+@api.get("/get/club/name/{club_id}", tags=['Club'])
+def get_club_name(
+    club_id: int,
+    club_svc: ClubService=Depends()
+) -> str:
+    """Returns club name for a particular club."""
+    try:
+        return club_svc.get_club_name(club_id)
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+
+
 @api.delete("/delete/club/{club_id}", tags=['Club'])
 def remove_leader_from_club(
     club_id: int,
@@ -225,6 +238,19 @@ def filter(
     """Gets all clubs accoriding to specificied availability and categories."""
     try:
         return club_svc.filter_by_availability_and_category(body[0], body[1])
+    except Exception as e:
+        print("❌" + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
+    
+@api.get("/club/requests", response_model=list[PotentialClub], tags=['Club'])
+def user_requests(
+    subject: User = Depends(registered_user),
+    potential_club_svc: PotentialClubService = Depends()
+):
+    """Gets all potential clubs for a user."""
+    try:
+        return potential_club_svc.user_requests(subject)
     except Exception as e:
         print("❌" + str(e))
         raise HTTPException(status_code=404, detail=str(e))

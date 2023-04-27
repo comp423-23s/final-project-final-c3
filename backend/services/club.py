@@ -109,6 +109,12 @@ class ClubService:
             user_entity = self._session.get(UserEntity, an_id)
             leaders.append(user_entity.to_model())
         return leaders
+
+
+    def get_club_name(self, club_id: int) -> str:
+        """get club name by club id"""
+        club_entity = self._session.get(ClubEntity, club_id)
+        return club_entity.name
     
 
     def delete_club(self, club_id: int) -> None:
@@ -147,7 +153,7 @@ class ClubService:
         morning_start: time = time(hour=6, minute=0)
         morning_end: time = time(hour=12, minute=0)
         afternoon_end: time = time(hour=17, minute=0)
-        evening_end: time = time(hour=20, minute=0)
+        evening_end: time = time(hour=23, minute=59)
         for availability in availabilities:
             if availability[1] == "Morning":
                 print("🏁" + "entered start")

@@ -1,37 +1,38 @@
-<tr *ngFor="let user_event of user_events$ | async">
-    <div style="position: relative">
-        <mat-card style="width:1600px;">
-            <mat-card-header>
-                <div class="'event-name-join-button">
-                    <mat-card-title>{{ user_event.event.name }}</mat-card-title>
-                </div>
-            </mat-card-header>
-            <mat-card-content>
-                <div class='description'>
-                    {{ user_event.event.show_short_description ? getShortDescription(user_event.event) : user_event.event.description }}
-                </div>
-                <div>
-                    <mat-card-actions>
-                        <button mat-raised-button (click)='alterText(user_event.event)' type="submit">
-                            {{ user_event.event.show_short_description ? "Read More" : "Read Less" }}
-                        </button>
-                    </mat-card-actions>
-                    <div class="side-buttons">
-                        <mat-card-actions>
-                            <button mat-raised-button *ngIf="user_event.is_joined; else elseBlock" (click)='changeStatus(user_event)'>Cancel Registration</button>
-                            <ng-template #elseBlock>
-                                <button mat-raised-button (click)='changeStatus(user_event)'>Register</button>
-                            </ng-template> 
-                        </mat-card-actions>
+<div style="z-index:0; position: absolute">
+    <tr *ngFor="let user_event of user_events$ | async">
+        <div style="position: relative">
+            <mat-card style="width:1750px;">
+                <mat-card-header>
+                    <div class="'event-name-join-button">
+                        <mat-card-title>{{ user_event.event.name }}</mat-card-title>
                     </div>
-                </div>
-                <br>
-                <div class="time-place">
-                    <span style="font-size: 16px">{{ user_event.event.start_time | date: 'MM/dd/yy @ hh:mma' }} </span>
-                    <span style="font-size: 16px">{{ user_event.event.end_time | date: 'MM/dd/yy @ hh:mma' }} </span>
-                    <span style="font-size: 16px">{{ user_event.event.location  }}</span>
-                </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
-</tr>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class='description'>
+                        {{ user_event.event.show_short_description ? getShortDescription(user_event.event) : user_event.event.description }}
+                    </div>
+                    <div>
+                        <div class="side-buttons">
+                            <mat-card-actions>
+                                <button mat-raised-button *ngIf="user_event.is_joined; else elseBlock" (click)='changeStatus(user_event)'>Cancel Registration</button>
+                                <ng-template #elseBlock>
+                                    <button mat-raised-button (click)='changeStatus(user_event)'>Register</button>
+                                </ng-template> 
+                            </mat-card-actions>
+                            <mat-card-actions>
+                                <button mat-raised-button (click)='alterText(user_event.event)' type="submit">
+                                    {{ user_event.event.show_short_description ? "Read More" : "Read Less" }}
+                                </button>
+                            </mat-card-actions>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="time-place">
+                        <span style="font-size: 14px">When:  {{ user_event.event.start_time | date: 'MMM d, y, h:mm a' }} - {{ user_event.event.end_time | date: 'MMM d, y, h:mm a' }}</span>
+                        <span style="font-size: 14px">Where: {{ user_event.event.location  }}</span>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </tr> 
+</div>

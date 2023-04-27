@@ -9,6 +9,7 @@ As a student, one may:
 * Register or Cancel Registration for an event
 * View the clubs of which they are currently members 
 * View the events for which they are currently registered
+* Search through clubs via filtering, either by availability or interests (categories)
 * Become a leader of a club:
     - Either: become a leader of an existing club: student needs to select the club from a dropdown box, and submit a 8-digit Club Code
         - If the Club Code is correct, then the student becomes the leader of this club
@@ -25,6 +26,7 @@ As a leader of a club (e.g. President), one may:
 
 As an administrator, one may:
 * Approve or deny a student's request to create a new club
+Note: Only Arden Administrator can add and delete other Administrators
 
 
 # Implementation Notes

@@ -1,3 +1,50 @@
-.example-margin {
-    margin: 0 12px;
-  }
+.mat-mdc-card {
+    margin: 1em;
+    max-width: 640px;
+}
+
+.mat-mdc-form-field {
+    width: stretch;
+    /* margin-left: 1em; */
+}
+
+.mat-mdc-card-actions .mdc-button {
+    margin-left: 8px;
+    margin-bottom: 8px;
+}
+
+.flex-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.time-field {
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+    margin-top: 7px;
+}
+
+/* Inputting Time Styles */
+
+input[type=time] {
+    background-color: #424242;
+    border: solid;
+    border-color: #686868;
+    color: white;
+    font-size: 14px;
+    font-family: helvetica;
+    width: 95px;
+    height: 25px;
+    border-radius: 12px;
+    margin-right: 10px;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg);
+}
+
+.mat-mdc-checkbox {
+    margin-bottom: -20px
+}

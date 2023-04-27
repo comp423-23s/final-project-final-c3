@@ -1,32 +1,33 @@
-<tr *ngFor="let event of my_events$ | async">
-    <div style="position: relative">
-        <mat-card style="width:1600px;">
-            <mat-card-header>
-                <div class="'event-name-join-button">
-                    <mat-card-title>{{ event.name }}</mat-card-title>
-                </div>
-            </mat-card-header>
-            <mat-card-content>
-                <div class='description'>
-                    {{ event.show_short_description ? getShortDescription(event) : event.description }}
-                </div>
-                <div class="side-buttons">
-                    <mat-card-actions>
-                        <button mat-raised-button (click)='onCancel(event)' type="submit">Cancel Registration</button>
-                    </mat-card-actions>
-                    <mat-card-actions>
-                        <button mat-raised-button (click)='alterText(event)' type="submit">
-                            {{ event.show_short_description ? "Read More" : "Read Less" }}
-                        </button>
-                    </mat-card-actions>
-                </div>
-                <br>
-                <div class="time-place">
-                    <span style="font-size: 16px">{{ event.start_time | date: 'MM/dd/yy @ hh:mma' }} </span>
-                    <span style="font-size: 16px">{{ event.end_time | date: 'MM/dd/yy @ hh:mma' }} </span>
-                    <span style="font-size: 16px">{{ event.location }}</span>
-                </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
-</tr>
+<div style="z-index:0; position: absolute">
+    <tr *ngFor="let event of my_events$ | async">
+        <div style="position: relative">
+            <mat-card style="width:1750px;">
+                <mat-card-header>
+                    <div class="'event-name-join-button">
+                        <mat-card-title>{{ event.name }}</mat-card-title>
+                    </div>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class='description'>
+                        {{ event.show_short_description ? getShortDescription(event) : event.description }}
+                    </div>
+                    <div class="side-buttons">
+                        <mat-card-actions>
+                            <button mat-raised-button (click)='onCancel(event)' type="submit">Cancel Registration</button>
+                        </mat-card-actions>
+                        <mat-card-actions>
+                            <button mat-raised-button (click)='alterText(event)' type="submit">
+                                {{ event.show_short_description ? "Read More" : "Read Less" }}
+                            </button>
+                        </mat-card-actions>
+                    </div>
+                    <br>
+                    <div class="time-place">
+                        <span style="font-size: 14px">When:  {{ event.start_time | date: 'MMM d, y, h:mm a' }} - {{ event.end_time | date: 'MMM d, y, h:mm a' }}</span>
+                        <span style="font-size: 14px">Where: {{ event.location  }}</span>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </tr>    
+</div>
