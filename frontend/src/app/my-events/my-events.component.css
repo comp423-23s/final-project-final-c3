@@ -37,3 +37,11 @@
 .mat-mdc-card:hover {
     box-shadow: 0px 0px 5px #8c8c8c;
 }
+
+.empty-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top:35px;
+}
