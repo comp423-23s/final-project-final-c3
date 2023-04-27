@@ -124,11 +124,11 @@ export class ClubsComponent {
   onError(err: Error): void{
     if (err.message) {
       console.log(err)
-      window.alert("The error is: " + err.message);
+      this.snackBar.open("⚠️ Join Unsuccessful: This isn't your fault, but something went wrong. Please try again later." , "", { duration: 4000 })
     } else {
-      window.alert("Unknown error: " + JSON.stringify(err));
+      this.snackBar.open("⚠️ Join Unsuccessful: This isn't your fault, but something went wrong. Please try again later." , "", { duration: 4000 })
     }
-    this.snackBar.open("Join Unsuccessful: You May Need To Update Your Profile " , "", { duration: 4000 })
+    this.snackBar.open("⚠️ Join Unsuccessful: You May Need To Update Your Profile " , "", { duration: 4000 })
   }
 
   // Controls which description is rendered on screen (short or long)

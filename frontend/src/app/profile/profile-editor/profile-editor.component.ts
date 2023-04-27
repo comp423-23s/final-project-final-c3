@@ -74,7 +74,7 @@ export class ProfileEditorComponent implements OnInit {
   }
 
   private onError(err: any) {
-    console.error("How to handle this?");
+    this.snackBar.open("⚠️ Profile was NOT saved!", "", { duration: 2000 })
   }
 
 }

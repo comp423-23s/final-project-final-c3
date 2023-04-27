@@ -75,11 +75,11 @@ export class RegisterEventComponent {
   }
 
   private onError(err: any) {
-    this.snackBar.open("You Have Entered an Incorrect Club Code", "", { duration: 2000 })
+    this.snackBar.open("You Have Entered an Incorrect Club Code!", "", { duration: 2000 })
   }
 
   private onErrorCreation(err: any) {
-    this.snackBar.open("Unable to Complete Event Registration", "", { duration: 2000 })
+    this.snackBar.open("Unable to Complete Event Registration!", "", { duration: 2000 })
   }
 
   onSubmit(): void {
