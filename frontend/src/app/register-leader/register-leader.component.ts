@@ -33,7 +33,7 @@ export class RegisterLeaderComponent {
   public selectedClubId: number = 0
   public clubExists = true
   public potentialClubId = 0
-  public categoryNames = ["Womxn", "Black/AA", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Nonbinary", "Volunteer", "iOS Development", "Business", "Project Management"]
+  public categoryNames = ["Womxn", "Black/AA", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-binary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedWeekdays: Set<String> = new Set()
   public selectedCategories: Set<String> = new Set()
   // mondayStartTime = new Date()
