@@ -1,5 +1,5 @@
 <div *ngIf="(my_pending_clubs$ | async) as clubs">
-    <ng-container *ngIf="clubs.length === 0; else list">
+    <ng-container *ngIf="clubs.length < 1; else list">
         <div class="empty-list">
             <mat-card-title>Oops! Looks like you do not have any pending club creation requests.</mat-card-title>
             <div style="display: flex;flex-direction:row">
