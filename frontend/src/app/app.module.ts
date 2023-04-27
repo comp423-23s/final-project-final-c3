@@ -53,6 +53,7 @@ import { AdminClubLeadersListComponent } from './admin-clubs/list/leaders/admin-
 import { AdminClubEventsListComponent } from './admin-clubs/list/events/admin-club-events-list.component';
 import { LeaderClubMembersListComponent } from './leader-clubs/leader-club-members-list/leader-club-members-list.component';
 import { StudentPendingRequestsComponent } from './student-pending-requests/student-pending-requests.component';
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { StudentPendingRequestsComponent } from './student-pending-requests/stud
     ChangeAdminComponent,
     ManageEventsComponent,
     LeaderClubMembersListComponent,
-    StudentPendingRequestsComponent
+    StudentPendingRequestsComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
