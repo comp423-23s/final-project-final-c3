@@ -55,7 +55,7 @@
         </button>
         <mat-menu  #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu1" #menu1="matMenu" yPosition="below">
         <span *ngFor="let category of categories">
-            <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)' (click)="$event.stopPropagation();">{{ category }} </mat-checkbox>
+            <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
         </span>
         </mat-menu>
         <div style="margin-bottom: 10px" *ngFor="let weekday of weekdays">
