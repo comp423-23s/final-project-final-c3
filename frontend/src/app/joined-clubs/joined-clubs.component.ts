@@ -5,6 +5,7 @@ import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile } from '../profile/profile.service';
 import { Club, ClubsService } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-joined-clubs',
@@ -24,7 +25,7 @@ export class JoinedClubsComponent {
   public profile: Profile
   public clubs$: Observable<Club[]>
 
-  constructor(route: ActivatedRoute, private clubsService: ClubsService) {
+  constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
     console.log(route.snapshot)
     this.profile = data.profile
@@ -52,9 +53,9 @@ export class JoinedClubsComponent {
   onError(err: Error) : void{
     if (err.message) {
       console.log(err)
-      window.alert(err.message);
+      this.snackBar.open("⚠️ Couldn't get your clubs! This isn't your fault, but something went wrong. Please try again later." , "", { duration: 4000 })
     } else {
-      window.alert("Unknown error: " + JSON.stringify(err));
+      this.snackBar.open("⚠️ Couldn't get your clubs! This isn't your fault but something went wrong. Please try again later." , "", { duration: 4000 })
     }
   }
 
