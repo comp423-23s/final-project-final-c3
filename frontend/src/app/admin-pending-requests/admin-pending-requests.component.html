@@ -1,7 +1,7 @@
 <div *ngIf="(potential_clubs$ | async) as clubs">
     <ng-container *ngIf="clubs.length === 0; else list">
         <div class="empty-list">
-            <mat-card-title>Oops! There are not currently any pending requests to become a club leader.</mat-card-title>
+            <mat-card-title>There are not currently any pending requests to become a club leader.</mat-card-title>
         </div>
     </ng-container>
     <ng-template #list>
