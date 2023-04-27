@@ -19,12 +19,12 @@
                             <div>Meeting Times:&nbsp;</div>
                             <br>
                             <div *ngFor="let meetingTime of user_club.club.meeting_times">
-                                {{ meetingTime.day }} {{ meetingTime.start_time }} - {{ meetingTime.end_time }}&nbsp;&nbsp;&nbsp;&nbsp;
+                                {{ meetingTime.day }} {{ meetingTime.start_time }} - {{ meetingTime.end_time }}
                                 <br>
                             </div>
                         </div>
                         <div class='description'>
-                            Description: {{ user_club.club.show_short_description ? getShortDescription(user_club.club) : user_club.club.description }}                  
+                            {{ user_club.club.show_short_description ? getShortDescription(user_club.club) : user_club.club.description }}                  
                         </div>
                         <br>
                         <div class="side-buttons">
@@ -80,4 +80,5 @@
         <button style="background-color: #646464; width: 80px; height: 30px;position: relative; left: 120px; top: 0px" mat-raised-button (click)='onShowAllClubs()'>Clear</button>
     </div>
 </div>
+
 
