@@ -45,9 +45,9 @@ export class MyEventsComponent {
   onError(err: Error) : void{
     if (err.message) {
       console.log(err)
-      window.alert("The error is: " + err.message);
+      this.snackBar.open("⚠️ Couldn't remove you from the event! This isn't your fault, but something went wrong. Please try again later." , "", { duration: 4000 })
     } else {
-      window.alert("Unknown error: " + JSON.stringify(err));
+      this.snackBar.open("⚠️ Couldn't remove you from the event! This isn't your fault, but something went wrong. Please try again later." , "", { duration: 4000 })
     }
   }
 

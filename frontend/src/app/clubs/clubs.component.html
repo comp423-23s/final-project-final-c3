@@ -15,13 +15,9 @@
                                 {{ category.name }}&nbsp;&nbsp;
                             </span>             
                         </div>
-                        <div class='description'>
-                            <div>Meeting Times:&nbsp;</div>
-                            <br>
-                            <div *ngFor="let meetingTime of user_club.club.meeting_times">
-                                {{ meetingTime.day }} {{ meetingTime.start_time }} - {{ meetingTime.end_time }}
-                                <br>
-                            </div>
+                        <div class='description'>Meeting Times:</div>
+                        <div class='description' *ngFor="let meetingTime of user_club.club.meeting_times">
+                            &nbsp;&nbsp;&nbsp;&nbsp;• {{ meetingTime.day }} {{ convertToTime(meetingTime.start_time) }} - {{ convertToTime(meetingTime.end_time) }}
                         </div>
                         <div class='description'>
                             {{ user_club.club.show_short_description ? getShortDescription(user_club.club) : user_club.club.description }}                  
