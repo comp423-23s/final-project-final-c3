@@ -1,43 +1,45 @@
-<div *ngIf="(my_events$ | async) as events">
-    <ng-container *ngIf="events.length === 0; else list">
-        <div class="empty-list">
-            <mat-card-title>Oops! Looks like you are not currently registered for any events.</mat-card-title>
-            <div style="display: flex;flex-direction:row">
-                <mat-card-subtitle>View a list of <a style="color: #c7c7c7" routerLink="/events">All Events</a> to register. </mat-card-subtitle>
+<div style="z-index:0; position:absolute">
+    <div *ngIf="(my_events$ | async) as events">
+        <ng-container *ngIf="events.length === 0; else list">
+            <div class="empty-list">
+                <mat-card-title>Oops! Looks like you are not currently registered for any events.</mat-card-title>
+                <div style="display: flex;flex-direction:row">
+                    <mat-card-subtitle>View a list of <a style="color: #c7c7c7" routerLink="/events">All Events</a> to register. </mat-card-subtitle>
+                </div>
             </div>
-        </div>
-    </ng-container>
-    <ng-template #list>
-        <tr *ngFor="let event of events">
-            <div style="position: relative">
-                <mat-card style="width:1750px;">
-                    <mat-card-header>
-                        <div class="'event-name-join-button">
-                            <mat-card-title>{{ event.name }}</mat-card-title>
-                        </div>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <div class='description'>
-                            {{ event.show_short_description ? getShortDescription(event) : event.description }}
-                        </div>
-                        <div class="side-buttons">
-                            <mat-card-actions>
-                                <button mat-raised-button (click)='onCancel(event)' type="submit">Cancel Registration</button>
-                            </mat-card-actions>
-                            <mat-card-actions>
-                                <button mat-raised-button (click)='alterText(event)' type="submit">
-                                    {{ event.show_short_description ? "Read More" : "Read Less" }}
-                                </button>
-                            </mat-card-actions>
-                        </div>
-                        <br>
-                        <div class="time-place">
-                            <span style="font-size: 14px">When:  {{ event.start_time | date: 'MMM d, y, h:mm a' }} - {{ event.end_time | date: 'MMM d, y, h:mm a' }}</span>
-                            <span style="font-size: 14px">Where: {{ event.location  }}</span>
-                        </div>
-                    </mat-card-content>
-                </mat-card>
-            </div>
-        </tr>        
-    </ng-template>
+        </ng-container>
+        <ng-template #list>
+            <tr *ngFor="let event of events">
+                <div style="position: relative">
+                    <mat-card style="width:1750px;">
+                        <mat-card-header>
+                            <div class="'event-name-join-button">
+                                <mat-card-title>{{ event.name }}</mat-card-title>
+                            </div>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div class='description'>
+                                {{ event.show_short_description ? getShortDescription(event) : event.description }}
+                            </div>
+                            <div class="side-buttons">
+                                <mat-card-actions>
+                                    <button mat-raised-button (click)='onCancel(event)' type="submit">Cancel Registration</button>
+                                </mat-card-actions>
+                                <mat-card-actions>
+                                    <button mat-raised-button (click)='alterText(event)' type="submit">
+                                        {{ event.show_short_description ? "Read More" : "Read Less" }}
+                                    </button>
+                                </mat-card-actions>
+                            </div>
+                            <br>
+                            <div class="time-place">
+                                <span style="font-size: 14px">When:  {{ event.start_time | date: 'MMM d, y, h:mm a' }} - {{ event.end_time | date: 'MMM d, y, h:mm a' }}</span>
+                                <span style="font-size: 14px">Where: {{ event.location  }}</span>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </tr>        
+        </ng-template>
+    </div>    
 </div>

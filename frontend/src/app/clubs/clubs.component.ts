@@ -1,13 +1,11 @@
 import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map, of, timeInterval } from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile, ProfileService } from '../profile/profile.service'
 import { Club, ClubsService, User_Club } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatMenuTrigger } from '@angular/material/menu';
-import {MatIconModule} from '@angular/material/icon'
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +16,7 @@ import {MatIconModule} from '@angular/material/icon'
   styleUrls: ['./clubs.component.css']
 })
 export class ClubsComponent {
-  // Use an observable class so that the event data can be synchronous with the database
+  // Use an Observable class so that the event data can be synchronous with the database
 
   public static Route: Route = {
     path: 'all_clubs',
@@ -34,7 +32,7 @@ export class ClubsComponent {
   public user_clubs$: Observable<User_Club[]>
   public weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
   public selectedWeekdays: Set<String> = new Set()
-  public selectedWeekdayTimes: Set<[String, String]> = new Set()
+  public selectedWeekdayTimes: Set<String> = new Set()
   public categories = ["Womxn", "Black/African American", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-Binary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedCategories: Set<String> = new Set()
 
@@ -45,7 +43,7 @@ export class ClubsComponent {
     this.filtered_clubs$ = this.clubs$
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
       return clubs.map(club => {
-        console.log("Club categories numbers: " + club.categories.length)
+        // console.log("Club categories numbers: " + club.categories.length)
         return {...club, show_short_description: true}})
     }))
     this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
@@ -149,9 +147,9 @@ export class ClubsComponent {
   selectDay(weekday: String): void {
     if (this.selectedWeekdays.has(weekday)) {
       this.selectedWeekdays.delete(weekday)
-      var newSelectedWeekdayTimes: Set<[String, String]> = new Set()
+      var newSelectedWeekdayTimes: Set<String> = new Set()
       for (var weekdayTime of this.selectedWeekdayTimes) {
-        if (weekdayTime[0] != weekday) {
+        if (weekdayTime.split(" ")[0] != weekday) {
           newSelectedWeekdayTimes.add(weekdayTime)
         }
       }
@@ -166,7 +164,7 @@ export class ClubsComponent {
   }
 
   selectWeekdayTime(weekday: String, timeslot: String): void {
-    var curWeekdayTime: [String, String] = [weekday, timeslot]
+    var curWeekdayTime: String = weekday + " " + timeslot
     if (this.selectedWeekdayTimes.has(curWeekdayTime)) {
       this.selectedWeekdayTimes.delete(curWeekdayTime)
     } else {
@@ -190,7 +188,7 @@ export class ClubsComponent {
     for (var weekday of this.selectedWeekdays) {
       var thisWeekdayHasTimeSlot = false
       for (var weekdayTime of this.selectedWeekdayTimes) {
-        if (weekdayTime[0] == weekday) {
+        if (weekdayTime.split(" ")[0] == weekday) {
           thisWeekdayHasTimeSlot = true
           break
         }
@@ -202,7 +200,7 @@ export class ClubsComponent {
     }
     var availabilities: [String, String][] = []
     for (var availability of this.selectedWeekdayTimes) {
-      availabilities.push(availability)
+      availabilities.push([availability.split(" ")[0], availability.split(" ")[1]])
     }
     var categories: String[] = []
     for (var category of this.selectedCategories) {
