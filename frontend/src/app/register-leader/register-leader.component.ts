@@ -33,7 +33,7 @@ export class RegisterLeaderComponent {
   public selectedClubId: number = 0
   public clubExists = true
   public potentialClubId = 0
-  public categoryNames = ["Womxn", "Black/AA", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Nonbinary", "Volunteer", "iOS Development", "Business", "Project Management"]
+  public categoryNames = ["Womxn", "Black/AA", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-binary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedWeekdays: Set<String> = new Set()
   public selectedCategories: Set<String> = new Set()
   // mondayStartTime = new Date()
@@ -114,14 +114,11 @@ export class RegisterLeaderComponent {
 
   private onSuccessUpdateProfile(profile: Profile, clubName: String, clubDescription: string): void {
     var meetingTimes: WeekDayTime[] = []
-    console.log(this.mondayStartTime)
-    console.log(this.mondayEndTime)
     if (this.hasWeekday("Monday")) {
       var mondayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Monday",
-        // start_time: this.mondayStartime,
-        start_time: this.mondayEndTime,
+        start_time: this.mondayStartTime,
         end_time: this.mondayEndTime
       }
       meetingTimes.push(mondayWeekdayTime)
