@@ -9,6 +9,7 @@ from backend.entities.user_event_entity import user_event_table
 from backend.entities.user_club_entity import user_club_table
 from backend.entities.leader_club_entity import leader_club_table
 
+
 class EventService:
     _session: Session
     
@@ -29,11 +30,9 @@ class EventService:
         print(str(len(events)))
         return events
     
-
-# STUDENT METHODS
-
+    # STUDENT METHODS
     def events_by_user(self, subject: User) -> list[Event]:
-        """Get events user has registered for by user's pid."""
+        """Gets the events a student has registered for."""
         events: list[Event] = []
         query = select(user_event_table.c.event_id).where(user_event_table.c.user_id == subject.id)
         event_entities = self._session.scalars(query).all()
@@ -42,9 +41,8 @@ class EventService:
             events.append(event_entity.to_model())
         return events
 
-
     def add_user_to_event(self, subject: User, event_id: int) -> None:
-        """Add a user to an event."""
+        """Registers a student to an event."""
         event_entity = self._session.get(EventEntity, event_id)
         user_entity = self._session.get(UserEntity, subject.id)
         if event_entity is None:
@@ -57,9 +55,8 @@ class EventService:
             raise Exception("User does not exist.")
         self._session.commit()
         
-
     def delete_user_from_event(self, subject: User, event_id: int) -> None:
-        """Degregister a user from an event."""
+        """Deregisters a student from an event."""
         event_entity = self._session.get(EventEntity, event_id)
         user_entity = self._session.get(UserEntity, subject.id)
         if event_entity is None:
@@ -69,9 +66,8 @@ class EventService:
         event_entity.attendees.remove(user_entity)
         self._session.commit()
     
-    
     def is_user_registered(self, subject: User, event_id: int) -> bool:
-        """Returns True if the user is registered for the event."""
+        """Returns whether the student is registered for the event."""
         event_entity = self._session.get(EventEntity, event_id)
         event = event_entity.to_model()
         for attendee in event.attendees:
@@ -79,7 +75,6 @@ class EventService:
                 return True
             return False
 
-        
     def get_events_by_club_id(self, club_id: int) -> list[Event]:
         """Returns a list of all events the club has registered."""
         events: list[Event] = []
@@ -93,7 +88,6 @@ class EventService:
                 events.append(model)
             return events
 
-
 # CLUB LEADER METHODS
     def create_event(self, event: Event) -> None:
         """Creates a new event."""
@@ -105,7 +99,7 @@ class EventService:
         self._session.commit()
         
     def get_club_name_by_club_id(self, club_id: int) -> str:
-        """Gets a club's name by event id."""
+        """Gets a club's name by club id."""
         query = select(ClubEntity.name).where(ClubEntity.id == club_id)
         club_name = self._session.scalar(query)
         return club_name
@@ -124,7 +118,6 @@ class EventService:
         self._session.delete(event_entity)
         self._session.commit()
         
-        
     def get_users_in_event(self, event_id: int) -> list[User]:
         """Returns a list of all students registered for an event."""
         students: list[User] = []
@@ -136,8 +129,8 @@ class EventService:
             students.append(attendee.to_model())
         return students
     
-
     def get_club_id_from_code(self, club_code: str) -> int:
+        """Returns the club id based on the club code."""
         query = select(ClubEntity).where(ClubEntity.club_code == club_code)
         club_entity = self._session.scalars(query).all()
         if club_entity is None:
@@ -146,10 +139,9 @@ class EventService:
             if club.club_code == club_code:
                 print("This is what club id is equal to in backend services:" + str(club.id))
                 return club.id
-
    
     def events_by_leader(self, subject:User) -> list[Event]:
-        """Gets events by the leader's clubs"""
+        """Returns all events hosted by the leader's leading clubs."""
         events: list[Event] = []
         clubs = self.get_clubs_by_leader(subject)
         if clubs is None:
@@ -160,8 +152,8 @@ class EventService:
                 events.append(event)
         return events
     
-
     def get_clubs_by_leader(self, subject: User) -> list[Club]:
+        """Returns all clubs a leader is leading."""
         clubs = []
         clubs_query = select(leader_club_table.c.club_id).where(leader_club_table.c.user_id == subject.id)
         club_ids = self._session.scalars(clubs_query).all()
@@ -172,15 +164,14 @@ class EventService:
             clubs.append(club)
         return clubs
     
-
     def get_club_by_id(self, club_id: int) -> Club:
+        """Gets the Club model based on club id"""
         query = select(ClubEntity).where(ClubEntity.id == club_id)
         club_entity: ClubEntity = self._session.scalar(query)
         if club_entity is None:
             raise Exception("Club does not exist.")
         return club_entity.to_model()
     
-
     def get_events_by_club_id(self, club_id: int) -> list[Event]:
         """Returns a list of all events the club has registered."""
         events: list[Event] = []
