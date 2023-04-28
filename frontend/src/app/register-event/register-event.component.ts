@@ -70,17 +70,30 @@ export class RegisterEventComponent {
   }
 
   private onSuccess(string: string) {
-    this.snackBar.open("Event Created", "", { duration: 2000 })
+    this.snackBar.open("Event Created!", "", { duration: 4000 })
     this.form.reset()
   }
 
-  private onError(err: any) {
-    this.snackBar.open("You Have Entered an Incorrect Club Code!", "", { duration: 2000 })
+  private onError(err: Error) : void {
+    if (err.message == "404"){
+      console.log(err.message)
+      this.snackBar.open("⚠️ Club Not Found!", "", { duration: 4000 })
+    }
+    else if (err.message == "401") {
+      this.snackBar.open("⚠️ You Are Not Authorized to Create Events for This Club!", "", { duration: 4000 })
+    }
+    else if (err.message == "400") {
+      this.snackBar.open("⚠️ You Have Entered an Invalid Club Code!", "", { duration: 4000 })
+    }
+    else {
+      this.snackBar.open("⚠️ Unable to Complete Event Registration! Make sure you club code is correct. ", "", { duration: 4000 })
+    }
   }
 
   private onErrorCreation(err: any) {
-    this.snackBar.open("Unable to Complete Event Registration!", "", { duration: 2000 })
+    this.snackBar.open("Unable to Complete Event Registration!", "", { duration: 4000 })
   }
+
 
   onSubmit(): void {
     let form = this.form.value;
