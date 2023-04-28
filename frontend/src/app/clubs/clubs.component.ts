@@ -6,8 +6,6 @@ import { Profile, ProfileService } from '../profile/profile.service'
 import { Club, ClubsService, User_Club } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FilterPipe } from '../filter.pipe';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +16,6 @@ import { throwToolbarMixedModesError } from '@angular/material/toolbar';
   styleUrls: ['./clubs.component.css']
 })
 export class ClubsComponent {
-  @ViewChild('searchbar') searchbar!: ElementRef;
-  searchText = ''
-  toggleSearch: boolean = false;
 
   public static Route: Route = {
     path: 'all_clubs',
@@ -39,6 +34,8 @@ export class ClubsComponent {
   public selectedWeekdayTimes: Set<String> = new Set()
   public categories = ["Womxn", "Black/African American", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-binary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedCategories: Set<String> = new Set()
+  public searchText = ''
+  public toggleSearch: boolean = false;
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar, private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
@@ -255,7 +252,6 @@ export class ClubsComponent {
   }
 
   textChanged() {
-    console.log("text changed")
     this.user_clubs$ = this.user_clubs$.pipe(map((user_clubs: User_Club[]) => {
         return user_clubs.filter(a_user_club => a_user_club.club.name.toLowerCase().includes(this.searchText.toLowerCase()))
     }))
