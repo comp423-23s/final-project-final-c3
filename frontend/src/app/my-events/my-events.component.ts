@@ -5,7 +5,7 @@ import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { Profile } from '../profile/profile.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -24,9 +24,12 @@ export class MyEventsComponent {
   };
   
   public my_events$: Observable<Event[]>
+  public my_events_shown$: Observable<Event[]>
+  public searchText = ''
 
   constructor(private eventService: EventService, route: ActivatedRoute, private http: HttpClient, protected snackBar: MatSnackBar) {
     this.my_events$ = eventService.getMyEvents()
+    this.my_events_shown$ = this.my_events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
   }
 
   // A function to cancel a user's attendance from an event, delegates to service
@@ -61,5 +64,16 @@ export class MyEventsComponent {
       return event.description
     }
     return event.description.substring(0, 67) + "..."
+  }
+
+  textChanged() {
+    this.my_events_shown$ = this.my_events$.pipe(map((events: Event[]) => {
+      return events.filter(a_event => a_event.name.toLowerCase().includes(this.searchText.toLowerCase()))
+    }))
+  }
+
+  searchClose() {
+    this.searchText = ''
+    this.my_events_shown$ = this.my_events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
   }
 }
