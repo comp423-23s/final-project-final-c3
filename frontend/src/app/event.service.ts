@@ -7,6 +7,7 @@ export interface Event {
   id: number | null,
   name: string,
   club_id: number,
+  club_name: string,
   start_time: Date,
   end_time: Date, 
   location: string, 
