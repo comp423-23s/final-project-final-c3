@@ -43,12 +43,12 @@ export class AdminPendingRequestsComponent {
   // When a club is approved, show the user an alert
   approveOnSuccess() {
     this.potential_clubs$ = this.adminPendingRequestsService.getPotentialClubs()
-    window.alert("Request was approved by you.")
+    this.snackBar.open("Request was approved!. "," ", { duration: 4000 })
   }
 
   // If there is an error, show the following alert:
   approveOnError() {
-    window.alert("Request can't be approved.")
+    this.snackBar.open("Request could not be approved!. "," ", { duration: 4000 })
   }
 
   // A function to deny a club request, delegates to the service
@@ -62,12 +62,12 @@ export class AdminPendingRequestsComponent {
   // If the club was successfully denied, display message
   denyOnSuccess() {
     this.potential_clubs$ = this.adminPendingRequestsService.getPotentialClubs()
-    window.alert("Request was denied by you.")
+    this.snackBar.open("Request was successfully denied by you!. "," ", { duration: 4000 })
   }
 
   // If the club could not be denied, display alert message
   denyOnError() {
-    window.alert("Request can't be denied.")
+    this.snackBar.open("Unable to deny request!. "," ", { duration: 4000 })
   }
 
   convertToTime(timeStr: String) {
