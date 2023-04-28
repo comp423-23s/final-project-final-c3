@@ -24,14 +24,11 @@ export class StudentPendingRequestsComponent {
 
   public profile: Profile
   public my_pending_clubs$: Observable<PotentialClub[]>
-  public my_pending_clubs_shown$: Observable<PotentialClub[]>
-  public searchText = ''
 
   constructor(route: ActivatedRoute, private registerLeaderService: RegisterLeaderService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.my_pending_clubs$ = registerLeaderService.getMyPendingClubs()
-    this.my_pending_clubs_shown$ = this.my_pending_clubs$
   }
 
   convertToTime(timeStr: String) {
@@ -45,16 +42,5 @@ export class StudentPendingRequestsComponent {
       hour = hour - 12
     }
     return `${hour<10?'0':''}${hour}:${min<10?'0':''}${min} ${amOrPm}`
-  }
-
-  textChanged() {
-    this.my_pending_clubs_shown$ = this.my_pending_clubs$.pipe(map((clubs: PotentialClub[]) => {
-      return clubs.filter(a_club => a_club.name.toLowerCase().includes(this.searchText.toLowerCase()))
-    }))
-  }
-
-  searchClose() {
-    this.searchText = ''
-    this.my_pending_clubs_shown$ = this.my_pending_clubs$
   }
 }

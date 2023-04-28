@@ -27,7 +27,6 @@ export class EventsComponent {
   public profile: Profile
   public events$: Observable<Event[]>
   public user_events$: Observable<User_Event[]>
-  public searchText = ''
 
   constructor(route: ActivatedRoute, private eventService: EventService, private profileService: ProfileService, private http: HttpClient, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
@@ -133,24 +132,5 @@ export class EventsComponent {
       return event.description
     }
     return event.description.substring(0, 67) + "..."
-  }
-
-  textChanged() {
-    this.user_events$ = this.user_events$.pipe(map((user_events: User_Event[]) => {
-      return user_events.filter(a_user_event => a_user_event.event.name.toLowerCase().includes(this.searchText.toLowerCase()))
-    }))
-  }
-
-  searchClose() {
-    this.searchText = ''
-    this.user_events$ = this.events$.pipe(map((events: Event[]) => {
-      return events.map(a_event => {
-        const user_event: User_Event = {
-          event: a_event, 
-          is_joined: a_event.attendees.map(attendee => attendee.id).includes(this.profile.id)
-        }
-        return user_event
-      })
-    }))
   }
 }

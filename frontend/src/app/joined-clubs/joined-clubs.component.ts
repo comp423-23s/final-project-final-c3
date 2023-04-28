@@ -24,15 +24,13 @@ export class JoinedClubsComponent {
 
   public profile: Profile
   public clubs$: Observable<Club[]>
-  public shown_clubs$: Observable<Club[]>
-  public searchText = ''
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
     console.log(route.snapshot)
     this.profile = data.profile
     this.clubs$ = clubsService.getJoinedClubs()
-    this.shown_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
+    this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
   }
 
   // Controls which description is rendered on screen (short or long)
@@ -80,16 +78,5 @@ export class JoinedClubsComponent {
       hour = hour - 12
     }
     return `${hour<10?'0':''}${hour}:${min<10?'0':''}${min} ${amOrPm}`
-  }
-
-  textChanged() {
-    this.shown_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
-      return clubs.filter(a_club => a_club.name.toLowerCase().includes(this.searchText.toLowerCase()))
-    }))
-  }
-
-  searchClose() {
-    this.searchText = ''
-    this.shown_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {return clubs.map(club => {return {...club, show_short_description: true}})}))
   }
 }

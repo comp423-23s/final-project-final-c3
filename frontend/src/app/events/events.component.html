@@ -1,24 +1,4 @@
 <div style="z-index:0; position: absolute">
-    <div style="margin-top: 20px">
-        <mat-toolbar-row style="width: 600px">
-            <button mat-icon-button disabled>
-                <mat-icon>search</mat-icon>
-            </button>
-            <mat-form-field  style="width: 700px; height: 70px">
-                <input matInput
-                    placeholder="Search by Event Name"
-                    [(ngModel)]="searchText"
-                    (ngModelChange)="textChanged()"
-                    [ngModelOptions]="{standalone: true}"
-                />
-            </mat-form-field>
-            &nbsp;&nbsp;
-            <button mat-icon-button (click)="searchClose()">
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-toolbar-row>
-    </div>
-
     <tr *ngFor="let user_event of user_events$ | async">
         <div style="position: relative">
             <mat-card style="width:1750px;">
