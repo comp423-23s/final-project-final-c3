@@ -98,7 +98,7 @@ class EventService:
     def create_event(self, event: Event) -> None:
         """Creates a new event."""
         print("We got to backend/services/create_event")
-        club_name = self.get_club_name_by_id(event.club_id)
+        club_name = self.get_club_name_by_club_id(event.club_id)
         event.club_name = club_name
         event_entity = EventEntity.from_model(event)
         self._session.add(event_entity)
