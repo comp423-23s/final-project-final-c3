@@ -1,14 +1,14 @@
-<div style="z-index:0; position:absolute">
-    <div *ngIf="(my_events$ | async) as events">
-        <ng-container *ngIf="events.length === 0; else list">
-            <div class="empty-list">
-                <mat-card-title>Oops! Looks like you are not currently registered for any events.</mat-card-title>
-                <div style="display: flex;flex-direction:row">
-                    <mat-card-subtitle>View a list of <a style="color: #c7c7c7" routerLink="/events">All Events</a> to register. </mat-card-subtitle>
-                </div>
+<div *ngIf="(my_events$ | async) as events">
+    <ng-container *ngIf="events.length === 0; else list">
+        <div class="empty-list">
+            <mat-card-title>Oops! Looks like you are not currently registered for any events.</mat-card-title>
+            <div style="display: flex;flex-direction:row">
+                <mat-card-subtitle>View a list of <a style="color: #c7c7c7" routerLink="/events">All Events</a> to register. </mat-card-subtitle>
             </div>
-        </ng-container>
-        <ng-template #list>
+        </div>
+    </ng-container>
+    <ng-template #list>
+        <div style="z-index: 0; position:absolute">
             <tr *ngFor="let event of events">
                 <div style="position: relative">
                     <mat-card style="width:1750px;">
@@ -39,7 +39,8 @@
                         </mat-card-content>
                     </mat-card>
                 </div>
-            </tr>        
-        </ng-template>
-    </div>    
-</div>
+            </tr>
+        </div>          
+    </ng-template>
+</div>    
+
