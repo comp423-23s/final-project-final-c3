@@ -1,5 +1,5 @@
-import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
-import { Observable, map, of, timeInterval } from 'rxjs';
+import { Component, Injectable, ViewChild, ElementRef } from '@angular/core';
+import { Observable, map} from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile, ProfileService } from '../profile/profile.service'
@@ -16,7 +16,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./clubs.component.css']
 })
 export class ClubsComponent {
-  // Use an Observable class so that the event data can be synchronous with the database
 
   public static Route: Route = {
     path: 'all_clubs',
@@ -35,6 +34,8 @@ export class ClubsComponent {
   public selectedWeekdayTimes: Set<String> = new Set()
   public categories = ["Womxn", "Black/African American", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-binary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedCategories: Set<String> = new Set()
+  public searchText = ''
+  public toggleSearch: boolean = false;
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar, private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
@@ -203,7 +204,6 @@ export class ClubsComponent {
     }
     var categories: String[] = []
     for (var category of this.selectedCategories) {
-      console.log("looping")
       categories.push(category)
     }
     this.filtered_clubs$ = this.clubsService.filterClubs(availabilities, categories)
@@ -245,5 +245,29 @@ export class ClubsComponent {
       hour = hour - 12
     }
     return `${hour<10?'0':''}${hour}:${min<10?'0':''}${min} ${amOrPm}`
+  }
+
+  openSearch() {
+    this.toggleSearch = true
+  }
+
+  textChanged() {
+    this.user_clubs$ = this.user_clubs$.pipe(map((user_clubs: User_Club[]) => {
+        return user_clubs.filter(a_user_club => a_user_club.club.name.toLowerCase().includes(this.searchText.toLowerCase()))
+    }))
+  }
+
+  searchClose() {
+    this.searchText = ''
+    this.toggleSearch = false
+    this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
+      return clubs.map(a_club => {
+        const user_club : User_Club = {
+          club: a_club, 
+          is_joined: a_club.members.map(member => member.id).includes(this.profile.id)
+        }
+        return user_club
+      })
+    }))
   }
 }

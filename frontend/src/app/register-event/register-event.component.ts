@@ -70,17 +70,30 @@ export class RegisterEventComponent {
   }
 
   private onSuccess(string: string) {
-    this.snackBar.open("Event Created", "", { duration: 2000 })
+    this.snackBar.open("Event Created!", "", { duration: 4000 })
     this.form.reset()
   }
 
-  private onError(err: any) {
-    this.snackBar.open("You Have Entered an Incorrect Club Code!", "", { duration: 2000 })
+  private onError(err: Error) : void {
+    if (err.message == "404"){
+      console.log(err.message)
+      this.snackBar.open("⚠️ Club Not Found!", "", { duration: 4000 })
+    }
+    else if (err.message == "401") {
+      this.snackBar.open("⚠️ You Are Not Authorized to Create Events for This Club!", "", { duration: 4000 })
+    }
+    else if (err.message == "400") {
+      this.snackBar.open("⚠️ You Have Entered an Invalid Club Code!", "", { duration: 4000 })
+    }
+    else {
+      this.snackBar.open("⚠️ Unable to Complete Event Registration! Make sure you club code is correct. ", "", { duration: 4000 })
+    }
   }
 
   private onErrorCreation(err: any) {
-    this.snackBar.open("Unable to Complete Event Registration!", "", { duration: 2000 })
+    this.snackBar.open("Unable to Complete Event Registration!", "", { duration: 4000 })
   }
+
 
   onSubmit(): void {
     let form = this.form.value;
@@ -94,11 +107,11 @@ export class RegisterEventComponent {
     console.log(moment(start, moment.ISO_8601).isValid())
     if (code == null || name == null || description == null || location == null || start == null || end == null) {
       this.snackBar.open("Please Enter a Value for All Fields",  "", { duration: 4000 })
-    }
-    else if (!moment(start, moment.ISO_8601).isValid() || !moment(start, moment.ISO_8601).isValid()) {
+    } else if (!moment(start, moment.ISO_8601).isValid() || !moment(start, moment.ISO_8601).isValid()) {
       this.snackBar.open("Please Enter a Valid Date and Time",  "", { duration: 4000 })
-    }
-    else {
+    } else if (end < start) {
+      this.snackBar.open("Event End Time Can't Be Before Start Time",  "", { duration: 6000 })
+    } else {
       this.onSubmitEvent(code, name, description, location, start, end)
       this.form.reset()
     }
