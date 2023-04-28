@@ -74,6 +74,7 @@ export class EventService {
   }
 
   createNewEvent(event: Event): Observable<string> {
+    console.log("fe service createNewEvent time is " + event.start_time)
     return this.http.post<string>("/api/event/create_event", event)
   }
   /**

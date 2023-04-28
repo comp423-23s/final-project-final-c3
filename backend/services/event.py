@@ -41,7 +41,7 @@ class EventService:
             event_entity = self._session.get(EventEntity, entity)
             events.append(event_entity.to_model())
         return events
-        
+
 
     def add_user_to_event(self, subject: User, event_id: int) -> None:
         """Add a user to an event."""
@@ -124,6 +124,7 @@ class EventService:
         self._session.delete(event_entity)
         self._session.commit()
         
+        
     def get_users_in_event(self, event_id: int) -> list[User]:
         """Returns a list of all students registered for an event."""
         students: list[User] = []
@@ -135,6 +136,7 @@ class EventService:
             students.append(attendee.to_model())
         return students
     
+
     def get_club_id_from_code(self, club_code: str) -> int:
         query = select(ClubEntity).where(ClubEntity.club_code == club_code)
         club_entity = self._session.scalars(query).all()
@@ -146,7 +148,6 @@ class EventService:
                 return club.id
 
    
-    
     def events_by_leader(self, subject:User) -> list[Event]:
         """Gets events by the leader's clubs"""
         events: list[Event] = []
@@ -159,6 +160,7 @@ class EventService:
                 events.append(event)
         return events
     
+
     def get_clubs_by_leader(self, subject: User) -> list[Club]:
         clubs = []
         clubs_query = select(leader_club_table.c.club_id).where(leader_club_table.c.user_id == subject.id)
@@ -170,6 +172,7 @@ class EventService:
             clubs.append(club)
         return clubs
     
+
     def get_club_by_id(self, club_id: int) -> Club:
         query = select(ClubEntity).where(ClubEntity.id == club_id)
         club_entity: ClubEntity = self._session.scalar(query)
@@ -177,6 +180,7 @@ class EventService:
             raise Exception("Club does not exist.")
         return club_entity.to_model()
     
+
     def get_events_by_club_id(self, club_id: int) -> list[Event]:
         """Returns a list of all events the club has registered."""
         events: list[Event] = []
