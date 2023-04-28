@@ -72,9 +72,9 @@ export class ManageEventsComponent {
 
   compareDateLessThanNow(date: Date): boolean {
     if (moment(date).isAfter(Date())) {
-      this.previous_events.push(date)
       return false
     }
-    else return true
+    this.previous_events.push(date)
+    return true
   }
 }
