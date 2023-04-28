@@ -98,11 +98,18 @@ class EventService:
     def create_event(self, event: Event) -> None:
         """Creates a new event."""
         print("We got to backend/services/create_event")
+        club_name = self.get_club_name_by_id(event.club_id)
+        event.club_name = club_name
         event_entity = EventEntity.from_model(event)
         self._session.add(event_entity)
-        event_entity.club_name = self.get_club_name(event_entity.id)
         self._session.commit()
         
+    def get_club_name_by_club_id(self, club_id: int) -> str:
+        """Gets a club's name by event id."""
+        query = select(ClubEntity.name).where(ClubEntity.id == club_id)
+        club_name = self._session.scalar(query)
+        return club_name
+
     def get_club_name(self, event_id: int) -> str:
         """Gets a club's name by event id."""
         query = select(EventEntity).where(EventEntity.id == event_id)
