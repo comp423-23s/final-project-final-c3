@@ -28,6 +28,7 @@ export class EventsComponent {
   public events$: Observable<Event[]>
   public user_events$: Observable<User_Event[]>
   public searchText = ''
+  public currentDate = new Date()
 
   constructor(route: ActivatedRoute, private eventService: EventService, private profileService: ProfileService, private http: HttpClient, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
