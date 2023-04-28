@@ -5,28 +5,28 @@
         </mat-card-header>
         <mat-card-content>
             <mat-form-field appearance="fill">
-                <mat-label>Club Code</mat-label>
-                <input matInput placeholder="12A3B45" formControlName="code" #code required>
+                <mat-label>Club Code*</mat-label>
+                <input matInput placeholder="12A3B45" formControlName="code" #code>
             </mat-form-field>
             <mat-form-field appearance="fill">
-                <mat-label>Event Name</mat-label>
-                <input matInput placeholder="Workshop" formControlName="name" #name required>
+                <mat-label>Event Name*</mat-label>
+                <input matInput placeholder="Workshop" formControlName="name" #name>
             </mat-form-field>
             <mat-form-field appearance="fill">
-                <mat-label>Event Description</mat-label>
-                <input matInput placeholder="A scheduled workshop" formControlName="description" #description required>
+                <mat-label>Event Description*</mat-label>
+                <input matInput placeholder="A scheduled workshop" formControlName="description" #description>
             </mat-form-field>
             <mat-form-field appearance="fill">
-                <mat-label>Event Location</mat-label>
-                <input matInput placeholder="Sitterson 156" formControlName="location" #location required>
+                <mat-label>Event Location*</mat-label>
+                <input matInput placeholder="Sitterson 156" formControlName="location" #location>
             </mat-form-field>
             <mat-form-field appearance="fill">
-                <mat-label>Event Start Time</mat-label>
-                <input type="datetime-local" matInput formControlName="start" #start required>
+                <mat-label>Event Start Time*</mat-label>
+                <input type="datetime-local" matInput  formControlName="start" #start>
             </mat-form-field>
             <mat-form-field appearance="fill">
-                <mat-label>Event End Time</mat-label>
-                <input type="datetime-local" matInput formControlName="end" #end required max="start">
+                <mat-label>Event End Time*</mat-label>
+                <input type="datetime-local" matInput formControlName="end" #end>
             </mat-form-field>
         </mat-card-content>
         <mat-card-actions>

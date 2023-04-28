@@ -1,11 +1,12 @@
+from zoneinfo import ZoneInfo
 from fastapi import APIRouter, Depends, HTTPException
 from ..services import EventService
 from ..models import User, Event
 from .authentication import registered_user
 from ..entities import EventEntity, UserEntity
 
-api = APIRouter(prefix="/api/event")
 
+api = APIRouter(prefix="/api/event")
 
 # Get all events
 @api.get("/all", response_model=list[Event], tags=['Event'])
@@ -28,6 +29,7 @@ def get_events_by_club(club_id: int, event_svc: EventService = Depends()):
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
+
 # Add an event 
 @api.post("/create_event", tags=['Event'])
 def create_event(
@@ -41,6 +43,7 @@ def create_event(
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
     
+
 # Delete an event
 @api.delete("/delete/{event_id}", tags=['Event'])
 def delete_event(event_id: int, event_svc: EventService = Depends()) -> str:
@@ -50,7 +53,7 @@ def delete_event(event_id: int, event_svc: EventService = Depends()) -> str:
     except Exception as e:
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
-        
+
 
 # Get all events a user is registered for
 @api.get("/user_events", response_model=list[Event], tags=['Event'])
@@ -129,6 +132,7 @@ def get_club_id_by_code(
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
+
 # Get events user has registered for that are in their clubs
 @api.get("/user_club_events", response_model=list[Event], tags=['Event'])
 def events_by_user(subject: User = Depends(registered_user), event_svc: EventService = Depends()):
@@ -145,6 +149,15 @@ def events_by_leader(subject: User = Depends(registered_user), event_svc: EventS
         leader_events = event_svc.events_by_leader(subject)
         return leader_events
 
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
+    
+@api.get("/club_name/{event_id}", tags=['Event'])
+def get_club_name_from_event_id(event_id: int, event_svc: EventService = Depends()):
+    try:
+        club_name = event_svc.get_club_name(event_id)
+        return club_name
     except Exception as e:
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
