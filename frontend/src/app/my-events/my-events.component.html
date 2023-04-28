@@ -11,7 +11,7 @@
         <div class="centered-lists">
             <tr *ngFor="let event of events">
                 <div style="position: relative">
-                    <mat-card style="width:1750px;">
+                    <mat-card style="width:1750px; height:200px;">
                         <mat-card-header>
                             <div class="'event-name-join-button">
                                 <mat-card-title>{{ event.name }}</mat-card-title>
@@ -22,6 +22,11 @@
                                 {{ event.show_short_description ? getShortDescription(event) : event.description }}
                             </div>
                             <div class="side-buttons">
+                                <mat-card-actions>
+                                    <a mat-list-item class="logo-item">
+                                        <img class="logo" [src]="'assets/' + event.club_name + '.png'" onerror="this.style.display='none';"/>
+                                    </a>
+                                </mat-card-actions>
                                 <mat-card-actions>
                                     <button mat-raised-button (click)='onCancel(event)' type="submit">Cancel Registration</button>
                                 </mat-card-actions>
