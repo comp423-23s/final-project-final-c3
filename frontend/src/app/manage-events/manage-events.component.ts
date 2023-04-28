@@ -5,6 +5,7 @@ import { profileResolver } from '../profile/profile.resolver';
 import { Event, EventService } from '../event.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import * as moment from 'moment' ;
 
 @Component({
   selector: 'app-manage-events',
@@ -59,4 +60,19 @@ export class ManageEventsComponent {
     }
   }
 
+  compareDateGreaterThanNow(date: Date): boolean {
+    if (moment(date).isAfter(Date())) {
+      return true
+    }
+    else return false
+  }
+
+  compareDateLessThanNow(date: Date): boolean {
+    console.log("This is the moment of event date" + moment(date))
+    console.log("This is true/false of current date grateer than event date:" + moment(date).isAfter(Date()))
+    if (moment(date).isAfter(Date())) {
+      return false
+    }
+    else return true
+  }
 }

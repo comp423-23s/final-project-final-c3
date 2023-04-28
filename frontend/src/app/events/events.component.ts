@@ -157,7 +157,7 @@ export class EventsComponent {
   }
 
   compareDateGreaterThanNow(date: Date): boolean {
-    if (moment(date).isAfter(this.currentDate)) {
+    if (moment(date).isAfter(Date())) {
       return true
     }
     else return false
@@ -165,8 +165,8 @@ export class EventsComponent {
 
   compareDateLessThanNow(date: Date): boolean {
     console.log("This is the moment of event date" + moment(date))
-    console.log("This is true/false of current date grateer than event date:" + moment(date).isAfter(this.currentDate))
-    if (moment(date).isAfter(this.currentDate)) {
+    console.log("This is true/false of current date grateer than event date:" + moment(date).isAfter(Date()))
+    if (moment(date).isAfter(Date())) {
       return false
     }
     else return true
