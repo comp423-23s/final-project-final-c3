@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, fromEventPattern, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile } from '../profile/profile.service'
@@ -7,10 +7,12 @@ import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Club, ClubsService } from '../clubs.service';
 import { PotentialClub, WeekDayTime, Category, RegisterLeaderService } from '../register-leader.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { RoleAdminService } from '../admin/roles/role-admin.service';
 import { ProfileService } from '../profile/profile.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-register-leader',
@@ -26,6 +28,15 @@ export class RegisterLeaderComponent {
     canActivate: [isAuthenticated],
     resolve: { profile: profileResolver }
   };
+
+  form = this.formBuilder.group({
+    code: '',
+    name: '',
+    description: '',
+    location: '',
+    start: '',
+    end: ''
+  });
 
   public profile: Profile
   public clubs$: Observable<Club[]>
@@ -48,7 +59,16 @@ export class RegisterLeaderComponent {
   public fridayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
   public categoryMap = new Map<String, number>()
 
-  constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar, private navigationComponent: NavigationComponent, private roleAdminService: RoleAdminService, private profileService: ProfileService) {
+  constructor(
+    route: ActivatedRoute, 
+    private formBuilder: FormBuilder, 
+    private registerLeaderService: RegisterLeaderService, 
+    private clubService: ClubsService, 
+    protected snackBar: MatSnackBar, 
+    private dialog: Dialog,
+    private navigationComponent: NavigationComponent, 
+    private roleAdminService: RoleAdminService, 
+    private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.clubs$ = clubService.getAllClubs()
@@ -94,26 +114,50 @@ export class RegisterLeaderComponent {
 
   //Function that displays error message if the club code was incorrect
   existingClubOnError(err: Error): void{
-    console.log(err)
-    this.snackBar.open("Wrong Club Code: Leader Registration Request Denied", "", { duration: 4000 })
+    if (err.message === "400") {
+      console.log(err)
+      this.snackBar.open("⚠️ Wrong Club Code: Leader Registration Request Denied", "", { duration: 4000 })
+    } else if (err.message === "409") {
+      console.log(err)
+      this.snackBar.open("⚠️ You are already a leader of this club", "", { duration: 4000 })
+    }
+    else if (err.message === "404") {
+      console.log(err)
+      this.snackBar.open("⚠️ Club does not exist", "", { duration: 4000 })
+    }
+    else if (err.message === "500") {
+      console.log(err)
+      this.snackBar.open("⚠️ Internal Server Error. Try again later!", "", { duration: 4000 })
+    }
+    else {
+      this.snackBar.open("⚠️ Wrong Club Code: Leader Registration Request Denied", "", { duration: 4000 })
+    }
   }
 
   onSubmitNewClub(clubName: string, clubDescription: string): void {
+    let form = this.form.value;
     if (clubName.length != 0 && clubDescription.length != 0) {
       this.profileService.http.get<Profile>('/api/profile').subscribe(
         {
           next: (data) => {this.onSuccessUpdateProfile(data, clubName, clubDescription)},
-          error: (err) => console.log(err)
+          error: (err) => this.newClubOnError(err)
         }
       )
     } else {
       this.snackBar.open("Please Enter Club Name and Description", "", { duration: 4000 })
     }
+    this.form.reset()
+
   }
 
   private onSuccessUpdateProfile(profile: Profile, clubName: String, clubDescription: string): void {
+    let form = this.form.value;
     var meetingTimes: WeekDayTime[] = []
     if (this.hasWeekday("Monday")) {
+      if (this.mondayEndTime < this.mondayStartTime) {
+        this.snackBar.open("Your Club's Monday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
+        return
+      }
       var mondayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Monday",
@@ -123,6 +167,10 @@ export class RegisterLeaderComponent {
       meetingTimes.push(mondayWeekdayTime)
     }
     if (this.hasWeekday("Tuesday")) {
+      if (this.tuesdayEndTime < this.tuesdayStartTime) {
+        this.snackBar.open("Your Club's Tuesday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
+        return
+      }
       var tuesdayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Tuesday",
@@ -132,6 +180,10 @@ export class RegisterLeaderComponent {
       meetingTimes.push(tuesdayWeekdayTime)
     }
     if (this.hasWeekday("Wednesday")) {
+      if (this.wednesdayEndTime < this.wednesdayStartTime) {
+        this.snackBar.open("Your Club's Wednesday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
+        return
+      }
       var wednesdayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Wednesday",
@@ -141,6 +193,10 @@ export class RegisterLeaderComponent {
       meetingTimes.push(wednesdayWeekdayTime)
     }
     if (this.hasWeekday("Thursday")) {
+      if (this.thursdayEndTime < this.thursdayStartTime) {
+        this.snackBar.open("Your Club's Thursday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
+        return
+      }
       var thursdayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Thursday",
@@ -150,6 +206,10 @@ export class RegisterLeaderComponent {
       meetingTimes.push(thursdayWeekdayTime)
     }
     if (this.hasWeekday("Friday")) {
+      if (this.fridayEndTime < this.fridayStartTime) {
+        this.snackBar.open("Your Club's Friday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
+        return
+      }
       var fridayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Friday",
@@ -182,11 +242,16 @@ export class RegisterLeaderComponent {
       next: () => this.newClubOnSuccess(),
       error: (err) => this.newClubOnError(err)
     })
+    this.form.reset()
   }
 
   newClubOnSuccess(): void {
-    this.snackBar.open("Request Successfully Submitted", "", { duration: 2000 })
+    let form = this.form.value;
+    this.snackBar.open("Request Successfully Submitted", "", { duration: 1300 })
+    this.form.reset()
+    setTimeout(() => { window.location.reload()}, 1000)
   }
+
 
   newClubOnError(err: Error): void{
     console.log(err)

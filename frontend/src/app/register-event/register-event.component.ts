@@ -1,4 +1,4 @@
-import { Component, ModuleWithComponentFactories, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Route, ActivatedRoute } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
@@ -47,11 +47,22 @@ export class RegisterEventComponent {
   }
 
   onSuccessGetClubID(club_id: number, name: string, description: string, location: string, start: string, end: string): void {
-    let start_time: Date = new Date(start)
-    let end_time: Date = new Date(end)
+    var start_time: Date = new Date()
+    start_time.setUTCFullYear(Number(start.substring(0, 4)))
+    start_time.setUTCMonth(Number(start.substring(5, 7)) - 1)
+    start_time.setUTCDate(Number(start.substring(8, 10)))
+    start_time.setUTCHours(Number(start.substring(11, 13)))
+    start_time.setUTCMinutes(Number(start.substring(14, 16)))
+    var end_time: Date = new Date()
+    end_time.setUTCFullYear(Number(end.substring(0, 4)))
+    end_time.setUTCMonth(Number(end.substring(5, 7)) - 1)
+    end_time.setUTCDate(Number(end.substring(8, 10)))
+    end_time.setUTCHours(Number(end.substring(11, 13)))
+    end_time.setUTCMinutes(Number(end.substring(14, 16)))
     var event: Event = {
       id: null,
       club_id: club_id,
+      club_name: "",
       name: name,
       description: description,
       location: location,
@@ -60,6 +71,8 @@ export class RegisterEventComponent {
       show_short_description: false,
       attendees: []
     } 
+    console.log(event.start_time)
+    console.log(event.end_time)
     this.eventService.createNewEvent(event).subscribe(
       {
         next: (data) => {this.onSuccess(data)},
@@ -70,17 +83,30 @@ export class RegisterEventComponent {
   }
 
   private onSuccess(string: string) {
-    this.snackBar.open("Event Created", "", { duration: 2000 })
+    this.snackBar.open("Event Created!", "", { duration: 4000 })
     this.form.reset()
   }
 
-  private onError(err: any) {
-    this.snackBar.open("You Have Entered an Incorrect Club Code!", "", { duration: 2000 })
+  private onError(err: Error) : void {
+    if (err.message == "404"){
+      console.log(err.message)
+      this.snackBar.open("⚠️ Club Not Found!", "", { duration: 4000 })
+    }
+    else if (err.message == "401") {
+      this.snackBar.open("⚠️ You Are Not Authorized to Create Events for This Club!", "", { duration: 4000 })
+    }
+    else if (err.message == "400") {
+      this.snackBar.open("⚠️ You Have Entered an Invalid Club Code!", "", { duration: 4000 })
+    }
+    else {
+      this.snackBar.open("⚠️ Unable to Complete Event Registration! Make sure you club code is correct. ", "", { duration: 4000 })
+    }
   }
 
   private onErrorCreation(err: any) {
-    this.snackBar.open("Unable to Complete Event Registration!", "", { duration: 2000 })
+    this.snackBar.open("Unable to Complete Event Registration!", "", { duration: 4000 })
   }
+
 
   onSubmit(): void {
     let form = this.form.value;
@@ -90,15 +116,15 @@ export class RegisterEventComponent {
     let location = form.location
     let start = form.start ?? ''
     let end = form.end ?? ''
-    console.log(start)
+    console.log("start is " + start)
     console.log(moment(start, moment.ISO_8601).isValid())
     if (code == null || name == null || description == null || location == null || start == null || end == null) {
       this.snackBar.open("Please Enter a Value for All Fields",  "", { duration: 4000 })
-    }
-    else if (!moment(start, moment.ISO_8601).isValid() || !moment(start, moment.ISO_8601).isValid()) {
+    } else if (!moment(start, moment.ISO_8601).isValid() || !moment(start, moment.ISO_8601).isValid()) {
       this.snackBar.open("Please Enter a Valid Date and Time",  "", { duration: 4000 })
-    }
-    else {
+    } else if (end < start) {
+      this.snackBar.open("Event End Time Can't Be Before Start Time",  "", { duration: 6000 })
+    } else {
       this.onSubmitEvent(code, name, description, location, start, end)
       this.form.reset()
     }
