@@ -58,7 +58,7 @@ class RoleService:
         return True
     
     def get_users_roles(self, subject: User) -> list[Role]:
-        """Gets a users list of roles."""
+        """Gets a users' list of roles."""
         roles: list[Role] = []
         query = select(user_role_table.c.role_id).where(user_role_table.c.user_id== subject.id)
         role_ids = self._session.scalars(query).all()
@@ -66,3 +66,4 @@ class RoleService:
             role_entity = self._session.get(RoleEntity, entity)
             roles.append(role_entity.to_model())
         return roles
+    

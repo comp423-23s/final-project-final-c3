@@ -13,7 +13,7 @@ class AdminService:
         self._session = session
 
     def add_admin(self, pid: int) -> None:
-        """Adds the admin title to the user."""
+        """Adds the admin role to the user."""
         query = select(UserEntity).where(UserEntity.pid == pid)
         user_entity = self._session.scalar(query)
         role_entity = self._session.get(RoleEntity, 3)
@@ -50,7 +50,7 @@ class AdminService:
         return [entity.to_model() for entity in user_entities]
     
     def get_all_admin(self) -> list[User]:
-        """Returns a list of all administrators."""
+        """Returns a list of all administrators in the database."""
         print("We got to backend services for admin")
         admins: list[User] = []
         query = select(user_role_table.c.user_id).where(user_role_table.c.role_id == 3)
@@ -66,7 +66,7 @@ class AdminService:
         return [leader.to_model() for leader in club_entity.leaders]
     
     def get_all_leaders(self) -> list[User]:
-        """Returns a list of all leaders."""
+        """Returns a list of all leaders in the database."""
         leaders: list[User] = []
         query = select(user_role_table.c.user_id).where(user_role_table.c.role_id == 2)
         leader_ids = self._session.scalars(query).all()
@@ -74,3 +74,4 @@ class AdminService:
             user_entity = self._session.get(UserEntity, an_id)
             leaders.append(user_entity.to_model())
         return leaders
+    
