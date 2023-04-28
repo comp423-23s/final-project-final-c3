@@ -10,6 +10,7 @@
     <ng-template #list>
         <div class="centered-lists">
             <mat-card-title style="margin-top: 25px">Upcoming</mat-card-title>
+            <hr style="width:100%">
             <tr *ngFor="let event of events">
                 <ng-container *ngIf="compareDateGreaterThanNow(event.start_time);">
                     <div style="position: relative">
@@ -48,6 +49,7 @@
                 </ng-container>
             </tr> 
             <mat-card-title>Previous</mat-card-title>
+            <hr style="width:100%">
             <tr *ngFor="let event of events">
                 <ng-container *ngIf="compareDateLessThanNow(event.start_time);">
                     <div style="position: relative">
