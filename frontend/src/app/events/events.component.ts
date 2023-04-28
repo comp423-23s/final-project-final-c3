@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Event, User_Event, EventService } from '../event.service'
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute, ChildActivationStart, Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Profile, ProfileService } from '../profile/profile.service';
+import * as moment from 'moment' ;
 
 @Component({
   selector: 'app-events',
@@ -153,5 +154,21 @@ export class EventsComponent {
         return user_event
       })
     }))
+  }
+
+  compareDateGreaterThanNow(date: Date): boolean {
+    if (moment(date).isAfter(this.currentDate)) {
+      return true
+    }
+    else return false
+  }
+
+  compareDateLessThanNow(date: Date): boolean {
+    console.log("This is the moment of event date" + moment(date))
+    console.log("This is true/false of current date grateer than event date:" + moment(date).isAfter(this.currentDate))
+    if (moment(date).isAfter(this.currentDate)) {
+      return false
+    }
+    else return true
   }
 }
