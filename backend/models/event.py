@@ -12,6 +12,7 @@ class Event(BaseModel):
     id: int | None = None
     name: str
     club_id: int
+    club_name: str
     start_time: datetime
     end_time: datetime
     location: str
@@ -22,6 +23,7 @@ class Event(BaseModel):
 class NewEvent(BaseModel):
     name: str
     club_id: int
+    club_name: str
     start_time: datetime
     end_time: datetime
     location: str
