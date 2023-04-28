@@ -19,14 +19,14 @@ class EventService:
         """Get all registered events in the database."""
         events = []
         query = select(EventEntity)
-        print('Event service: after query')
         event_entities = self._session.scalars(query).all()
-        print('Event service: after scalars method')
         for entity in event_entities:
             events.append(entity.to_model())
         for event in events:
             event.show_short_description = True
             print(event)
+        print("THIS IS EVENTS LENGTH")
+        print(str(len(events)))
         return events
     
 
