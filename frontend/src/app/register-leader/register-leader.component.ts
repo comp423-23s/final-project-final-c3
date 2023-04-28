@@ -29,6 +29,15 @@ export class RegisterLeaderComponent {
     resolve: { profile: profileResolver }
   };
 
+  form = this.formBuilder.group({
+    code: '',
+    name: '',
+    description: '',
+    location: '',
+    start: '',
+    end: ''
+  });
+
   public profile: Profile
   public clubs$: Observable<Club[]>
   public selectedClub: Club = {id: 0, club_code: "ABCD1234", name: "Dummy Club", description: "dummy description", show_short_description: true, members: [], meeting_times: [], categories: []}
@@ -126,6 +135,7 @@ export class RegisterLeaderComponent {
   }
 
   onSubmitNewClub(clubName: string, clubDescription: string): void {
+    let form = this.form.value;
     if (clubName.length != 0 && clubDescription.length != 0) {
       this.profileService.http.get<Profile>('/api/profile').subscribe(
         {
@@ -136,9 +146,12 @@ export class RegisterLeaderComponent {
     } else {
       this.snackBar.open("Please Enter Club Name and Description", "", { duration: 4000 })
     }
+    this.form.reset()
+
   }
 
   private onSuccessUpdateProfile(profile: Profile, clubName: String, clubDescription: string): void {
+    let form = this.form.value;
     var meetingTimes: WeekDayTime[] = []
     if (this.hasWeekday("Monday")) {
       if (this.mondayEndTime < this.mondayStartTime) {
@@ -229,11 +242,16 @@ export class RegisterLeaderComponent {
       next: () => this.newClubOnSuccess(),
       error: (err) => this.newClubOnError(err)
     })
+    this.form.reset()
   }
 
   newClubOnSuccess(): void {
-    this.snackBar.open("Request Successfully Submitted", "", { duration: 2000 })
+    let form = this.form.value;
+    this.snackBar.open("Request Successfully Submitted", "", { duration: 1300 })
+    this.form.reset()
+    setTimeout(() => { window.location.reload()}, 1000)
   }
+
 
   newClubOnError(err: Error): void{
     console.log(err)
