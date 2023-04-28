@@ -94,11 +94,11 @@ export class RegisterEventComponent {
     console.log(moment(start, moment.ISO_8601).isValid())
     if (code == null || name == null || description == null || location == null || start == null || end == null) {
       this.snackBar.open("Please Enter a Value for All Fields",  "", { duration: 4000 })
-    }
-    else if (!moment(start, moment.ISO_8601).isValid() || !moment(start, moment.ISO_8601).isValid()) {
+    } else if (!moment(start, moment.ISO_8601).isValid() || !moment(start, moment.ISO_8601).isValid()) {
       this.snackBar.open("Please Enter a Valid Date and Time",  "", { duration: 4000 })
-    }
-    else {
+    } else if (end < start) {
+      this.snackBar.open("Event End Time Can't Be Before Start Time",  "", { duration: 6000 })
+    } else {
       this.onSubmitEvent(code, name, description, location, start, end)
       this.form.reset()
     }

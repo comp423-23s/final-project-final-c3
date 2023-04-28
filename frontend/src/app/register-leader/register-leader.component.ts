@@ -126,7 +126,7 @@ export class RegisterLeaderComponent {
     var meetingTimes: WeekDayTime[] = []
     if (this.hasWeekday("Monday")) {
       if (this.mondayEndTime < this.mondayStartTime) {
-        this.snackBar.open("Your club's Monday meeting end time can't be before start time", "", { duration: 4000 })
+        this.snackBar.open("Your Club's Monday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
         return
       }
       var mondayWeekdayTime: WeekDayTime = {
@@ -139,7 +139,7 @@ export class RegisterLeaderComponent {
     }
     if (this.hasWeekday("Tuesday")) {
       if (this.tuesdayEndTime < this.tuesdayStartTime) {
-        this.snackBar.open("Your club's Tuesday meeting end time can't be before start time", "", { duration: 4000 })
+        this.snackBar.open("Your Club's Tuesday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
         return
       }
       var tuesdayWeekdayTime: WeekDayTime = {
@@ -152,7 +152,7 @@ export class RegisterLeaderComponent {
     }
     if (this.hasWeekday("Wednesday")) {
       if (this.wednesdayEndTime < this.wednesdayStartTime) {
-        this.snackBar.open("Your club's Wednesday meeting end time can't be before start time", "", { duration: 4000 })
+        this.snackBar.open("Your Club's Wednesday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
         return
       }
       var wednesdayWeekdayTime: WeekDayTime = {
@@ -165,7 +165,7 @@ export class RegisterLeaderComponent {
     }
     if (this.hasWeekday("Thursday")) {
       if (this.thursdayEndTime < this.thursdayStartTime) {
-        this.snackBar.open("Your club's Thursday meeting end time can't be before start time", "", { duration: 4000 })
+        this.snackBar.open("Your Club's Thursday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
         return
       }
       var thursdayWeekdayTime: WeekDayTime = {
@@ -178,7 +178,7 @@ export class RegisterLeaderComponent {
     }
     if (this.hasWeekday("Friday")) {
       if (this.fridayEndTime < this.fridayStartTime) {
-        this.snackBar.open("Your club's Friday meeting end time can't be before start time", "", { duration: 4000 })
+        this.snackBar.open("Your Club's Friday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
         return
       }
       var fridayWeekdayTime: WeekDayTime = {
