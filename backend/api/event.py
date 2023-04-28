@@ -153,3 +153,11 @@ def events_by_leader(subject: User = Depends(registered_user), event_svc: EventS
         print("❌ " + str(e))
         raise HTTPException(status_code=404, detail=str(e))
     
+@api.get("/club_name/{event_id}", tags=['Event'])
+def get_club_name_from_event_id(event_id: int, event_svc: EventService = Depends()):
+    try:
+        club_name = event_svc.get_club_name(event_id)
+        return club_name
+    except Exception as e:
+        print("❌ " + str(e))
+        raise HTTPException(status_code=404, detail=str(e))
