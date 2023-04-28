@@ -52,6 +52,7 @@ export class RegisterEventComponent {
     var event: Event = {
       id: null,
       club_id: club_id,
+      club_name: "",
       name: name,
       description: description,
       location: location,
