@@ -15,9 +15,9 @@
                         <mat-card-header>
                             <div class="'event-name-join-button">
                                 <mat-card-title>{{ event.name }}</mat-card-title>
+                                <mat-card-title>{{ event.club_name }}</mat-card-title>
                             </div>
                         </mat-card-header>
-                        <hr>
                         <mat-card-content>
                             <div class='description'>
                                 {{ event.show_short_description ? getShortDescription(event) : event.description }}
