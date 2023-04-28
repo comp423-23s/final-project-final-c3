@@ -29,7 +29,7 @@ export class ChangeAdminComponent {
   addNewAdmin(pid: string) {
     this.adminService.testAddAdmin(parseInt(pid)).subscribe({
       next: () => this.onSuccess(),
-      error: (err) => this.onError(err)
+      error: (err) => this.addError(err)
     })
   }
 
@@ -37,26 +37,36 @@ export class ChangeAdminComponent {
     // TODO: delegate to srevice to take admin role away from user
     this.adminService.removeAdmin(parseInt(pid)).subscribe({
       next: () => this.onSuccessRemove(),
-      error: (err) => this.onError(err)
+      error: (err) => this.removeError(err)
     })
   }
 
   onSuccess(): void {
     this.admins$ = this.adminService.getAllAdmin()
-    this.snackBar.open("Successfully Added Administrator "," ", { duration: 2000 })
+    this.snackBar.open("Successfully Added Administrator!"," ", { duration: 4000 })
   }
 
   onSuccessRemove(): void {
     this.admins$ = this.adminService.getAllAdmin()
-    this.snackBar.open("Successfully Removed Administrator "," ", { duration: 2000 })
+    this.snackBar.open("Successfully Removed Administrator! "," ", { duration: 4000 })
   }
 
-  onError(err: Error) : void{
+  addError(err: Error) : void{
     if (err.message) {
       console.log(err)
-      window.alert("The error is: " + err.message);
+      this.snackBar.open("⚠️ Could not add administrator! Make sure you have entered the correct PID. "," ", { duration: 4000 })
+    }
+    else {
+      this.snackBar.open("⚠️ Could not add administrator! Make sure you have entered the correct PID. "," ", { duration: 4000 })
+    }
+  }
+
+  removeError(err: Error) : void{
+    if (err.message) {
+      console.log(err)
+      this.snackBar.open("⚠️ Could not delete administrator! Make sure administrator already exists. "," ", { duration: 4000 })
     } else {
-      window.alert("Unknown error: " + JSON.stringify(err));
+      this.snackBar.open("⚠️ Could not delete administrator! Make sure administrator already exists. "," ", { duration: 4000 })
     }
   }
 }

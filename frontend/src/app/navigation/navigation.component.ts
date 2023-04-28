@@ -153,7 +153,8 @@ menu: any;
     return this.navigationService.error$.subscribe(
       (message) => {
         if (message !== null) {
-          this.errorDialog.open(ErrorDialogComponent, { data: { message } });
+          console.log(message)
+          // this.errorDialog.open(ErrorDialogComponent, { data: { message } });
         }
       }
     );
