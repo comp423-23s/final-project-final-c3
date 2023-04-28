@@ -105,8 +105,24 @@ export class RegisterLeaderComponent {
 
   //Function that displays error message if the club code was incorrect
   existingClubOnError(err: Error): void{
-    console.log(err)
-    this.snackBar.open("Wrong Club Code: Leader Registration Request Denied", "", { duration: 4000 })
+    if (err.message === "400") {
+      console.log(err)
+      this.snackBar.open("⚠️ Wrong Club Code: Leader Registration Request Denied", "", { duration: 4000 })
+    } else if (err.message === "409") {
+      console.log(err)
+      this.snackBar.open("⚠️ You are already a leader of this club", "", { duration: 4000 })
+    }
+    else if (err.message === "404") {
+      console.log(err)
+      this.snackBar.open("⚠️ Club does not exist", "", { duration: 4000 })
+    }
+    else if (err.message === "500") {
+      console.log(err)
+      this.snackBar.open("⚠️ Internal Server Error. Try again later!", "", { duration: 4000 })
+    }
+    else {
+      this.snackBar.open("⚠️ Wrong Club Code: Leader Registration Request Denied", "", { duration: 4000 })
+    }
   }
 
   onSubmitNewClub(clubName: string, clubDescription: string): void {
@@ -114,7 +130,7 @@ export class RegisterLeaderComponent {
       this.profileService.http.get<Profile>('/api/profile').subscribe(
         {
           next: (data) => {this.onSuccessUpdateProfile(data, clubName, clubDescription)},
-          error: (err) => console.log(err)
+          error: (err) => this.newClubOnError(err)
         }
       )
     } else {
@@ -126,7 +142,7 @@ export class RegisterLeaderComponent {
     var meetingTimes: WeekDayTime[] = []
     if (this.hasWeekday("Monday")) {
       if (this.mondayEndTime < this.mondayStartTime) {
-        this.snackBar.open("Your club's Monday meeting end time can't be before start time", "", { duration: 4000 })
+        this.snackBar.open("Your Club's Monday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
         return
       }
       var mondayWeekdayTime: WeekDayTime = {
@@ -139,7 +155,7 @@ export class RegisterLeaderComponent {
     }
     if (this.hasWeekday("Tuesday")) {
       if (this.tuesdayEndTime < this.tuesdayStartTime) {
-        this.snackBar.open("Your club's Tuesday meeting end time can't be before start time", "", { duration: 4000 })
+        this.snackBar.open("Your Club's Tuesday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
         return
       }
       var tuesdayWeekdayTime: WeekDayTime = {
@@ -152,7 +168,7 @@ export class RegisterLeaderComponent {
     }
     if (this.hasWeekday("Wednesday")) {
       if (this.wednesdayEndTime < this.wednesdayStartTime) {
-        this.snackBar.open("Your club's Wednesday meeting end time can't be before start time", "", { duration: 4000 })
+        this.snackBar.open("Your Club's Wednesday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
         return
       }
       var wednesdayWeekdayTime: WeekDayTime = {
@@ -165,7 +181,7 @@ export class RegisterLeaderComponent {
     }
     if (this.hasWeekday("Thursday")) {
       if (this.thursdayEndTime < this.thursdayStartTime) {
-        this.snackBar.open("Your club's Thursday meeting end time can't be before start time", "", { duration: 4000 })
+        this.snackBar.open("Your Club's Thursday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
         return
       }
       var thursdayWeekdayTime: WeekDayTime = {
@@ -178,7 +194,7 @@ export class RegisterLeaderComponent {
     }
     if (this.hasWeekday("Friday")) {
       if (this.fridayEndTime < this.fridayStartTime) {
-        this.snackBar.open("Your club's Friday meeting end time can't be before start time", "", { duration: 4000 })
+        this.snackBar.open("Your Club's Friday Meeting End Time Can't Be Before Start Time", "", { duration: 4000 })
         return
       }
       var fridayWeekdayTime: WeekDayTime = {

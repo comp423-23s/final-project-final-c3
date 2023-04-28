@@ -1,26 +1,26 @@
 <div class="main-display">
     <div class="club-list">
-        <div style="margin-top: 10px" *ngIf="!toggleSearch">
+        <!-- <div style="margin-top: 10px" *ngIf="!toggleSearch">
             <button mat-raised-button style="width: 600px; height: 60px" (click)="openSearch()">
                 Search by Club Name<mat-icon>search</mat-icon>
             </button>
-        </div>
+        </div> -->
 
-        <div style="margin-top: 20px" *ngIf="toggleSearch">
+        <div style="margin-top: 20px">
             <mat-toolbar-row style="width: 600px">
                 <button mat-icon-button disabled>
                     <mat-icon>search</mat-icon>
                 </button>
-
                 <mat-form-field  style="width: 700px; height: 70px">
                     <input matInput
                         placeholder="Search by Club Name"
                         [(ngModel)]="searchText"
                         (ngModelChange)="textChanged()"
+                        (focus)="openSearch()"
                         [ngModelOptions]="{standalone: true}"
                     />
                 </mat-form-field>
-                
+                &nbsp;&nbsp;
                 <button mat-icon-button (click)="searchClose()">
                     <mat-icon>close</mat-icon>
                 </button>
