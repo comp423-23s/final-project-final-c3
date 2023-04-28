@@ -18,26 +18,36 @@
             <div>
               <a mat-list-item [matMenuTriggerFor]="menu1">Clubs</a> 
               <mat-menu #menu1="matMenu">
-                <button mat-menu-item>
-                  <a mat-list-item routerLink="/all_clubs">All Clubs</a>
-                </button>
-                <button mat-menu-item>
-                  <a mat-list-item routerLink="/joined_clubs">My Clubs</a>
-                </button>
-                <button mat-menu-item>
-                  <a mat-list-item routerLink="/student_pending_requests">My Pending Club Requests</a>
-                </button>
+                <a mat-list-item routerLink="/all_clubs">
+                  <button mat-menu-item>
+                    All Clubs
+                  </button>
+                </a>
+                <a mat-list-item routerLink="/joined_clubs">
+                  <button mat-menu-item>
+                    My Clubs
+                  </button>
+                </a>
+                <a mat-list-item routerLink="/student_pending_requests">
+                  <button mat-menu-item>
+                    My Pending Club Requests
+                  </button>
+                </a>
               </mat-menu>
             </div> 
             <div>
               <a mat-list-item [matMenuTriggerFor]="menu2">Events</a> 
               <mat-menu #menu2="matMenu">
-                <button mat-menu-item>
-                  <a mat-list-item routerLink="/events">All Events</a>
-                </button>
-                <button mat-menu-item>
-                  <a mat-list-item routerLink="/my-events">My Events</a>
-                </button>
+                <a mat-list-item routerLink="/events">
+                  <button mat-menu-item>
+                    All Events
+                  </button>
+                </a>
+                <a mat-list-item routerLink="/my-events">
+                  <button mat-menu-item>
+                    My Events
+                  </button>
+                </a>
               </mat-menu>
             </div>           
             <a mat-list-item routerLink="/register_leader">Become a Leader</a>
@@ -52,12 +62,16 @@
             <div>
               <a mat-list-item [matMenuTriggerFor]="menu3">Events</a> 
               <mat-menu #menu3="matMenu">
-                <button mat-menu-item>
-                  <a mat-list-item routerLink="/manageevents">Manage Events</a>
-                </button>
-                <button mat-menu-item>
-                  <a mat-list-item routerLink="/registerevents">Register Events</a>
-                </button>
+                <a mat-list-item routerLink="/manageevents">
+                  <button mat-menu-item>
+                    Manage Events
+                  </button>
+                </a>
+                <a mat-list-item routerLink="/registerevents">
+                  <button mat-menu-item>
+                    Register Events
+                  </button>
+                </a>
               </mat-menu>
             </div> 
             <a mat-list-item (click)="auth.signOut()">Sign out</a>
