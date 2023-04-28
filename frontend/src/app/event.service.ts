@@ -7,6 +7,7 @@ export interface Event {
   id: number | null,
   name: string,
   club_id: number,
+  club_name: string,
   start_time: Date,
   end_time: Date, 
   location: string, 
@@ -73,6 +74,7 @@ export class EventService {
   }
 
   createNewEvent(event: Event): Observable<string> {
+    console.log("fe service createNewEvent time is " + event.start_time)
     return this.http.post<string>("/api/event/create_event", event)
   }
   /**
