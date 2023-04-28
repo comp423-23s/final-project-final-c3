@@ -10,7 +10,6 @@
     <ng-template #list>
         <div class="centered-lists">
             <mat-card-title style="margin-top: 25px">Upcoming</mat-card-title>
-            <hr style="width:100%; color: #424242">
             <tr *ngFor="let event of events">
                 <ng-container *ngIf="compareDateGreaterThanNow(event.start_time);">
                     <div style="position: relative">
@@ -48,8 +47,12 @@
                     </div>
                 </ng-container>
             </tr> 
+            <ng-container *ngIf="upcoming_events.length === 0;">
+                <div style="display: flex;flex-direction:row">
+                    <mat-card-subtitle>Your clubs have no upcoming events. <a style="color: #c7c7c7" routerLink="/registerevents">Register an Event</a> for your club now. </mat-card-subtitle>
+                </div>
+            </ng-container>
             <mat-card-title>Previous</mat-card-title>
-            <hr style="width:100%; color: #424242">
             <tr *ngFor="let event of events">
                 <ng-container *ngIf="compareDateLessThanNow(event.start_time);">
                     <div style="position: relative">
@@ -87,6 +90,11 @@
                     </div>
                 </ng-container>
             </tr>
+            <ng-container *ngIf="previous_events.length === 0;">
+                <div style="display: flex;flex-direction:row">
+                    <mat-card-subtitle>Your clubs have no previous events.</mat-card-subtitle>
+                </div>
+            </ng-container>
         </div>   
     </ng-template>
 </div> 

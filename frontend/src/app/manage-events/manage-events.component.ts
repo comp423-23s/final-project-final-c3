@@ -22,6 +22,8 @@ export class ManageEventsComponent {
   };
 
   public club_events$: Observable<Event[]>
+  public previous_events: Date[] = []
+  public upcoming_events: Date[] = []
 
   constructor(private eventService: EventService, protected snackBar: MatSnackBar) {
     // TODO: get events by club not just all events
@@ -62,15 +64,15 @@ export class ManageEventsComponent {
 
   compareDateGreaterThanNow(date: Date): boolean {
     if (moment(date).isAfter(Date())) {
+      this.upcoming_events.push(date)
       return true
     }
     else return false
   }
 
   compareDateLessThanNow(date: Date): boolean {
-    console.log("This is the moment of event date" + moment(date))
-    console.log("This is true/false of current date grateer than event date:" + moment(date).isAfter(Date()))
     if (moment(date).isAfter(Date())) {
+      this.previous_events.push(date)
       return false
     }
     else return true
