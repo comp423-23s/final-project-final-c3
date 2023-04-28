@@ -1,4 +1,4 @@
-import { Component, ModuleWithComponentFactories, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Route, ActivatedRoute } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
@@ -47,8 +47,18 @@ export class RegisterEventComponent {
   }
 
   onSuccessGetClubID(club_id: number, name: string, description: string, location: string, start: string, end: string): void {
-    let start_time: Date = new Date(start)
-    let end_time: Date = new Date(end)
+    var start_time: Date = new Date()
+    start_time.setUTCFullYear(Number(start.substring(0, 4)))
+    start_time.setUTCMonth(Number(start.substring(5, 7)) - 1)
+    start_time.setUTCDate(Number(start.substring(8, 10)))
+    start_time.setUTCHours(Number(start.substring(11, 13)))
+    start_time.setUTCMinutes(Number(start.substring(14, 16)))
+    var end_time: Date = new Date()
+    end_time.setUTCFullYear(Number(end.substring(0, 4)))
+    end_time.setUTCMonth(Number(end.substring(5, 7)) - 1)
+    end_time.setUTCDate(Number(end.substring(8, 10)))
+    end_time.setUTCHours(Number(end.substring(11, 13)))
+    end_time.setUTCMinutes(Number(end.substring(14, 16)))
     var event: Event = {
       id: null,
       club_id: club_id,
@@ -60,6 +70,8 @@ export class RegisterEventComponent {
       show_short_description: false,
       attendees: []
     } 
+    console.log(event.start_time)
+    console.log(event.end_time)
     this.eventService.createNewEvent(event).subscribe(
       {
         next: (data) => {this.onSuccess(data)},
@@ -103,7 +115,7 @@ export class RegisterEventComponent {
     let location = form.location
     let start = form.start ?? ''
     let end = form.end ?? ''
-    console.log(start)
+    console.log("start is " + start)
     console.log(moment(start, moment.ISO_8601).isValid())
     if (code == null || name == null || description == null || location == null || start == null || end == null) {
       this.snackBar.open("Please Enter a Value for All Fields",  "", { duration: 4000 })
