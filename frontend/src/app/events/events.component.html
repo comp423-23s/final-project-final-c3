@@ -21,7 +21,7 @@
 
     <tr *ngFor="let user_event of user_events$ | async">
         <div style="position: relative">
-            <mat-card style="width:1750px; height: 200px;">
+            <mat-card style="width:1750px;">
                 <mat-card-header>
                     <div class="'event-name-join-button">
                         <mat-card-title>{{ user_event.event.name }}</mat-card-title>
@@ -34,11 +34,6 @@
                     </div>
                     <div>
                         <div class="side-buttons">
-                            <mat-card-actions>
-                                <a mat-list-item class="logo-item">
-                                    <img class="logo" [src]="'assets/' + user_event.event.club_name + '.png'"  onerror="this.style.display='none';" />
-                                </a>
-                            </mat-card-actions>
                             <mat-card-actions>
                                 <button mat-raised-button *ngIf="user_event.is_joined; else elseBlock" (click)='changeStatus(user_event)'>Cancel Registration</button>
                                 <ng-template #elseBlock>

@@ -19,16 +19,14 @@ class ClubService:
     def __init__(self, session: Session = Depends(db_session)):
         self._session = session
 
-
     def get_all_clubs(self) -> list[Club]:
-        """Returns all registered clubs in the database."""
+        """Returns all clubs in the database."""
         query = select(ClubEntity)
         club_entities = self._session.scalars(query).all()
         return [entity.to_model() for entity in club_entities]
     
-
     def get_clubs_by_user_id(self, subject: User) -> list[Club]:
-        """Returns all clubs that a user is a member of."""
+        """Returns all clubs that a student is a member of."""
         clubs: list[Club] = []
         query = select(user_club_table.c.club_id).where(user_club_table.c.user_id == subject.id)
         club_entites = self._session.scalars(query).all()
@@ -37,7 +35,6 @@ class ClubService:
             clubs.append(club_entity.to_model())
         return clubs
     
-
     def add_user_to_club(self, subject: User, club_id: int) -> None:
         """Adds a user to a club.""" 
         club_entity = self._session.get(ClubEntity, club_id)
@@ -49,7 +46,6 @@ class ClubService:
         club_entity.members.append(user_entity)
         self._session.commit()
 
-   
     def is_user_in_club(self, subject: User, club_id: int) -> bool:
         """States whether or not a user is in a club."""
         club_entity = self._session.get(ClubEntity, club_id)
@@ -87,7 +83,6 @@ class ClubService:
             print("User was not a leader.")
         self._session.commit()
 
-
     # Leader and Administrator Methods Below
     def get_members(self, club_id: int) -> list[User]:
         """Returns a list of members for a club."""
@@ -99,7 +94,6 @@ class ClubService:
             members.append(user_entity.to_model())
         return members
 
-   
     def get_leaders(self, club_id: int) -> list[User]:
         """Returns a list of leaders for a club."""
         leaders: list[User] = []
@@ -110,22 +104,19 @@ class ClubService:
             leaders.append(user_entity.to_model())
         return leaders
 
-
     def get_club_name(self, club_id: int) -> str:
-        """get club name by club id"""
+        """Returns club name by club id."""
         club_entity = self._session.get(ClubEntity, club_id)
         return club_entity.name
     
-
     def delete_club(self, club_id: int) -> None:
         """Deletes a club from the database."""
         club_entity = self._session.get(ClubEntity, club_id)
         self._session.delete(club_entity)
         self._session.commit()
 
-
     def get_clubs_led_by_user(self, leader: User) -> list[Club]:
-        """Returns a list of all the clubs a user is leading."""
+        """Returns a list of all the clubs a leader is leading."""
         clubs: list[Club] = []
         query = select(leader_club_table.c.club_id).where(leader_club_table.c.user_id == leader.id)
         club_entities = self._session.scalars(query).all()
@@ -138,16 +129,14 @@ class ClubService:
         print("🏓" + str(len(clubs)))
         return clubs
 
-
     def delete_leader(self, leader: User, club_id) -> None:
-        """Deletes a leader."""
+        """Deletes a leader from a club."""
         club_entity = self._session.get(ClubEntity, club_id)
         leader_as_user_entity = self._session.get(UserEntity, leader.id)
         club_entity.leaders.remove(leader_as_user_entity)
 
-
     def filter_by_availability(self, availabilities: list[Tuple[str, str]]) -> list[int]:
-        """Returns a list of clubs that meet at the times specificed by the user."""
+        """Returns a list of clubs that meet at the times specificed by the student."""
         final_club_ids: list[int] = []
         week_day_time_ids: list[int] = []
         morning_start: time = time(hour=6, minute=0)
@@ -167,12 +156,10 @@ class ClubService:
                 query = select(WeekDayTimeEntity).where(WeekDayTimeEntity.start_time >= afternoon_end, WeekDayTimeEntity.start_time < evening_end,
                           WeekDayTimeEntity.day == availability[0])
             week_day_time_entities = self._session.scalars(query).all()
-
             # Get WeekDayTimeEntity's id
             for week_day_time in week_day_time_entities:
                 week_day_time_ids.append(week_day_time.id)
-
-            # Select club_id based on WDT id
+        # Select club_id based on WDT id
         for week_day_time_id in week_day_time_ids:
             query1 = select(WeekDayTimeEntity.club_id).where(WeekDayTimeEntity.id == week_day_time_id)
             club_ids = self._session.scalars(query1).all()
@@ -182,9 +169,8 @@ class ClubService:
         print("💄 length is " + str(len(final_club_ids)))
         return final_club_ids
     
-
     def filter_by_category(self, categories: list[str]) -> list[int]:
-        """Gets a list of clubs based on a user's prefered interests."""
+        """Returns a list of clubs based on a student's prefered categories."""
         final_club_ids: list[int] = []
         all_categories_ids: list[int] = []
         for category in categories:
@@ -198,7 +184,6 @@ class ClubService:
                 final_club_ids.append(club_id)
         return final_club_ids
     
-
     def filter_by_availability_and_category(self, availabilities: list[Tuple[str, str]], categories: list[str]) -> list[Club]:
         """Filters by availability and category."""
         set_club_ids = set()
@@ -209,11 +194,9 @@ class ClubService:
             set_club_ids.add(club_id_by_availability)
         for club_id_by_category in filtered_by_categories:
             set_club_ids.add(club_id_by_category)
-        
         for an_id in set_club_ids:
             club_entity = self._session.get(ClubEntity, an_id)
             clubs.append(club_entity.to_model())
-
         print('🚩 filter result number' + str(len(clubs)))
         return clubs
     

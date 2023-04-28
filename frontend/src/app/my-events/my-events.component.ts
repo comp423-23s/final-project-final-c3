@@ -7,6 +7,7 @@ import { Profile } from '../profile/profile.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as moment from 'moment' ;
 
 @Component({
   selector: 'app-my-events',
@@ -26,6 +27,8 @@ export class MyEventsComponent {
   public my_events$: Observable<Event[]>
   public my_events_shown$: Observable<Event[]>
   public searchText = ''
+  public previous_events: Date[] = []
+  public upcoming_events: Date[] = []
 
   constructor(private eventService: EventService, route: ActivatedRoute, private http: HttpClient, protected snackBar: MatSnackBar) {
     this.my_events$ = eventService.getMyEvents()
@@ -75,5 +78,21 @@ export class MyEventsComponent {
   searchClose() {
     this.searchText = ''
     this.my_events_shown$ = this.my_events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
+  }
+
+  compareDateGreaterThanNow(date: Date): boolean {
+    if (moment(date).isAfter(Date())) {
+      this.upcoming_events.push(date)
+      return true
+    }
+    else return false
+  }
+
+  compareDateLessThanNow(date: Date): boolean {
+    if (moment(date).isAfter(Date())) {
+      return false
+    }
+    this.previous_events.push(date)
+    return true
   }
 }

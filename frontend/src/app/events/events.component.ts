@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Event, User_Event, EventService } from '../event.service'
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute, ChildActivationStart, Route } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Profile, ProfileService } from '../profile/profile.service';
+import * as moment from 'moment' ;
 
 @Component({
   selector: 'app-events',
@@ -28,6 +29,7 @@ export class EventsComponent {
   public events$: Observable<Event[]>
   public user_events$: Observable<User_Event[]>
   public searchText = ''
+  public currentDate = new Date()
 
   constructor(route: ActivatedRoute, private eventService: EventService, private profileService: ProfileService, private http: HttpClient, protected snackBar: MatSnackBar) {
     const data = route.snapshot.data as { profile: Profile }
@@ -152,5 +154,21 @@ export class EventsComponent {
         return user_event
       })
     }))
+  }
+
+  compareDateGreaterThanNow(date: Date): boolean {
+    if (moment(date).isAfter(Date())) {
+      return true
+    }
+    else return false
+  }
+
+  compareDateLessThanNow(date: Date): boolean {
+    console.log("This is the moment of event date" + moment(date))
+    console.log("This is true/false of current date grateer than event date:" + moment(date).isAfter(Date()))
+    if (moment(date).isAfter(Date())) {
+      return false
+    }
+    else return true
   }
 }
