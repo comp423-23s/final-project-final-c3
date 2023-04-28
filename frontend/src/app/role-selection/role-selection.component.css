@@ -12,3 +12,11 @@
     margin-left: 8px;
     margin-bottom: 8px;
 }
+
+.centered-lists {
+    z-index: 0; 
+    position:relative;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+}
