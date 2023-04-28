@@ -30,4 +30,17 @@ export class StudentPendingRequestsComponent {
     this.profile = data.profile
     this.my_pending_clubs$ = registerLeaderService.getMyPendingClubs()
   }
+
+  convertToTime(timeStr: String) {
+    var amOrPm: String = "AM"
+    var hour: number = parseInt(timeStr.split(":")[0])
+    var min: number = parseInt(timeStr.split(":")[1])
+    if (hour >= 12) {
+      amOrPm = 'PM'
+    }
+    if (hour > 12) {
+      hour = hour - 12
+    }
+    return `${hour<10?'0':''}${hour}:${min<10?'0':''}${min} ${amOrPm}`
+  }
 }

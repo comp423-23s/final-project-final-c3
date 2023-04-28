@@ -94,6 +94,7 @@ export class RegisterEventComponent {
     this.snackBar.open("Unable to Complete Event Registration!", "", { duration: 4000 })
   }
 
+
   onSubmit(): void {
     let form = this.form.value;
     let code = form.code

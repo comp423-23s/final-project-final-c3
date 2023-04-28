@@ -18,6 +18,7 @@ As a student, one may:
         - If the request is approved by Administrator, then the club is founded and assigned with a Club Code, and the student becomes the leader of the club
         - If the request is denied by Administrator, then the club is not founded and the student is not the leader of the club
     * If the student successfully becomes a leader, the student will be able to switch to Leader view in "Change Role" tab in the navigation bar
+    * A Student's can view all of their requests that are in review under Clubs and "My Pending Requests". If the request is no longer there and the club is not listed under "Leading Clubs" in the leading view, the request was denined. 
 
 As a leader of a club (e.g. President), one may:
 * View a list of the clubs they lead
@@ -26,7 +27,7 @@ As a leader of a club (e.g. President), one may:
 
 As an administrator, one may:
 * Approve or deny a student's request to create a new club
-Note: Only Arden Administrator can add and delete other Administrators
+* Note: Only Arden Administrator can add and delete other Administrators
 
 
 # Implementation Notes

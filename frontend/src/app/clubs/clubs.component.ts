@@ -1,11 +1,13 @@
-import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
-import { Observable, map, of, timeInterval } from 'rxjs';
+import { Component, Injectable, ViewChild, ElementRef } from '@angular/core';
+import { Observable, map} from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile, ProfileService } from '../profile/profile.service'
 import { Club, ClubsService, User_Club } from '../clubs.service';
 import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FilterPipe } from '../filter.pipe';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./clubs.component.css']
 })
 export class ClubsComponent {
-  // Use an Observable class so that the event data can be synchronous with the database
+  @ViewChild('searchbar') searchbar!: ElementRef;
+  searchText = ''
+  toggleSearch: boolean = false;
 
   public static Route: Route = {
     path: 'all_clubs',
@@ -33,7 +37,7 @@ export class ClubsComponent {
   public weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
   public selectedWeekdays: Set<String> = new Set()
   public selectedWeekdayTimes: Set<String> = new Set()
-  public categories = ["Womxn", "Black/African American", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-Binary", "Volunteer", "iOS Development", "Business", "Project Management"]
+  public categories = ["Womxn", "Black/African American", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-binary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedCategories: Set<String> = new Set()
 
   constructor(route: ActivatedRoute, private clubsService: ClubsService, protected snackBar: MatSnackBar, private profileService: ProfileService) {
@@ -43,7 +47,6 @@ export class ClubsComponent {
     this.filtered_clubs$ = this.clubs$
     this.clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
       return clubs.map(club => {
-        // console.log("Club categories numbers: " + club.categories.length)
         return {...club, show_short_description: true}})
     }))
     this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
@@ -204,7 +207,6 @@ export class ClubsComponent {
     }
     var categories: String[] = []
     for (var category of this.selectedCategories) {
-      console.log("looping")
       categories.push(category)
     }
     this.filtered_clubs$ = this.clubsService.filterClubs(availabilities, categories)
@@ -233,5 +235,43 @@ export class ClubsComponent {
     this.selectedWeekdays = new Set()
     this.selectedWeekdayTimes = new Set()
     this.selectedCategories = new Set()
+  }
+
+  convertToTime(timeStr: String) {
+    var amOrPm: String = "AM"
+    var hour: number = parseInt(timeStr.split(":")[0])
+    var min: number = parseInt(timeStr.split(":")[1])
+    if (hour >= 12) {
+      amOrPm = 'PM'
+    }
+    if (hour > 12) {
+      hour = hour - 12
+    }
+    return `${hour<10?'0':''}${hour}:${min<10?'0':''}${min} ${amOrPm}`
+  }
+
+  openSearch() {
+    this.toggleSearch = true
+  }
+
+  textChanged() {
+    console.log("text changed")
+    this.user_clubs$ = this.user_clubs$.pipe(map((user_clubs: User_Club[]) => {
+        return user_clubs.filter(a_user_club => a_user_club.club.name.toLowerCase().includes(this.searchText.toLowerCase()))
+    }))
+  }
+
+  searchClose() {
+    this.searchText = ''
+    this.toggleSearch = false
+    this.user_clubs$ = this.clubs$.pipe(map((clubs: Club[]) => {
+      return clubs.map(a_club => {
+        const user_club : User_Club = {
+          club: a_club, 
+          is_joined: a_club.members.map(member => member.id).includes(this.profile.id)
+        }
+        return user_club
+      })
+    }))
   }
 }

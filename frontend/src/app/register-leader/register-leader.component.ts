@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, fromEventPattern, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router'
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { Profile } from '../profile/profile.service'
@@ -7,10 +7,12 @@ import { profileResolver } from '../profile/profile.resolver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Club, ClubsService } from '../clubs.service';
 import { PotentialClub, WeekDayTime, Category, RegisterLeaderService } from '../register-leader.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { RoleAdminService } from '../admin/roles/role-admin.service';
 import { ProfileService } from '../profile/profile.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-register-leader',
@@ -33,10 +35,9 @@ export class RegisterLeaderComponent {
   public selectedClubId: number = 0
   public clubExists = true
   public potentialClubId = 0
-  public categoryNames = ["Womxn", "Black/AA", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Nonbinary", "Volunteer", "iOS Development", "Business", "Project Management"]
+  public categoryNames = ["Womxn", "Black/AA", "Asian American/Pacific Islander", "Hispanic/Latinx", "LGBTQIA+", "Video Games", "Hackathon", "Non-binary", "Volunteer", "iOS Development", "Business", "Project Management"]
   public selectedWeekdays: Set<String> = new Set()
   public selectedCategories: Set<String> = new Set()
-  // mondayStartTime = new Date()
   public mondayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
   public mondayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
   public tuesdayStartTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
@@ -49,7 +50,16 @@ export class RegisterLeaderComponent {
   public fridayEndTime = `${new Date().getHours()}:${(new Date().getMinutes()<10?'0':'') + new Date().getMinutes()}`;
   public categoryMap = new Map<String, number>()
 
-  constructor(route: ActivatedRoute, private formBuilder: FormBuilder, private registerLeaderService: RegisterLeaderService, private clubService: ClubsService, protected snackBar: MatSnackBar, private navigationComponent: NavigationComponent, private roleAdminService: RoleAdminService, private profileService: ProfileService) {
+  constructor(
+    route: ActivatedRoute, 
+    private formBuilder: FormBuilder, 
+    private registerLeaderService: RegisterLeaderService, 
+    private clubService: ClubsService, 
+    protected snackBar: MatSnackBar, 
+    private dialog: Dialog,
+    private navigationComponent: NavigationComponent, 
+    private roleAdminService: RoleAdminService, 
+    private profileService: ProfileService) {
     const data = route.snapshot.data as { profile: Profile }
     this.profile = data.profile
     this.clubs$ = clubService.getAllClubs()
@@ -131,6 +141,10 @@ export class RegisterLeaderComponent {
   private onSuccessUpdateProfile(profile: Profile, clubName: String, clubDescription: string): void {
     var meetingTimes: WeekDayTime[] = []
     if (this.hasWeekday("Monday")) {
+      if (this.mondayEndTime < this.mondayStartTime) {
+        this.snackBar.open("Your club's Monday meeting end time can't be before start time", "", { duration: 4000 })
+        return
+      }
       var mondayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Monday",
@@ -140,6 +154,10 @@ export class RegisterLeaderComponent {
       meetingTimes.push(mondayWeekdayTime)
     }
     if (this.hasWeekday("Tuesday")) {
+      if (this.tuesdayEndTime < this.tuesdayStartTime) {
+        this.snackBar.open("Your club's Tuesday meeting end time can't be before start time", "", { duration: 4000 })
+        return
+      }
       var tuesdayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Tuesday",
@@ -149,6 +167,10 @@ export class RegisterLeaderComponent {
       meetingTimes.push(tuesdayWeekdayTime)
     }
     if (this.hasWeekday("Wednesday")) {
+      if (this.wednesdayEndTime < this.wednesdayStartTime) {
+        this.snackBar.open("Your club's Wednesday meeting end time can't be before start time", "", { duration: 4000 })
+        return
+      }
       var wednesdayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Wednesday",
@@ -158,6 +180,10 @@ export class RegisterLeaderComponent {
       meetingTimes.push(wednesdayWeekdayTime)
     }
     if (this.hasWeekday("Thursday")) {
+      if (this.thursdayEndTime < this.thursdayStartTime) {
+        this.snackBar.open("Your club's Thursday meeting end time can't be before start time", "", { duration: 4000 })
+        return
+      }
       var thursdayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Thursday",
@@ -167,6 +193,10 @@ export class RegisterLeaderComponent {
       meetingTimes.push(thursdayWeekdayTime)
     }
     if (this.hasWeekday("Friday")) {
+      if (this.fridayEndTime < this.fridayStartTime) {
+        this.snackBar.open("Your club's Friday meeting end time can't be before start time", "", { duration: 4000 })
+        return
+      }
       var fridayWeekdayTime: WeekDayTime = {
         id: undefined,
         day: "Friday",

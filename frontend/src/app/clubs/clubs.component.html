@@ -1,8 +1,35 @@
 <div class="main-display">
     <div class="club-list">
+        <div style="margin-top: 10px" *ngIf="!toggleSearch">
+            <button mat-raised-button style="width: 600px; height: 60px" (click)="openSearch()">
+                Search by Club Name<mat-icon>search</mat-icon>
+            </button>
+        </div>
+
+        <div style="margin-top: 20px" *ngIf="toggleSearch">
+            <mat-toolbar-row style="width: 600px">
+                <button mat-icon-button disabled>
+                    <mat-icon>search</mat-icon>
+                </button>
+
+                <mat-form-field  style="width: 700px; height: 70px">
+                    <input matInput
+                        placeholder="Search by Club Name"
+                        [(ngModel)]="searchText"
+                        (ngModelChange)="textChanged()"
+                        [ngModelOptions]="{standalone: true}"
+                    />
+                </mat-form-field>
+                
+                <button mat-icon-button (click)="searchClose()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-toolbar-row>
+        </div>
+
         <tr *ngFor="let user_club of user_clubs$ | async">
             <div style="position: relative">
-                <mat-card style="width:600px; height: 150px">
+                <mat-card style="width:600px; height: 200px">
                     <mat-card-header>
                         <div class="'event-name-join-button">
                             <mat-card-title>{{ user_club.club.name }}</mat-card-title>
@@ -15,19 +42,20 @@
                                 {{ category.name }}&nbsp;&nbsp;
                             </span>             
                         </div>
-                        <div class='description'>
-                            <div>Meeting Times:&nbsp;</div>
-                            <br>
-                            <div *ngFor="let meetingTime of user_club.club.meeting_times">
-                                {{ meetingTime.day }} {{ meetingTime.start_time }} - {{ meetingTime.end_time }}
-                                <br>
-                            </div>
+                        <div class='description'>Meeting Times:</div>
+                        <div class='description' *ngFor="let meetingTime of user_club.club.meeting_times">
+                            &nbsp;&nbsp;&nbsp;&nbsp;• {{ meetingTime.day }} {{ convertToTime(meetingTime.start_time) }} - {{ convertToTime(meetingTime.end_time) }}
                         </div>
                         <div class='description'>
                             {{ user_club.club.show_short_description ? getShortDescription(user_club.club) : user_club.club.description }}                  
                         </div>
                         <br>
                         <div class="side-buttons">
+                            <mat-card-actions>
+                                <a mat-list-item class="logo-item">
+                                    <img class="logo" [src]="'assets/' + user_club.club.name + '.png'" alt="No club logo" />
+                                </a>
+                            </mat-card-actions>
                             <mat-card-actions>
                                 <button mat-raised-button *ngIf="user_club.is_joined; else elseBlock" (click)='changeStatus(user_club)'>Leave</button>
                                 <ng-template #elseBlock>
@@ -47,37 +75,39 @@
     </div>
     <br>
     <div class="filters">
-        <button style="margin-bottom: 10px; width: 100%;" mat-raised-button>
-            <a mat-list-item [matMenuTriggerFor]="menu1">
-            <span style="margin-top: 4px;">Select Categories </span>
-            <span style="margin-bottom: -3px"><mat-icon>arrow_drop_down</mat-icon></span>
-            </a> 
-        </button>
-        <mat-menu  #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu1" #menu1="matMenu" yPosition="below">
-        <span *ngFor="let category of categories">
-            <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
-        </span>
-        </mat-menu>
-        <div style="margin-bottom: 10px" *ngFor="let weekday of weekdays">
-            <button mat-raised-button style="background-color: #4786c6; width: 100%;">
-                <mat-checkbox [checked]="isWeekdaySelected(weekday)" (change)="selectDay(weekday)">
-                    {{ weekday }}&nbsp;&nbsp;
-                </mat-checkbox>
+        <div *ngIf="!toggleSearch">
+            <button style="margin-bottom: 10px; width: 100%;" mat-raised-button>
+                <a mat-list-item [matMenuTriggerFor]="menu1">
+                <span style="margin-top: 4px;">Select Categories </span>
+                <span style="margin-bottom: -3px"><mat-icon>arrow_drop_down</mat-icon></span>
+                </a> 
             </button>
-            <span *ngIf="isWeekdaySelected(weekday)">
-                <mat-checkbox style="margin-bottom: -3px" formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Morning')">
-                    Morning&nbsp;
-                </mat-checkbox>
-                <mat-checkbox style="margin-bottom: -3px" formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Afternoon')">
-                    Afternoon&nbsp;
-                </mat-checkbox>
-                <mat-checkbox style="margin-bottom: -3px" formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Evening')">
-                    Evening&nbsp;
-                </mat-checkbox>
+            <mat-menu  #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu1" #menu1="matMenu" yPosition="below">
+            <span *ngFor="let category of categories">
+                <mat-checkbox [checked]="isCategorySelected(category)" (change)='selectCategory(category)'>{{ category }}</mat-checkbox>
             </span>
+            </mat-menu>
+            <div style="margin-bottom: 10px" *ngFor="let weekday of weekdays">
+                <button mat-raised-button style="background-color: #4786c6; width: 100%;">
+                    <mat-checkbox [checked]="isWeekdaySelected(weekday)" (change)="selectDay(weekday)">
+                        {{ weekday }}&nbsp;&nbsp;
+                    </mat-checkbox>
+                </button>
+                <span *ngIf="isWeekdaySelected(weekday)">
+                    <mat-checkbox style="margin-bottom: -3px" formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Morning')">
+                        Morning&nbsp;
+                    </mat-checkbox>
+                    <mat-checkbox style="margin-bottom: -3px" formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Afternoon')">
+                        Afternoon&nbsp;
+                    </mat-checkbox>
+                    <mat-checkbox style="margin-bottom: -3px" formControlName="checkbox1" (change)="selectWeekdayTime(weekday, 'Evening')">
+                        Evening&nbsp;
+                    </mat-checkbox>
+                </span>
+            </div>
+            <button style="margin-bottom: 10px; width: 100%;" mat-raised-button (click)='onFilter()'>Apply Filters</button>
+            <button style="background-color: #646464; width: 80px; height: 30px;position: relative; left: 120px; top: 0px" mat-raised-button (click)='onShowAllClubs()'>Clear</button>
         </div>
-        <button style="margin-bottom: 10px; width: 100%;" mat-raised-button (click)='onFilter()'>Apply Filters</button>
-        <button style="background-color: #646464; width: 80px; height: 30px;position: relative; left: 120px; top: 0px" mat-raised-button (click)='onShowAllClubs()'>Clear</button>
     </div>
 </div>
 
