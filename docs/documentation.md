@@ -3,27 +3,27 @@
 Our website builds off the [Computer Science Experience Lab website](https://csxl.unc.edu/), with added functionality to view affiliated student clubs and the events they host. This application serves students at the University of North Carolina at Chapel Hill who are interested in becoming involved in Computer Science related organizations. Using this application, students have quick and easy access to enriching events and inclusive organizations. 
 
 As a student, one may:
-* View a comprehensive list of all computer science affiliated clubs: (INSERT LINK HERE)
-* View a comprehensive list of all events hosted by these clubs: (INSERT LINK HERE)
+* View a comprehensive list of all computer science affiliated clubs: https://github.com/comp423-23s/final-project-final-c3/blob/stage/docs/images/all_clubs_stu_view.png
+* View a comprehensive list of all events hosted by these clubs: https://github.com/comp423-23s/final-project-final-c3/blob/stage/docs/images/all_events_stu_view.png
 * Join or Leave a club
 * Register or Cancel Registration for an event
-* View the clubs of which they are currently members: (INSERT LINK HERE)
-* View the events for which they are currently registered: (INSERT LINK HERE)
-* Search through clubs via filtering, either by availability or interests (categories): (INSERT LINK HERE)
+* View the clubs of which they are currently members
+* View the events for which they are currently registered: https://github.com/comp423-23s/final-project-final-c3/blob/stage/docs/images/my_events_stu_view.png
+* Search through clubs via filtering, either by availability or interests (categories): https://github.com/comp423-23s/final-project-final-c3/blob/stage/docs/images/filtering.png
 * Become a leader of a club: 
-    - Either: become a leader of an existing club: student needs to select the club from a dropdown box, and submit a 8-digit Club Code: (INSERT LINK HERE)
+    - Either: become a leader of an existing club: student needs to select the club from a dropdown box, and submit a 8-digit Club Code: https://github.com/comp423-23s/final-project-final-c3/blob/stage/docs/images/old_club_stu_view.png
         - If the Club Code is correct, then the student becomes the leader of this club
         - If the Club Code is incorrect, then the student can't become the leader of the club
-    - Or: become a leader of a new club: student needs to submit the club name and description, and the request will be submitted for an Administrator to review: (INSERT LINK HERE) 
+    - Or: become a leader of a new club: student needs to submit the club name and description, and the request will be submitted for an Administrator to review: https://github.com/comp423-23s/final-project-final-c3/blob/stage/docs/images/new_club_stu_view.png
         - If the request is approved by Administrator, then the club is founded and assigned with a Club Code, and the student becomes the leader of the club
         - If the request is denied by Administrator, then the club is not founded and the student is not the leader of the club
-    * If the student successfully becomes a leader, the student will be able to switch to Leader view in "Change Role" tab in the navigation bar: (INSERT LINK HERE)
-    * A Student's can view all of their requests that are in review under Clubs and "My Pending Requests". If the request is no longer there and the club is not listed under "Leading Clubs" in the leading view, the request was denined: (INSERT LINK HERE)
+    * If the student successfully becomes a leader, the student will be able to switch to Leader view in "Change Role" tab in the navigation bar: https://github.com/comp423-23s/final-project-final-c3/blob/stage/docs/images/change_role_view.png
+    * A Student's can view all of their requests that are in review under Clubs and "My Pending Requests". If the request is no longer there and the club is not listed under "Leading Clubs" in the leading view, the request was denined: https://github.com/comp423-23s/final-project-final-c3/blob/stage/docs/images/pending_req_stu_view.png
 
 As a leader of a club (e.g. President), one may:
 * View a list of the clubs they lead (Note: must be in leader view to view anything pertaining to leader capabilities)
 * View the 8-digit Club Code of the clubs they lead
-* View the members in the clubs they lead: (INSERT LINK HERE)
+* View the members in the clubs they lead: https://github.com/comp423-23s/final-project-final-c3/blob/stage/docs/images/leading_clubs_view.png
 * Manage the events of the clubs they leave
 
 As an administrator, one may:
