@@ -1,3 +1,4 @@
+Authors: Aryonna Rice (https://github.com/aryonna-rice, Qianqian Hong (https://github.com/QianqianHong), Catherine Roberts (https://github.com/croberts808), Karen Gonzalez-Palomo (https://github.com/karengpalomo)
 # Overview
 
 Our website builds off the [Computer Science Experience Lab website](https://csxl.unc.edu/), with added functionality to view affiliated student clubs and the events they host. This application serves students at the University of North Carolina at Chapel Hill who are interested in becoming involved in Computer Science related organizations. Using this application, students have quick and easy access to enriching events and inclusive organizations. 
