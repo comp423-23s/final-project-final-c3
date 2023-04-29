@@ -20,12 +20,13 @@
                         <div class='description'>
                             Club Code: {{ club.club_code }}               
                         </div>
-                        <div class='description'>
-                            <span>Categories:&nbsp;</span>
+                        <div class='description'>Categories:</div>
+                        <span>
+                            &nbsp;&nbsp;&nbsp;
                             <span *ngFor="let category of club.categories">
-                                {{ category.name }}&nbsp;&nbsp;
-                            </span>             
-                        </div>
+                                • {{ category.name }}&nbsp;
+                            </span>
+                        </span>
                         <div class='description'>Meeting Times:</div>
                         <div class='description' *ngFor="let meetingTime of club.meeting_times">
                             &nbsp;&nbsp;&nbsp;&nbsp;• {{ meetingTime.day }} {{ convertToTime(meetingTime.start_time) }} - {{ convertToTime(meetingTime.end_time) }}
