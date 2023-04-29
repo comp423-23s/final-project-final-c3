@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ComponentFactoryResolver } from '@angular/core';
 import { Route, ActivatedRoute } from '@angular/router';
 import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
@@ -116,14 +116,33 @@ export class RegisterEventComponent {
     let location = form.location
     let start = form.start ?? ''
     let end = form.end ?? ''
-    console.log("start is " + start)
-    console.log(moment(start, moment.ISO_8601).isValid())
+    var timeNow = new Date();
+    var timeNowYear = Number(timeNow.toLocaleDateString().split("/")[2])
+    var timeNowMonth = Number(timeNow.toLocaleDateString().split("/")[0])
+    var timeNowDay = Number(timeNow.toLocaleDateString().split("/")[1])
+    var timeNowHour = Number(timeNow.toLocaleTimeString().split(":")[0])
+    var timeNowMinute = Number(timeNow.toLocaleTimeString().split(":")[1])
+    if (timeNow.toLocaleTimeString().split(" ")[1] == "PM" && timeNowHour != 12) {
+      timeNowHour += 12
+    }
+    var startYear = Number(start.substring(0, 4))
+    var startMonth = Number(start.substring(5, 7))
+    var startDay = Number(start.substring(8, 10))
+    var startHour = Number(start.substring(11, 13))
+    var startMinute = Number(start.substring(14, 16))
     if (code == null || name == null || description == null || location == null || start == null || end == null) {
       this.snackBar.open("Please Enter a Value for All Fields",  "", { duration: 4000 })
     } else if (!moment(start, moment.ISO_8601).isValid() || !moment(start, moment.ISO_8601).isValid()) {
       this.snackBar.open("Please Enter a Valid Date and Time",  "", { duration: 4000 })
+    } else if (
+      startYear < timeNowYear || 
+      startYear == timeNowYear && startMonth < timeNowMonth || 
+      startYear == timeNowYear && startMonth == timeNowMonth && startDay < timeNowDay ||
+      startYear == timeNowYear && startMonth == timeNowMonth && startDay == timeNowDay && startHour < timeNowHour ||
+      startYear == timeNowYear && startMonth == timeNowMonth && startDay == timeNowDay && startHour == timeNowHour && startMinute <= timeNowMinute) {
+      this.snackBar.open("Event Start Time Must Be After Current Time",  "", { duration: 6000 })
     } else if (end < start) {
-      this.snackBar.open("Event End Time Can't Be Before Start Time",  "", { duration: 6000 })
+      this.snackBar.open("Event End Time Can't Be Before Event Start Time",  "", { duration: 6000 })
     } else {
       this.onSubmitEvent(code, name, description, location, start, end)
       this.form.reset()
