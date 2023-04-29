@@ -45,16 +45,6 @@ export class EventsComponent {
         return user_event
       })
     }))
-    this.events$ = this.events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
-    this.user_events$ = this.events$.pipe(map((events: Event[]) => {
-      return events.map(a_event => {
-        const user_event: User_Event = {
-          event: a_event, 
-          is_joined: a_event.attendees.map(attendee => attendee.id).includes(this.profile.id)
-        }
-        return user_event
-      })
-    }))
   }
 
   // Function to either add or remove a member from an event's attendance
@@ -104,16 +94,6 @@ export class EventsComponent {
         return user_event
       })
     }))
-    this.events$ = this.events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
-    this.user_events$ = this.events$.pipe(map((events: Event[]) => {
-      return events.map(a_event => {
-        const user_event : User_Event = {
-          event: a_event, 
-          is_joined: a_event.attendees?.map(attendee => attendee.id).includes(this.profile.id)
-        }
-        return user_event
-      })
-    }))
   }
 
   onError(err: Error) : void{
@@ -139,7 +119,11 @@ export class EventsComponent {
 
   textChanged() {
     this.user_events$ = this.user_events$.pipe(map((user_events: User_Event[]) => {
-      return user_events.filter(a_user_event => a_user_event.event.name.toLowerCase().includes(this.searchText.toLowerCase()))
+      return user_events.filter(
+        a_user_event => 
+        a_user_event.event.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        a_user_event.event.club_name.toLowerCase().includes(this.searchText.toLowerCase())
+      )
     }))
   }
 
