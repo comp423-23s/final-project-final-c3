@@ -1,4 +1,4 @@
-<div *ngIf="(user_events$ | async) as user_events">
+<div>
     <div style="z-index:0; position: relative">
         <div class="centered-lists">
             <div style="margin-top: 20px">
@@ -22,49 +22,8 @@
             </div>
         </div>
         <div class="centered-lists">
-            <mat-card-title>Upcoming</mat-card-title>
-            <tr *ngFor="let user_event of user_events">
-                <ng-container *ngIf="compareDateGreaterThanNow(user_event.event.start_time);">
-                    <div style="position: relative">
-                        <mat-card style="width:1750px;">
-                            <mat-card-header>
-                                <div class="'event-name-join-button">
-                                    <mat-card-title>{{ user_event.event.name }}</mat-card-title>
-                                    <mat-card-title>{{ user_event.event.club_name }}</mat-card-title>
-                                </div>
-                            </mat-card-header>
-                            <mat-card-content>
-                                <div class='description'>
-                                    {{ user_event.event.show_short_description ? getShortDescription(user_event.event) : user_event.event.description }}
-                                </div>
-                                <div>
-                                    <div class="side-buttons">
-                                        <mat-card-actions>
-                                            <button mat-raised-button *ngIf="user_event.is_joined; else elseBlock" (click)='changeStatus(user_event)'>Cancel Registration</button>
-                                            <ng-template #elseBlock>
-                                                <button mat-raised-button (click)='changeStatus(user_event)'>Register</button>
-                                            </ng-template> 
-                                        </mat-card-actions>
-                                        <mat-card-actions>
-                                            <button mat-raised-button (click)='alterText(user_event.event)' type="submit">
-                                                {{ user_event.event.show_short_description ? "Read More" : "Read Less" }}
-                                            </button>
-                                        </mat-card-actions>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="time-place">
-                                    <span style="font-size: 14px">When:  {{ user_event.event.start_time | date: 'MMM d, y, h:mm a' }} - {{ user_event.event.end_time | date: 'MMM d, y, h:mm a' }}</span>
-                                    <span style="font-size: 14px">Where: {{ user_event.event.location  }}</span>
-                                </div>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
-                </ng-container>
-            </tr>
-            <mat-card-title>Previous</mat-card-title>
-            <tr *ngFor="let user_event of user_events">
-                <ng-container *ngIf="compareDateLessThanNow(user_event.event.start_time);">
+            <tr *ngFor="let user_event of user_events$ | async">
+                <ng-container>
                     <div style="position: relative">
                         <mat-card style="width:1750px;">
                             <mat-card-header>
