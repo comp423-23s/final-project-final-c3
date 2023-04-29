@@ -127,4 +127,4 @@ In order to expand upon this feature, it is vital to understand how both the fro
 
 In the future, we would love to see this application fully developed with abilities for the user to have a more personalized experience. Some examples might include:
 * On the page where all events are listed, the events could be filtered so that the first ones that show up are the ones hosted by a student’s clubs.  They likely have more interest in attending these events. 
-* On the page where all clubs are listed, it would be beneficial to add a search bar so that a user can easily find a club if they have one in mind already. 
+* Make more specific roles with specific actions (for example instead of just the "Leader" role, there could be a President, Treasurer, etc).
