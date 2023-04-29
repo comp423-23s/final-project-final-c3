@@ -71,7 +71,11 @@ export class MyEventsComponent {
 
   textChanged() {
     this.my_events_shown$ = this.my_events$.pipe(map((events: Event[]) => {
-      return events.filter(a_event => a_event.name.toLowerCase().includes(this.searchText.toLowerCase()))
+      return events.filter(
+        a_event => 
+        a_event.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        a_event.club_name.toLowerCase().includes(this.searchText.toLowerCase())
+      )
     }))
   }
 

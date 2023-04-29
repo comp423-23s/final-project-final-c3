@@ -20,7 +20,7 @@ event_d = Event(id=4, name="Potluck", club_id=3, club_name='HackNC', start_time 
 
 event_e_start = datetime.datetime(year=2023, month=5, day=29, hour=8, minute=0)
 event_e_end = datetime.datetime(year=2023, month=5, day=29, hour=10, minute=0)
-event_e = Event(id=5, name="Club outing", club_id=4, club_name='WiCS', start_time = event_e_start, end_time = event_e_end, location="1205 Pine Knolls Road, Kernersville NC", description="Club outing to Top Golf. Show up in your best golf gear and be ready for fun!", show_short_description=True, attendees=[])
+event_e = Event(id=5, name="Club Outing", club_id=4, club_name='WiCS', start_time = event_e_start, end_time = event_e_end, location="1205 Pine Knolls Road, Kernersville NC", description="Club outing to Top Golf. Show up in your best golf gear and be ready for fun!", show_short_description=True, attendees=[])
 
 
 models = [
