@@ -194,7 +194,7 @@ export class ClubsComponent {
         }
       }
       if (!thisWeekdayHasTimeSlot) {
-        window.alert("Please select your time slot(s) for " + weekday)
+        this.snackBar.open(`⚠️ Please select your time slot(s) for ${weekday}` , "", { duration: 4000 })
         return
       }
     }
