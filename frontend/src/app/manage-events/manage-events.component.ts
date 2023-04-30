@@ -4,7 +4,7 @@ import { isAuthenticated } from '../gate/gate.guard';
 import { profileResolver } from '../profile/profile.resolver';
 import { Event, EventService } from '../event.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import * as moment from 'moment' ;
 
 @Component({
@@ -28,6 +28,7 @@ export class ManageEventsComponent {
   constructor(private eventService: EventService, protected snackBar: MatSnackBar) {
     // TODO: get events by club not just all events
     this.club_events$ = eventService.getEventsByClubLeader()
+    this.club_events$ = this.club_events$.pipe(map((events: Event[]) => {return events.map(event => {return {...event, show_short_description: true}})}))
   }
 
   getShortDescription(event: Event): String {

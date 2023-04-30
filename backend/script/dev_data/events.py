@@ -3,7 +3,7 @@ import datetime
 
 
 event_a_start = datetime.datetime(year=2023, month=4, day=3, hour=9, minute=0)
-event_a_end = datetime.datetime(year=2023, month=4, day=4, hour=21, minute=59)
+event_a_end = datetime.datetime(year=2023, month=4, day=4, hour=23, minute=59)
 event_a = Event(id=1, name="Hackathon", club_id=0, club_name= "Pearl Hacks", start_time = event_a_start, end_time = event_a_end, location="123 Main Street, Chapel Hill NC", description="Hack all day! Join us on April 3rd for an overnight, fun-filled hacking experience.", attendees=[], show_short_description=True)
 
 event_b_start = datetime.datetime(year=2023, month=4, day=6, hour=15, minute=30)
